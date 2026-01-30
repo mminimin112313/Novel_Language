@@ -25,10 +25,11 @@ This skill uses a bio-inspired memory structure located in `.agent/skills/browsi
 
 ## 📂 Browser Workspace (Output)
 
-**CRITICAL**: Do **NOT** save task artifacts (screenshots for the user, downloaded files, final reports) inside the skill directory.
+**CRITICAL**: All task artifacts (screenshots for the user, final reports, etc.) must be saved to the root `browsing_dump` directory.
 
-- **Target Directory**: `c:/Users/mskim/projects/naverblog/browser_workspace/`
-- **Rule**: All `screenshot`, `download`, or `report` actions must target this directory.
+- **Target Directory**: `c:/Users/mskim/projects/00.antigravity skill 개발/browsing_dump/`
+- **Rule**: All `screenshot` or `report` actions must target this directory.
+
 
 ## Installation
 
@@ -48,12 +49,14 @@ npm run build
 | `click` | `<selector>` | Clicks an element. |
 | `type` | `<selector> <text>` | Types text. |
 | `press` | `<key>` | Presses a key (Enter, Tab). |
-| `screenshot` | `<path> [fullPage]` | **Save to `browser_workspace/`**. |
-| `snapshot` | - | Dumps HTML (Ephemeral, can go to `brain/sensory` if needed). |
+| `click-at` | `<x> <y>` | Clicks at precise coordinates. |
+| `screenshot` | `<path> [fullPage]` | **Save to `browsing_dump/`**. |
+| `snapshot` | - | **Token Optimized**: Dumps cleaned HTML (Ephemeral). |
 | `extract` | `<url> [selector]` | **Refined Output**: Extracts specific elements and converts them to **Markdown**. |
-| `list-elements` | - | Returns a JSON list of all **interactive elements** (buttons, inputs) on the current page. |
+| `list-elements` | - | Returns a JSON list of **interactive elements** with bounding boxes. |
 | `list-links` | - | Returns a structural JSON list of **navigation links and action buttons**. |
-| `human-search` | `<query>` | Performs a **Google search** by navigating to the home page and typing with human-like jitter/delays. |
+| `human-search` | `<query>` | Performs a **Google search** with human-like interaction. |
+
 
 ## 🛠️ Tools Directory
 

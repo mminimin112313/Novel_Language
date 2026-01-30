@@ -12,12 +12,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const cwd = process.cwd();
 
+const DUMP_DIR = path.join(cwd, '..', '..', 'browsing_dump');
+if (!fs.existsSync(DUMP_DIR)) fs.mkdirSync(DUMP_DIR, { recursive: true });
+
 const browser = new BrowserManager(cwd);
 const interaction = new InteractionService();
 const visual = new VisualService();
 const discovery = new DiscoveryService();
 const refinement = new RefinementService();
 const registry = new CommandRegistry();
+
 
 // Command Registrations
 registry.register('open', async (ctx) => {
@@ -28,17 +32,27 @@ registry.register('open', async (ctx) => {
 
 registry.register('snapshot', async (ctx) => {
     const page = await ctx.browser.getPage();
-    const content = await page.content();
-    return { ok: true, url: page.url(), content: content.slice(0, 5000000) };
+
+    // Smart Truncation: Remove scripts, styles and large hidden elements
+    const cleanContent = await page.evaluate(() => {
+        const clone = document.documentElement.cloneNode(true) as HTMLElement;
+        const toRemove = clone.querySelectorAll('script, style, link, svg, noscript');
+        toRemove.forEach(el => el.remove());
+        return clone.outerHTML;
+    });
+
+    return { ok: true, url: page.url(), content: cleanContent.slice(0, 500000) }; // 500KB limit
 });
 
 registry.register('screenshot', async (ctx) => {
     const page = await ctx.browser.getPage();
-    const filename = ctx.args[0];
+    const filename = ctx.args[0] || `screenshot_${Date.now()}.png`;
     const fullPage = ctx.args[1] === 'true';
-    await page.screenshot({ path: filename, fullPage });
-    return { ok: true, url: page.url(), screenshot: filename };
+    const shotPath = path.isAbsolute(filename) ? filename : path.join(DUMP_DIR, filename);
+    await page.screenshot({ path: shotPath, fullPage });
+    return { ok: true, url: page.url(), screenshot: shotPath };
 });
+
 
 registry.register('click', async (ctx) => {
     const page = await ctx.browser.getPage();
@@ -116,10 +130,11 @@ registry.register('human-search', async (ctx) => {
     await ctx.interaction.humanType(page, searchBoxSelector, query);
     await page.keyboard.press('Enter');
     await page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 30000 }).catch(() => { });
-    const shotPath = path.join(cwd, 'google_search_result.png');
+    const shotPath = path.join(DUMP_DIR, `google_search_${Date.now()}.png`);
     await page.screenshot({ path: shotPath });
-    return { ok: true, url: page.url(), title: await page.title(), screenshot: 'google_search_result.png' };
+    return { ok: true, url: page.url(), title: await page.title(), screenshot: shotPath };
 });
+
 
 registry.register('newTab', async (ctx) => {
     const p = await ctx.browser.newTab(ctx.args[0]);

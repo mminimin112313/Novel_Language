@@ -31,18 +31,18 @@ export class DiscoveryService {
                 return {
                     tagName: element.tagName.toLowerCase(),
                     selector: selector,
-                    text: element.innerText.trim().slice(0, 50),
-                    type: (element as HTMLInputElement).type,
+                    text: element.innerText.trim().slice(0, 30), // Truncate more for tokens
+                    type: (element as HTMLInputElement).type || undefined,
                     role: element.getAttribute('role') || undefined,
-                    ariaLabel: element.getAttribute('aria-label') || undefined,
-                    x: rect.x,
-                    y: rect.y,
-                    width: rect.width,
-                    height: rect.height
+                    x: Math.round(rect.x),
+                    y: Math.round(rect.y),
+                    width: Math.round(rect.width),
+                    height: Math.round(rect.height)
                 };
             });
         });
     }
+
 
     async listLinksAndButtons(page: Page): Promise<ElementInfo[]> {
         return await page.evaluate(() => {
