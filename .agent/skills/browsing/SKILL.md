@@ -51,12 +51,17 @@ npm run build
 | `screenshot` | `<path> [fullPage]` | **Save to `browser_workspace/`**. |
 | `snapshot` | - | Dumps HTML (Ephemeral, can go to `brain/sensory` if needed). |
 | `extract` | `<url> [selector]` | **Refined Output**: Extracts specific elements and converts them to **Markdown**. |
+| `list-elements` | - | Returns a JSON list of all **interactive elements** (buttons, inputs) on the current page. |
+| `list-links` | - | Returns a structural JSON list of **navigation links and action buttons**. |
+| `human-search` | `<query>` | Performs a **Google search** by navigating to the home page and typing with human-like jitter/delays. |
 
 ## 🛠️ Tools Directory
 
 This skill includes a `tools/` folder for specialized data processing.
 
-- **Markdown Extraction**: Automatically converts complex HTML into clean, readable Markdown using `turndown`. This is preferred over raw snapshots for long-term knowledge storage.
+- **Markdown Extraction**: Automatically converts complex HTML into clean, readable Markdown using `turndown`.
+- **Structural Discovery**: Uses specialized scripts (`element_discovery.ts`) to map the page's interactive surface area, making it easier for agents to select the right buttons.
+
 
 
 ### Running External Workflows

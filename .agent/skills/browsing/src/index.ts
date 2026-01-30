@@ -3,6 +3,8 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { fileURLToPath } from 'url';
 import { convertToMarkdown } from './tools/markdown_utils.js';
+import { listInteractiveElements, listLinksAndButtons } from './tools/element_discovery.js';
+
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -362,7 +364,11 @@ Usage:
   npm run browse keyboardType <text>
   npm run browse getText <selector>
   npm run browse extract <url> [selector]
+  npm run browse list-elements
+  npm run browse list-links
+  npm run browse human-search <query>
   npm run browse close
+
 `);
         process.exit(0);
     }
@@ -458,7 +464,59 @@ Usage:
             break;
         }
 
+
+        case 'list-elements': {
+            const p = await ensureBrowser();
+            const elements = await listInteractiveElements(p);
+            result = { ok: true, url: p.url(), result: elements };
+            break;
+        }
+
+        case 'list-links': {
+            const p = await ensureBrowser();
+            const links = await listLinksAndButtons(p);
+            result = { ok: true, url: p.url(), result: links };
+            break;
+        }
+
+        case 'human-search': {
+            const query = args.slice(1).join(' ');
+            const p = await ensureBrowser();
+            await p.goto('https://www.google.com', { waitUntil: 'domcontentloaded' });
+
+            // Wait for search box and type like a human
+            const searchBoxSelector = 'textarea[name="q"], input[name="q"]';
+            await p.waitForSelector(searchBoxSelector);
+
+            // Use human-like move and click before typing
+            const box = await p.locator(searchBoxSelector).boundingBox();
+            if (box) {
+                await moveMouseHumanlike(p, box.x + box.width / 2, box.y + box.height / 2);
+                await sleep(200 + Math.random() * 300);
+                await p.click(searchBoxSelector);
+            }
+
+            // Type with delays between characters
+            for (const char of query) {
+                await p.keyboard.type(char, { delay: 50 + Math.random() * 150 });
+            }
+
+            await sleep(500 + Math.random() * 500);
+            await p.keyboard.press('Enter');
+            await p.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 30000 }).catch(() => { });
+
+            result = {
+                ok: true,
+                url: p.url(),
+                title: await p.title(),
+                screenshot: 'google_search_result.png'
+            };
+            await p.screenshot({ path: path.join(__dirname, '..', 'google_search_result.png') });
+            break;
+        }
+
         case 'upload': {
+
             // args[1] = selector, args[2] = filePath
             const [_, uploadSelector, filePath] = args;
             try {

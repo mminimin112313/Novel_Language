@@ -1,4 +1,24 @@
 {
   "ok": true,
-  "content": "[{\"ok\":true,\"url\":\"https://nid.naver.com/nidlogin.login\",\"title\":\"네이버 : 로그인\"},{\"ok\":true,\"url\":\"https://nid.naver.com/nidlogin.login\"},{\"ok\":true,\"url\":\"https://nid.naver.com/nidlogin.login\",\"screenshot\":\"C:\\\\Users\\\\mskim\\\\projects\\\\naverblog\\\\naver_blog\\\\manual_login_result.png\"},{\"ok\":true,\"url\":\"https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fblog.naver.com%2Fkmg9463%3FRedirect=%26categoryNo=\",\"title\":\"네이버 : 로그인\"},{\"ok\":true,\"url\":\"https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fblog.naver.com%2Fkmg9463%3FRedirect=%26categoryNo=\"},{\"ok\":true,\"url\":\"https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fblog.naver.com%2Fkmg9463%3FRedirect=%26categoryNo=\",\"screenshot\":\"C:\\\\Users\\\\mskim\\\\projects\\\\naverblog\\\\naver_blog\\\\editor_entry_after_login.png\"}]"
+  "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DIU%2B2024%2Bworld%2Btour%2Bsuccess%26sca_esv%3Df49c25a2fc6aefe9%26source%3Dhp%26ei%3DGVF8acavHpDm2roP9LfzwQs%26iflsig%3DAFdpzrgAAAAAaXxfKWXQPjmipSxZizrk2F-dmeW-pSHw%26ved%3D0ahUKEwiGoO3j0rKSAxUQs1YBHfTbPLgQ4dUDCBY%26uact%3D5%26oq%3DIU%2B2024%2Bworld%2Btour%2Bsuccess%26gs_lp%3DEgdnd3Mtd2l6IhpJVSAyMDI0IHdvcmxkIHRvdXIgc3VjY2VzczIFECEYoAEyBRAhGKABMgUQIRigATIFECEYoAFImiVQEViEHnABeACQAQCYAZoBoAGcF6oBBDEuMjW4AQPIAQD4AQGYAhqgAtoXqAIAwgILEAAYgAQYsQMYgwHCAgUQABiABMICBBAAGAPCAggQABiABBixA8ICCxAuGIAEGLEDGIMBwgILEC4YgAQY0QMYxwHCAg4QLhiABBixAxjRAxjHAcICBRAuGIAEwgIEEAAYHsICBhAAGAgYHsICCBAAGAgYChgewgIFEAAY7wWYAwHxBW4iT-TnX_zgkgcEMC4yNqAHjJYBsgcEMC4yNrgH2hfCBwY2LjE5LjHIByeACAA%26sclient%3Dgws-wiz%26sei%3DH1F8aeDTJ5Pg2roPp4qGwAc&q=EgSvzrg9GJ-i8csGIjC_e-J7TglkxYLbrHgogf1Bd8XUdg0SnNqxQ9gLsQOvHEpq1eiYlJXmJ4miU-vopsIyAVJaAUM",
+  "result": [
+    {
+      "tagName": "a",
+      "selector": "a:has-text(\"왜 이런 현상이 발생하는 거죠?\")",
+      "text": "왜 이런 현상이 발생하는 거죠?",
+      "role": "link"
+    },
+    {
+      "tagName": "a",
+      "selector": "a:has-text(\"서비스 약관\")",
+      "text": "서비스 약관",
+      "role": "link"
+    },
+    {
+      "tagName": "a",
+      "selector": "a:has-text(\"자세히 알아보기\")",
+      "text": "자세히 알아보기",
+      "role": "link"
+    }
+  ]
 }
