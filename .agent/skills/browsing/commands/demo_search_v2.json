@@ -1,0 +1,14 @@
+[
+    [
+        "open",
+        "https://duckduckgo.com/?q=IU+latest+album"
+    ],
+    [
+        "snapshot"
+    ],
+    [
+        "screenshot",
+        "demo_search_duckduckgo.png",
+        true
+    ]
+]

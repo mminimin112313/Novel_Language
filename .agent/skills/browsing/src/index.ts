@@ -2,6 +2,8 @@ import { chromium, BrowserContext, Page } from 'playwright-core';
 import * as path from 'path';
 import * as fs from 'fs';
 import { fileURLToPath } from 'url';
+import { convertToMarkdown } from './tools/markdown_utils.js';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -359,6 +361,7 @@ Usage:
   npm run browse press <key>
   npm run browse keyboardType <text>
   npm run browse getText <selector>
+  npm run browse extract <url> [selector]
   npm run browse close
 `);
         process.exit(0);
@@ -431,17 +434,38 @@ Usage:
         case 'getText':
             result = await getText(args[1]);
             break;
-        case 'upload':
+        case 'extract': {
+            // args[1] = url, args[2] = selector (optional)
+            const urlToExtract = args[1];
+            const extractSelector = args[2] || 'body';
+            const openRes = await open(urlToExtract);
+            if (!openRes.ok) {
+                result = openRes;
+            } else {
+                if (!page) {
+                    result = { ok: false, error: 'Page failed to open' };
+                } else {
+                    const html = await page.innerHTML(extractSelector);
+                    const md = convertToMarkdown(html);
+                    result = {
+                        ok: true,
+                        url: page.url(),
+                        content: md,
+                        title: await page.title()
+                    };
+                }
+            }
+            break;
+        }
+
+        case 'upload': {
             // args[1] = selector, args[2] = filePath
-            const [_, selector, filePath] = args;
-            // logic is same as batch but single command context
+            const [_, uploadSelector, filePath] = args;
             try {
-                // For single command 'upload', we need to replicate the logic or just use executeBatch which is easier if we wrap it.
-                // But here we are in the single command switch.
                 await ensureBrowser();
                 if (!page) throw new Error("No page");
                 const fileChooserPromise = page.waitForEvent('filechooser');
-                await page.click(selector);
+                await page.click(uploadSelector);
                 const fileChooser = await fileChooserPromise;
                 await fileChooser.setFiles(filePath);
                 result = { ok: true, url: page.url() };
@@ -449,6 +473,7 @@ Usage:
                 result = { ok: false, error: `Upload failed: ${e}` };
             }
             break;
+        }
         case 'close':
             result = await close();
             break;

@@ -1,0 +1,14 @@
+[
+    [
+        "open",
+        "https://www.google.com/search?q=IU+latest+album"
+    ],
+    [
+        "snapshot"
+    ],
+    [
+        "screenshot",
+        "demo_search_result.png",
+        true
+    ]
+]

@@ -50,6 +50,14 @@ npm run build
 | `press` | `<key>` | Presses a key (Enter, Tab). |
 | `screenshot` | `<path> [fullPage]` | **Save to `browser_workspace/`**. |
 | `snapshot` | - | Dumps HTML (Ephemeral, can go to `brain/sensory` if needed). |
+| `extract` | `<url> [selector]` | **Refined Output**: Extracts specific elements and converts them to **Markdown**. |
+
+## 🛠️ Tools Directory
+
+This skill includes a `tools/` folder for specialized data processing.
+
+- **Markdown Extraction**: Automatically converts complex HTML into clean, readable Markdown using `turndown`. This is preferred over raw snapshots for long-term knowledge storage.
+
 
 ### Running External Workflows
 
