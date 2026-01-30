@@ -23,12 +23,24 @@ This skill uses a bio-inspired memory structure located in `.agent/skills/browsi
     - **Episodic** (`episodic/`): Logs of past sessions. **Check this before starting** to see if you've failed this task before.
     - **Semantic** (`semantic/`): **Verified Knowledge**. If you successfully identify a stable selector (e.g., `#login-button`), SAVE IT here. Future sessions should look here first.
 
-## 📂 Browser Workspace (Output)
+## 📂 Hierarchical Workspace Structure
+All outputs are organized in the root `browsing_dump/` directory following a session-first schema:
 
-**CRITICAL**: All task artifacts (screenshots for the user, final reports, etc.) must be saved to the root `browsing_dump` directory.
+```text
+browsing_dump/
+├── sessions/
+│   └── Session_YYYY-MM-DD_HH-mm-ss/
+│       ├── screenshots/          # Intermediate step screenshots
+│       ├── logs/                 # JSON execution traces & summaries
+│       ├── PANIC_stepN.png       # Fail-state capture
+│       └── panic_dump.json       # Blocked-state data
+├── reports/                      # Final user-facing PNGs/MDs
+└── temp/                         # Temporary scratchpad data
+```
 
-- **Target Directory**: `c:/Users/mskim/projects/00.antigravity skill 개발/browsing_dump/`
-- **Rule**: All `screenshot` or `report` actions must target this directory.
+- **Traceability**: Every `run-protocol` execution creates a unique folder.
+- **Panic Dumps**: Automatic fail-state snapshots are saved directly in the session folder.
+- **Reporting**: Use `screenshot "report_..."` to save final results to the `reports/` folder.
 
 
 ## Installation
@@ -41,21 +53,31 @@ npm run build
 
 ## Usage
 
-### Basic Commands
+### Full Command List
 
 | Command | Arguments | Description |
 |---|---|---|
-| `open` | `<url>` | Opens a URL. |
-| `click` | `<selector>` | Clicks an element. |
-| `type` | `<selector> <text>` | Types text. |
-| `press` | `<key>` | Presses a key (Enter, Tab). |
-| `click-at` | `<x> <y>` | Clicks at precise coordinates. |
-| `screenshot` | `<path> [fullPage]` | **Save to `browsing_dump/`**. |
-| `snapshot` | - | **Token Optimized**: Dumps cleaned HTML (Ephemeral). |
-| `extract` | `<url> [selector]` | **Refined Output**: Extracts specific elements and converts them to **Markdown**. |
-| `list-elements` | - | Returns a JSON list of **interactive elements** with bounding boxes. |
-| `list-links` | - | Returns a structural JSON list of **navigation links and action buttons**. |
-| `human-search` | `<query>` | Performs a **Google search** with human-like interaction. |
+| `open` | `<url>` | Opens a URL in the persistent context. |
+| `click` | `<selector>` | Selector-based click. |
+| `click-at` | `<x> <y>` | **Pinpoint**: Absolute coordinate click (Human-like). |
+| `type` | `<selector> <text>` | Human-like typing with jitter. |
+| `inspect-at`| `<x> <y>` | **Optimization**: Hit-test element at coordinates (99% token saving). |
+| `visual-map`| - | **Optimization**: Pruned, weighted visual tree for navigation. |
+| `snapshot` | - | **Optimization**: Cleaned HTML (Scripts/Styles removed). |
+| `extract` | `<url> [sel]` | Markdown-first content extraction. |
+| `list-elements`| - | Recursive discovery of interactive elements + bounds. |
+| `human-search`| `<query>` | Anti-bot Google search flow. |
+| `screenshot` | `<name>` | **Saves to root `browsing_dump/`**. |
+
+## 🧬 Memory Maintenance & Cleanup
+
+To maintain cognitive efficiency and prevent token bloat, follow the **Bio-inspired Cleanup Protocol**:
+
+1. **Episodic Compression**: At the end of each session, summarize long episodic logs in `brain/long_term/episodic/` and archive old raw JSONs to `browsing_dump/archive/`.
+2. **Semantic Extraction**: Move repeatedly successful patterns (selectors, coordinates) from episodic memory to `brain/long_term/semantic/`.
+3. **Sensory Flush**: Clear `brain/sensory/` contents after the current task is completed.
+4. **Dump Management**: Periodically purge the root `browsing_dump/` directory of temporary screenshots.
+
 
 
 ## 🛠️ Tools Directory

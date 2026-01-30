@@ -13,7 +13,24 @@ const __dirname = path.dirname(__filename);
 const cwd = process.cwd();
 
 const DUMP_DIR = 'C:\\Users\\mskim\\projects\\00.antigravity skill 개발\\browsing_dump';
-if (!fs.existsSync(DUMP_DIR)) fs.mkdirSync(DUMP_DIR, { recursive: true });
+const sessionId = `Session_${new Date().toISOString().replace(/[:.]/g, '-')}`;
+const SESSION_DIR = path.join(DUMP_DIR, 'sessions', sessionId);
+const SHOT_DIR = path.join(SESSION_DIR, 'screenshots');
+const LOG_DIR = path.join(SESSION_DIR, 'logs');
+const REPORT_DIR = path.join(DUMP_DIR, 'reports');
+
+// Ensure directory structure
+[DUMP_DIR, path.join(DUMP_DIR, 'sessions'), SESSION_DIR, SHOT_DIR, LOG_DIR, REPORT_DIR].forEach(dir => {
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+});
+
+function logToDump(data: any, name: string = 'log') {
+    const logPath = path.join(LOG_DIR, `${name}.json`);
+    fs.writeFileSync(logPath, JSON.stringify(data, null, 2));
+    return logPath;
+}
+
+
 
 
 const browser = new BrowserManager(cwd);
@@ -47,12 +64,23 @@ registry.register('snapshot', async (ctx) => {
 
 registry.register('screenshot', async (ctx) => {
     const page = await ctx.browser.getPage();
-    const filename = ctx.args[0] || `screenshot_${Date.now()}.png`;
+    const filename = ctx.args[0] || `shot_${Date.now()}.png`;
     const fullPage = ctx.args[1] === 'true';
-    const shotPath = path.isAbsolute(filename) ? filename : path.join(DUMP_DIR, filename);
+
+    // Default to SHOT_DIR for session screenshots, or REPORT_DIR if it looks like a final report
+    let shotPath;
+    if (path.isAbsolute(filename)) {
+        shotPath = filename;
+    } else if (filename.startsWith('report_') || filename.includes('final')) {
+        shotPath = path.join(REPORT_DIR, filename);
+    } else {
+        shotPath = path.join(SHOT_DIR, filename);
+    }
+
     await page.screenshot({ path: shotPath, fullPage });
     return { ok: true, url: page.url(), screenshot: shotPath };
 });
+
 
 
 registry.register('click', async (ctx) => {
@@ -75,6 +103,22 @@ registry.register('click-at', async (ctx) => {
     await ctx.interaction.clickAt(page, x, y);
     return { ok: true, url: page.url() };
 });
+
+registry.register('multi-click-at', async (ctx) => {
+    const page = await ctx.browser.getPage();
+    const clicks = [];
+    // Args format: x1 y1 x2 y2 ...
+    for (let i = 0; i < ctx.args.length; i += 2) {
+        const x = parseFloat(ctx.args[i]);
+        const y = parseFloat(ctx.args[i + 1]);
+        if (!isNaN(x) && !isNaN(y)) {
+            await ctx.interaction.clickAt(page, x, y);
+            clicks.push({ x, y });
+        }
+    }
+    return { ok: true, clicks };
+});
+
 
 registry.register('type', async (ctx) => {
     const page = await ctx.browser.getPage();
@@ -169,6 +213,68 @@ registry.register('wait', async (ctx) => {
     return { ok: true, url: p.url() };
 });
 
+registry.register('run-protocol', async (ctx) => {
+    const protocolData = ctx.args[0];
+    let steps: any[] = [];
+    try {
+        steps = JSON.parse(protocolData);
+    } catch (e) {
+        // If not valid JSON, try reading as a file path
+        if (fs.existsSync(protocolData)) {
+            steps = JSON.parse(fs.readFileSync(protocolData, 'utf8'));
+        } else {
+            return { ok: false, error: "Invalid JSON or file path" };
+        }
+    }
+
+    const results = [];
+    for (let i = 0; i < steps.length; i++) {
+        const step = steps[i];
+        const cmd = step.command || step.cmd;
+        const args = (step.arguments || step.args || []).map(String);
+
+        try {
+            const stepCtx: CommandContext = { ...ctx, args };
+            const res = await registry.execute(cmd, stepCtx);
+
+            if (step.screenshot) {
+                const page = await ctx.browser.getPage();
+                const shotName = `step_${i}_${Date.now()}.png`;
+                const shotPath = path.join(SHOT_DIR, shotName);
+                await page.screenshot({ path: shotPath });
+                res.step_screenshot = shotPath;
+            }
+            results.push({ step: i, command: cmd, result: res });
+            if (res.ok === false) {
+                // Panic Dump: Save state on failure
+                const page = await ctx.browser.getPage();
+                const panicShot = path.join(SESSION_DIR, `PANIC_step${i}.png`);
+                await page.screenshot({ path: panicShot });
+                const panicState = {
+                    ok: false,
+                    lastStep: i,
+                    lastCommand: cmd,
+                    error: res.error,
+                    url: page.url(),
+                    screenshot: panicShot
+                };
+                logToDump(panicState, `panic_dump`);
+                if (!step.ignoreError) break;
+            }
+        } catch (e) {
+            const errorState = { step: i, command: cmd, error: String(e) };
+            logToDump(errorState, `fatal_error`);
+            results.push(errorState);
+            break;
+        }
+    }
+    const finalResult = { ok: true, session: sessionId, path: SESSION_DIR, protocol_results: results };
+    logToDump(finalResult, 'execution_summary');
+    return finalResult;
+});
+
+
+
 async function executeBatch(commands: any[]): Promise<any> {
     const results = [];
     for (const [cmd, ...cmdArgs] of commands) {
@@ -184,6 +290,7 @@ async function executeBatch(commands: any[]): Promise<any> {
     }
     return { ok: true, content: JSON.stringify(results) };
 }
+
 
 async function main() {
     const args = process.argv.slice(2);
@@ -212,9 +319,10 @@ Commands:
   human-search <query>
   newTab [url]
   wait <ms>
-  run <json_string>
-  run-file <path>
+  multi-click-at <x1> <y1> <x2> <y2> ...
+  run-protocol <json_string_or_file_path>
   close
+
 `);
         process.exit(0);
     }

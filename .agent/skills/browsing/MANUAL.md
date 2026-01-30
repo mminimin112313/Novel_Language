@@ -39,14 +39,29 @@ Navigates to a page and returns its content as Markdown. Ideal for reading artic
 npm run browse extract "https://en.wikipedia.org/wiki/IU_(singer)"
 ```
 
-### `click-at <x> <y>`
-Clicks at precise coordinates. Essential for CAPTCHA solving.
+### `multi-click-at <x1> <y1> <x2> <y2> ...` (Batch Interaction)
+Clicks multiple points sequentially in a single command. Extremely fast for CAPTCHA grid selection.
 ```bash
-# Coordinate values are obtained via list-elements or visual analysis
-npm run browse click-at 100 200
+npm run browse multi-click-at 100 200 150 250 200 300
+```
+
+### `run-protocol <json_or_file>` (Scripting)
+Executes a sequence of commands from a JSON string or file. Supports automatic screenshots per step.
+**Format:**
+```json
+[
+  { "command": "click-at", "args": [41, 91], "screenshot": true },
+  { "command": "wait", "args": [1000] },
+  { "command": "multi-click-at", "args": [100, 100, 200, 200], "label": "grid_select" }
+]
+```
+**Usage:**
+```bash
+npm run browse run-protocol protocol.json
 ```
 
 ### `inspect-at <x> <y>` (Pinpoint Optimization)
+
 Returns the tag name, text content, and bounding box of the specific element at coordinates using `elementFromPoint`.
 **Why use this?** 99% token saving compared to `snapshot`.
 ```bash
@@ -62,6 +77,14 @@ Returns a pruned, interactivity-weighted list of all visible elements in the vie
 ```bash
 npm run browse visual-map
 ```
+
+## 🛠️ Reliability & Debugging (Hierarchical)
+
+This skill follows a hierarchical workspace schema for perfect traceability:
+1. **Session-Based Isolation**: Every execution has its own folder in `browsing_dump/sessions/`.
+2. **Screenshots & Logs**: Screenshots and JSON traces are separated within the session folder.
+3. **Panic Support**: If a protocol fails, a `PANIC_stepN.png` and `panic_dump.json` are created in the session root.
+4. **Final Reports**: Use the `report_` prefix in `screenshot` to save to the global `reports/` folder.
 
 ### `list-elements`
 Lists interactive elements with their bounding boxes.
