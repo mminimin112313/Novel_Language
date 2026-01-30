@@ -403,8 +403,10 @@ Usage:
             result = await open(args[1]);
             break;
         case 'snapshot':
+            await ensureBrowser();
             result = await snapshot();
             break;
+
         case 'screenshot':
             result = await screenshot(args[1]);
             break;
