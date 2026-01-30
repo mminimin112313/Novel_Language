@@ -121,7 +121,22 @@ registry.register('list-links', async (ctx) => {
     return { ok: true, url: page.url(), result: links };
 });
 
+registry.register('inspect-at', async (ctx) => {
+    const page = await ctx.browser.getPage();
+    const x = parseFloat(ctx.args[0]);
+    const y = parseFloat(ctx.args[1]);
+    const info = await ctx.discovery.inspectAtPoint(page, x, y);
+    return { ok: true, url: page.url(), result: info };
+});
+
+registry.register('visual-map', async (ctx) => {
+    const page = await ctx.browser.getPage();
+    const map = await ctx.discovery.getVisualMap(page);
+    return { ok: true, url: page.url(), result: map };
+});
+
 registry.register('human-search', async (ctx) => {
+
     const query = ctx.args.join(' ');
     const page = await ctx.browser.getPage();
     await page.goto('https://www.google.com', { waitUntil: 'domcontentloaded' });

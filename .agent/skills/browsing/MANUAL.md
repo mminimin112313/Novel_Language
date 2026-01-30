@@ -46,8 +46,26 @@ Clicks at precise coordinates. Essential for CAPTCHA solving.
 npm run browse click-at 100 200
 ```
 
+### `inspect-at <x> <y>` (Pinpoint Optimization)
+Returns the tag name, text content, and bounding box of the specific element at coordinates using `elementFromPoint`.
+**Why use this?** 99% token saving compared to `snapshot`.
+```bash
+npm run browse inspect-at 640 360
+```
+
+### `visual-map` (Visual Pruning)
+Returns a pruned, interactivity-weighted list of all visible elements in the viewport.
+**Features:**
+- Filters non-visible (zero-size) nodes.
+- Weights elements with `cursor: pointer` or active scripts.
+- Highly token-efficient structural overview.
+```bash
+npm run browse visual-map
+```
+
 ### `list-elements`
-Lists interactive elements with their bounding boxes (x, y, width, height).
+Lists interactive elements with their bounding boxes.
+
 ```bash
 npm run browse list-elements
 ```
