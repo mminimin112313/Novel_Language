@@ -1,0 +1,51 @@
+[
+    {
+        "command": "open",
+        "args": [
+            "https://www.naver.com"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "2000"
+        ]
+    },
+    {
+        "command": "screenshot",
+        "args": [
+            "naver_home.png"
+        ]
+    },
+    {
+        "command": "type",
+        "args": [
+            "#query",
+            "Agentic AI"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "500"
+        ]
+    },
+    {
+        "command": "press",
+        "args": [
+            "Enter"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "3000"
+        ]
+    },
+    {
+        "command": "screenshot",
+        "args": [
+            "naver_results.png"
+        ]
+    }
+]

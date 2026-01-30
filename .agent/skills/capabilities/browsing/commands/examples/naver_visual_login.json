@@ -1,0 +1,29 @@
+[
+    {
+        "command": "open",
+        "args": [
+            "https://www.naver.com"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "2000"
+        ]
+    },
+    {
+        "comment": "In a real scenario, we would already have the 'template' image saved. For this demo, we assume 'login_button_template.png' exists in the working directory or use the crop command dynamically if coordinates are known."
+    },
+    {
+        "command": "find-click",
+        "args": [
+            "login_button_crop.png"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "3000"
+        ]
+    }
+]
