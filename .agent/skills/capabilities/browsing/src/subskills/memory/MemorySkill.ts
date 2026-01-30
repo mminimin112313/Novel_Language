@@ -32,6 +32,20 @@ export interface MemoryNode {
 
 export class MemorySubskill {
     private isInitialized: boolean = false;
+    private queue: Promise<void> = Promise.resolve();
+
+    private async enqueue<T>(operation: () => Promise<T>): Promise<T> {
+        return new Promise<T>((resolve, reject) => {
+            this.queue = this.queue.then(async () => {
+                try {
+                    const result = await operation();
+                    resolve(result);
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        });
+    }
 
     constructor() {
         if (!fs.existsSync(MEMORY_SCRIPT_PATH)) {
@@ -71,48 +85,56 @@ export class MemorySubskill {
     }
 
     async record(content: string, tags: string[] = [], title?: string): Promise<string> {
-        await this.ensureSetup();
-        const tagStr = tags.join(',');
-        const titleArg = title ? `--title "${title.replace(/"/g, '\\"')}"` : '';
-        const pythonCommand = this.getPythonCommand();
-        const cmd = `${pythonCommand} "${MEMORY_SCRIPT_PATH}" record "${content.replace(/"/g, '\\"')}" --tags "${tagStr}" ${titleArg}`;
+        return this.enqueue(async () => {
+            await this.ensureSetup();
+            const tagStr = tags.join(',');
+            const titleArg = title ? `--title "${title.replace(/"/g, '\\"')}"` : '';
+            const pythonCommand = this.getPythonCommand();
+            const cmd = `${pythonCommand} "${MEMORY_SCRIPT_PATH}" record "${content.replace(/"/g, '\\"')}" --tags "${tagStr}" ${titleArg}`;
 
-        const { stdout } = await execAsync(cmd);
-        return stdout.trim();
+            const { stdout } = await execAsync(cmd);
+            return stdout.trim();
+        });
     }
 
     async update(id: string, content?: string, tags?: string[], title?: string): Promise<string> {
-        await this.ensureSetup();
-        const tagArg = tags ? `--tags "${tags.join(',')}"` : '';
-        const titleArg = title ? `--title "${title.replace(/"/g, '\\"')}"` : '';
-        const contentArg = content ? `--content "${content.replace(/"/g, '\\"')}"` : '';
+        return this.enqueue(async () => {
+            await this.ensureSetup();
+            const tagArg = tags ? `--tags "${tags.join(',')}"` : '';
+            const titleArg = title ? `--title "${title.replace(/"/g, '\\"')}"` : '';
+            const contentArg = content ? `--content "${content.replace(/"/g, '\\"')}"` : '';
 
-        const pythonCommand = this.getPythonCommand();
-        const cmd = `${pythonCommand} "${MEMORY_SCRIPT_PATH}" update "${id}" ${contentArg} ${tagArg} ${titleArg}`;
-        const { stdout } = await execAsync(cmd);
-        return stdout.trim();
+            const pythonCommand = this.getPythonCommand();
+            const cmd = `${pythonCommand} "${MEMORY_SCRIPT_PATH}" update "${id}" ${contentArg} ${tagArg} ${titleArg}`;
+            const { stdout } = await execAsync(cmd);
+            return stdout.trim();
+        });
     }
 
     async search(query: string, tag?: string): Promise<MemoryNode[]> {
-        await this.ensureSetup();
-        const tagArg = tag ? `--tag "${tag}"` : '';
-        const pythonCommand = this.getPythonCommand();
-        const cmd = `${pythonCommand} "${MEMORY_SCRIPT_PATH}" search "${query.replace(/"/g, '\\"')}" ${tagArg}`;
+        return this.enqueue(async () => {
+            await this.ensureSetup();
+            const tagArg = tag ? `--tag "${tag}"` : '';
+            const pythonCommand = this.getPythonCommand();
+            const cmd = `${pythonCommand} "${MEMORY_SCRIPT_PATH}" search "${query.replace(/"/g, '\\"')}" ${tagArg}`;
 
-        try {
-            const { stdout } = await execAsync(cmd);
-            return JSON.parse(stdout);
-        } catch (e) {
-            console.error("Memory search failed", e);
-            return [];
-        }
+            try {
+                const { stdout } = await execAsync(cmd);
+                return JSON.parse(stdout);
+            } catch (e) {
+                console.error("Memory search failed", e);
+                return [];
+            }
+        });
     }
 
     async connect(sourceId: string, targetId: string, relation: string): Promise<string> {
-        await this.ensureSetup();
-        const pythonCommand = this.getPythonCommand();
-        const cmd = `${pythonCommand} "${MEMORY_SCRIPT_PATH}" connect "${sourceId}" "${targetId}" "${relation}"`;
-        const { stdout } = await execAsync(cmd);
-        return stdout.trim();
+        return this.enqueue(async () => {
+            await this.ensureSetup();
+            const pythonCommand = this.getPythonCommand();
+            const cmd = `${pythonCommand} "${MEMORY_SCRIPT_PATH}" connect "${sourceId}" "${targetId}" "${relation}"`;
+            const { stdout } = await execAsync(cmd);
+            return stdout.trim();
+        });
     }
 }
