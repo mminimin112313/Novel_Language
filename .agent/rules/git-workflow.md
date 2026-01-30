@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Git Workflow
 
 ## Commit Message Format

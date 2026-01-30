@@ -9,15 +9,49 @@ This is a starter template for **Antigravity** projects. It provides a structure
 - `.agent/agents/`: Specialized agent personas (Architect, Planner, etc.).
 - `.context/`: Project context files (Architecture, Stack, PRD).
 - `mcp/`: MCP Server configurations.
-- `docs/`: Original guide documents from everything-claude-code.
+
+---
+
+## The Guides
+
+These guides explain the foundations and advanced techniques of the Antigravity workflow.
+
+| Guide | Description |
+|-------|-------------|
+| [Shorthand Guide](file:///.agent/skills/knowledge/template-guides/shortform-guide.md) | Setup, foundations, philosophy. **Read this first.** |
+| [Longform Guide](file:///.agent/skills/knowledge/template-guides/longform-guide.md) | Token optimization, memory persistence, evals, parallelization. |
+
+---
+
+## What's Inside
+
+This template provides a comprehensive collection of production-ready configurations:
+
+```
+.agent/
+├── agents/           # Specialized subagents (Planner, Architect, Architect, etc.)
+├── skills/           # Workflow definitions and layered capabilities
+│   ├── core/         # Essential lifecycle and behaviors
+│   ├── capabilities/ # Web browsing, semantic memory
+│   ├── workflows/    # TDD, Security Review processes
+│   └── knowledge/    # Reference patterns and guides
+├── rules/            # Always-follow guidelines (Security, Style, Performance)
+└── workflows/        # Slash commands (/plan, /tdd, /e2e)
+```
 
 ## How to Use
 
-### 1. Installation
-Copy the contents of this folder to your project root (or keep it as a submodule).
+### 1. Installation & Setup
+Copy the contents of this folder to your project root and run the setup script:
 ```bash
 cp -r agent-template/. .
+./setup.sh
 ```
+The `setup.sh` script automatically:
+- Detects required runtimes (Node.js, Python).
+- Initializes virtual environments for specialized skills.
+- Installs necessary dependencies.
+- Sets up the core directory structure.
 
 ### 2. Customization
 - **Rules**: Edit `.agent/rules/00-core.md` to set your project's "Constitution".

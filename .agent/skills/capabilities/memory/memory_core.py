@@ -7,11 +7,31 @@ import json
 import uuid
 from datetime import datetime
 from pathlib import Path
+import numpy as np
 
 # Configuration
 MEMORY_DIR = Path(os.path.dirname(os.path.realpath(__file__))).parent.parent.parent / "memory"
 NODES_DIR = MEMORY_DIR / "nodes"
 DB_PATH = MEMORY_DIR / "memory_index.db"
+
+# Global model variable for lazy loading
+_model = None
+
+def get_model():
+    global _model
+    if _model is None:
+        try:
+            from sentence_transformers import SentenceTransformer
+            # Using a lightweight model for better performance/quality balance
+            _model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+        except ImportError:
+            print(json.dumps({"error": "sentence-transformers not installed"}), file=sys.stderr)
+            sys.exit(1)
+    return _model
+
+def get_embedding(text):
+    model = get_model()
+    return model.encode(text)
 
 def init_db():
     MEMORY_DIR.mkdir(parents=True, exist_ok=True)
@@ -20,7 +40,7 @@ def init_db():
     conn = sqlite3.connect(str(DB_PATH))
     c = conn.cursor()
     
-    # Enable FTS5
+    # Enable FTS5 for keyword fallback/hybrid search
     c.execute('''
         CREATE VIRTUAL TABLE IF NOT EXISTS memory_index USING fts5(
             id UNINDEXED,
@@ -46,6 +66,14 @@ def init_db():
             relation TEXT,
             created_at TEXT,
             PRIMARY KEY (source_id, target_id, relation)
+        )
+    ''')
+
+    # New table for vector embeddings
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS memory_embeddings (
+            id TEXT PRIMARY KEY,
+            embedding BLOB
         )
     ''')
     
@@ -79,9 +107,11 @@ def record(content, tags_str, title):
     
     tags = [t.strip() for t in tags_str.split(',') if t.strip()]
     id = str(uuid.uuid4())
-    pass # In a real implementation we might check for dupes, but UUID is fine.
     
     file_path = save_node(id, content, tags, title)
+    
+    # Generate embedding
+    embedding = get_embedding(content).tobytes()
     
     conn = sqlite3.connect(str(DB_PATH))
     c = conn.cursor()
@@ -90,6 +120,8 @@ def record(content, tags_str, title):
               (id, content, ",".join(tags), title))
     c.execute("INSERT INTO memory_meta (id, created_at, updated_at, file_path) VALUES (?, ?, ?, ?)",
               (id, datetime.now().isoformat(), datetime.now().isoformat(), file_path))
+    c.execute("INSERT OR REPLACE INTO memory_embeddings (id, embedding) VALUES (?, ?)",
+              (id, embedding))
     
     conn.commit()
     print(json.dumps({"id": id, "status": "recorded", "path": file_path}))
@@ -115,6 +147,11 @@ def update(id, content, tags_str, title):
     # Update files
     file_path = save_node(id, new_content, new_tags, new_title)
     
+    # Update embeddings if content changed
+    if content:
+        embedding = get_embedding(new_content).tobytes()
+        c.execute("INSERT OR REPLACE INTO memory_embeddings (id, embedding) VALUES (?, ?)", (id, embedding))
+
     # Update DB
     c.execute("UPDATE memory_index SET content=?, tags=?, title=? WHERE id=?",
               (new_content, ",".join(new_tags), new_title, id))
@@ -124,35 +161,61 @@ def update(id, content, tags_str, title):
     conn.commit()
     print(json.dumps({"id": id, "status": "updated"}))
 
+def cosine_similarity(v1, v2):
+    norm1 = np.linalg.norm(v1)
+    norm2 = np.linalg.norm(v2)
+    if norm1 == 0 or norm2 == 0:
+        return 0.0
+    return np.dot(v1, v2) / (norm1 * norm2)
+
 def search(query, tag):
     init_db()
     conn = sqlite3.connect(str(DB_PATH))
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
     
-    sql = "SELECT * FROM memory_index WHERE memory_index MATCH ? ORDER BY rank"
-    params = [query]
-    
-    if tag:
-        # FTS5 syntax for column filter is usually column:value
-        # But we stored tags as comma separated string. Implementation detail: Simple containment check might fail for partial matches.
-        # Ideally we'd fix the schema but for now let's just use FTS power
-        sql = "SELECT * FROM memory_index WHERE memory_index MATCH ? AND tags MATCH ? ORDER BY rank"
-        params = [query, tag]
-
-    try:
-        c.execute(sql, params)
-    except sqlite3.OperationalError:
-        # Fallback for empty query or syntax error
-        if not query:
-             print("[]")
-             return
-
-    rows = c.fetchall()
     results = []
-    for r in rows:
-        results.append(dict(r))
+
+    # 1. Vector Search
+    if query:
+        query_embedding = get_embedding(query)
         
+        c.execute("SELECT id, embedding FROM memory_embeddings")
+        rows = c.fetchall()
+        
+        scores = []
+        for row in rows:
+            db_id = row['id']
+            db_embedding = np.frombuffer(row['embedding'], dtype=np.float32)
+            score = cosine_similarity(query_embedding, db_embedding)
+            scores.append((db_id, score))
+            
+        # Top 10 by similarity
+        scores.sort(key=lambda x: x[1], reverse=True)
+        top_ids = scores[:10]
+        
+        # Fetch details for top IDs
+        for mid, score in top_ids:
+            if score < 0.3: # Threshold
+                continue
+                
+            sql = "SELECT * FROM memory_index WHERE id = ?"
+            c.execute(sql, (mid,))
+            row = c.fetchone()
+            if row:
+                res = dict(row)
+                res['similarity'] = float(score)
+                results.append(res)
+    else:
+         # Fallback to simple list if no query
+         c.execute("SELECT * FROM memory_index LIMIT 20")
+         for r in c.fetchall():
+             results.append(dict(r))
+
+    # 2. Tag Filtering (Post-filter for now as simple implementation)
+    if tag:
+        results = [r for r in results if tag in r['tags']]
+
     print(json.dumps(results))
 
 def connect(source, target, relation):

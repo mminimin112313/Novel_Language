@@ -1,49 +1,34 @@
-# Agent Orchestration
+---
+trigger: always_on
+---
 
-## Available Agents
+# Subagent Delegation Rules
 
-Located in `~/.claude/agents/`:
+Subagents handles delegated tasks with limited scope, saving context for the orchestrator.
 
-| Agent | Purpose | When to Use |
-|-------|---------|-------------|
-| planner | Implementation planning | Complex features, refactoring |
-| architect | System design | Architectural decisions |
-| tdd-guide | Test-driven development | New features, bug fixes |
-| code-reviewer | Code review | After writing code |
-| security-reviewer | Security analysis | Before commits |
-| build-error-resolver | Fix build errors | When build fails |
-| e2e-runner | E2E testing | Critical user flows |
-| refactor-cleaner | Dead code cleanup | Code maintenance |
-| doc-updater | Documentation | Updating docs |
+## General Principles
+- **One Task, One Agent**: Each agent should have a clear, single responsibility.
+- **Pass Objective Context**: The subagent only knows the literal query; give it the PURPOSE behind the request.
+- **Iterative Retrieval**: Follow up on subagent results before accepting them.
+- **Background vs Foreground**: Use background subagents for long tasks to keep the orchestrator free.
 
-## Immediate Agent Usage
+## Available Personas
+Detailed personas are stored in the **Persona Library**: [agent-personas/](file:///.agent/skills/knowledge/agent-personas/)
 
-No user prompt needed:
-1. Complex feature requests - Use **planner** agent
-2. Code just written/modified - Use **code-reviewer** agent
-3. Bug fix or new feature - Use **tdd-guide** agent
-4. Architectural decision - Use **architect** agent
+Core Personas:
+- `architect`: System design and technical strategy.
+- `planner`: Requirements and implementation planning.
+- `code-reviewer`: Quality and security auditing.
+- `tdd-guide`: Driving the test-first development loop.
+- `security-reviewer`: Focused vulnerability analysis.
+- `build-error-resolver`: Fixing compilation and runtime environment issues.
+- `e2e-runner`: Specializing in Playwright integration journeys.
+- `refactor-cleaner`: Systematic technical debt and dead code removal.
 
-## Parallel Task Execution
+Additional language-specific personas (e.g., `go-reviewer`, `go-build-resolver`) are also available in the library.
 
-ALWAYS use parallel Task execution for independent operations:
-
-```markdown
-# GOOD: Parallel execution
-Launch 3 agents in parallel:
-1. Agent 1: Security analysis of auth.ts
-2. Agent 2: Performance review of cache system
-3. Agent 3: Type checking of utils.ts
-
-# BAD: Sequential when unnecessary
-First agent 1, then agent 2, then agent 3
-```
-
-## Multi-Perspective Analysis
-
-For complex problems, use split role sub-agents:
-- Factual reviewer
-- Senior engineer
-- Security expert
-- Consistency reviewer
-- Redundancy checker
+## Delegation Workflow
+1. **Define Input/Output**: Clearly state what the agent should receive and produce.
+2. **Select Model**: Choose the cheapest model sufficient for the task (see `performance.md`).
+3. **Skill-Based Scoping**: Assign subagents to specific skill layers (e.g., `tdd-guide` to `workflows/tdd`).
+4. **Verify Result**: Use the "Iterative Retrieval Pattern" to refine the subagent's output.

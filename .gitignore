@@ -1,6 +1,17 @@
+# Temporary and local files
 browsing_dump/
 .agent/skills/browsing/.session/
 .agent/skills/browsing/dist/
-.agent/skills/browsing/node_modules/
 .agent/skills/browsing/*.png
 .agent/skills/browsing/last_result.json
+
+# Environment and dependencies
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# Local memory data
+.agent/memory/memory_index.db
+.agent/memory/nodes/*.md
+!.agent/memory/nodes/.gitkeep

@@ -21,6 +21,7 @@ const __dirname = path.dirname(__filename);
 // So it is ../../../../memory/memory_core.py
 
 const MEMORY_SCRIPT_PATH = path.resolve(__dirname, '../../../../memory/memory_core.py');
+const SETUP_SCRIPT_PATH = path.resolve(__dirname, '../../../../memory/setup.py');
 
 export interface MemoryNode {
     id: string;
@@ -30,17 +31,50 @@ export interface MemoryNode {
 }
 
 export class MemorySubskill {
+    private isInitialized: boolean = false;
+
     constructor() {
         if (!fs.existsSync(MEMORY_SCRIPT_PATH)) {
             console.warn(`Memory script not found at ${MEMORY_SCRIPT_PATH}`);
         }
+        // Background initialization
+        this.ensureSetup().catch(err => console.error("Memory auto-setup failed", err));
+    }
+
+    private async ensureSetup(): Promise<void> {
+        if (this.isInitialized) return;
+
+        const venvPath = path.resolve(path.dirname(MEMORY_SCRIPT_PATH), '.venv');
+        if (!fs.existsSync(venvPath)) {
+            console.log("Memory environment missing. Starting auto-setup...");
+            const isWin = process.platform === "win32";
+            const pythonCommand = isWin ? "python" : "python3";
+            try {
+                const { stdout } = await execAsync(`${pythonCommand} "${SETUP_SCRIPT_PATH}"`);
+                console.log(stdout);
+                this.isInitialized = true;
+            } catch (error) {
+                console.error("Auto-setup failed:", error);
+                throw error;
+            }
+        } else {
+            this.isInitialized = true;
+        }
+    }
+
+    private getPythonCommand(): string {
+        const venvPath = path.resolve(path.dirname(MEMORY_SCRIPT_PATH), '.venv', process.platform === 'win32' ? 'Scripts' : 'bin', process.platform === 'win32' ? 'python.exe' : 'python3');
+        if (fs.existsSync(venvPath)) {
+            return `"${venvPath}"`;
+        }
+        return process.platform === "win32" ? "python" : "python3";
     }
 
     async record(content: string, tags: string[] = [], title?: string): Promise<string> {
+        await this.ensureSetup();
         const tagStr = tags.join(',');
         const titleArg = title ? `--title "${title.replace(/"/g, '\\"')}"` : '';
-        const isWin = process.platform === "win32";
-        const pythonCommand = isWin ? "python" : "python3";
+        const pythonCommand = this.getPythonCommand();
         const cmd = `${pythonCommand} "${MEMORY_SCRIPT_PATH}" record "${content.replace(/"/g, '\\"')}" --tags "${tagStr}" ${titleArg}`;
 
         const { stdout } = await execAsync(cmd);
@@ -48,21 +82,21 @@ export class MemorySubskill {
     }
 
     async update(id: string, content?: string, tags?: string[], title?: string): Promise<string> {
+        await this.ensureSetup();
         const tagArg = tags ? `--tags "${tags.join(',')}"` : '';
         const titleArg = title ? `--title "${title.replace(/"/g, '\\"')}"` : '';
         const contentArg = content ? `--content "${content.replace(/"/g, '\\"')}"` : '';
 
-        const isWin = process.platform === "win32";
-        const pythonCommand = isWin ? "python" : "python3";
+        const pythonCommand = this.getPythonCommand();
         const cmd = `${pythonCommand} "${MEMORY_SCRIPT_PATH}" update "${id}" ${contentArg} ${tagArg} ${titleArg}`;
         const { stdout } = await execAsync(cmd);
         return stdout.trim();
     }
 
     async search(query: string, tag?: string): Promise<MemoryNode[]> {
+        await this.ensureSetup();
         const tagArg = tag ? `--tag "${tag}"` : '';
-        const isWin = process.platform === "win32";
-        const pythonCommand = isWin ? "python" : "python3";
+        const pythonCommand = this.getPythonCommand();
         const cmd = `${pythonCommand} "${MEMORY_SCRIPT_PATH}" search "${query.replace(/"/g, '\\"')}" ${tagArg}`;
 
         try {
@@ -75,8 +109,8 @@ export class MemorySubskill {
     }
 
     async connect(sourceId: string, targetId: string, relation: string): Promise<string> {
-        const isWin = process.platform === "win32";
-        const pythonCommand = isWin ? "python" : "python3";
+        await this.ensureSetup();
+        const pythonCommand = this.getPythonCommand();
         const cmd = `${pythonCommand} "${MEMORY_SCRIPT_PATH}" connect "${sourceId}" "${targetId}" "${relation}"`;
         const { stdout } = await execAsync(cmd);
         return stdout.trim();

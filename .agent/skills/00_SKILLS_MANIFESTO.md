@@ -1,0 +1,62 @@
+# 00 SKILLS MANIFESTO: Layered Domain Architecture
+
+This project follows a **Layered Domain Architecture** for AI agent skills. This structure ensures that capabilities are modular, reproducible, and easy for agents to discover and utilize.
+
+## 1. Directory Structure
+
+Skills are categorized into 4 distinct layers:
+
+```
+.agent/skills/
+├── core/                   # Essential Agent Lifecycle & Behaviors
+│   ├── continuous-learning/ # Auto-evolves instincts into skills
+│   ├── strategic-compact/   # Intelligent context window management
+│   └── eval-harness/        # Benchmarking and verification metrics
+│
+├── capabilities/           # Executable Tools (The "Hands" and "Eyes")
+│   ├── browsing/           # Advanced web interaction (Playwright)
+│   └── memory/             # Semantic Knowledge Graph (Vector Index)
+│
+├── workflows/              # Process Guides (The "Methods")
+│   ├── tdd/                # Red-Green-Refactor development loop
+│   ├── security-review/    # Deep vulnerability auditing
+│   └── verification/       # Continuous integrity checks
+│
+└── knowledge/              # Reference Patterns (The "Books")
+    ├── backend/            # API and system design patterns
+    ├── frontend/           # UI/UX and styling guidelines
+    ├── database/           # Schema and optimization patterns
+    └── languages/          # Language-specific idioms (Go, TS, Python)
+```
+
+## 2. Functions & Capabilities
+
+### Semantic Memory (capabilities/memory)
+- **Search**: Hybrid search (Keyword + Semantic Similarity).
+- **Record**: Automatic embedding generation using `sentence-transformers`.
+- **Infrastructure**: Self-healing Python virtual environment (`.venv`).
+
+### Browsing (capabilities/browsing)
+- **Interaction**: Multi-page, state-aware web navigation.
+- **Vision**: Integrated image recognition and visual element detection.
+- **Subskill Integration**: Shares context with the Memory capability for long-term learning.
+
+## 3. Initial Setup & Reproducibility
+
+The architecture is designed to be **Self-Healing**.
+
+### Standard Setup (One-Click)
+Run the root setup script to initialize the entire project environment:
+```bash
+./setup.sh
+```
+
+### Self-Healing Pattern
+Every complex skill contains an internal `setup` mechanism (e.g., `setup.py` or `package.json`).
+- If a skill bridge (e.g., `MemorySkill.ts`) detects its environment is missing, it **automatically** triggers its local setup before the first operation.
+- Dependencies are isolated in local `.venv` or `node_modules` within the skill directory to prevent global policy conflicts.
+
+## 4. Guidelines for New Skills
+- **Mandatory Documentation**: Every skill MUST have a `SKILL.md`.
+- **Reproducibility**: Must include an automated setup script if it has external dependencies.
+- **Placement**: Assign to the correct layer based on whether it is a behavior, tool, method, or reference.

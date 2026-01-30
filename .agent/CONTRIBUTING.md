@@ -1,6 +1,14 @@
-# Contributing Guidelines: Cross-Platform Development
+# Contributing Guidelines: Everything Antigravity
 
-To ensure this project runs smoothly on Mac, Linux, and Windows, please adhere to the following guidelines.
+Thanks for wanting to contribute to the Antigravity template. We're looking for new agents, skills, and patterns that make agentic coding more efficient.
+
+To ensure this project remains high-quality and cross-platform (Mac, Linux, Windows), please adhere to the following guidelines.
+
+## What We're Looking For
+- **Specialized Agents**: Language-specific reviewers, framework experts, DevOps specialists.
+- **Workflow Skills**: TDD, Security Review, documentation sync.
+- **Rules & Patterns**: Battle-tested guidelines for performance and security.
+- **MCP Configs**: New server integrations for common tools.
 
 ## 1. Shell Scripts vs Node.js
 - **Prefer Node.js scripts** over Bash (`.sh`) scripts for core logic.
@@ -40,3 +48,22 @@ To ensure this project runs smoothly on Mac, Linux, and Windows, please adhere t
   * text=auto
   *.sh text eol=lf
   ```
+## Contribution Process
+1. **Fork & Branch**: Create a feature branch for your contribution.
+2. **File Placement**:
+   - `agents/` for new personas.
+   - `skills/` for capability-based logic.
+   - `rules/` for always-follow guidelines.
+   - `workflows/` for slash commands.
+3. **Format**:
+   - **Agents**: Include frontmatter (`name`, `description`, `tools`, `model`).
+   - **Skills**: Use the `SKILL.md` format with clear "When to Use" and "Examples".
+   - **Filename**: Use lowercase with hyphens (e.g., `python-reviewer.md`).
+
+## Technical Requirements (Cross-Platform)
+
+## 6. Self-Healing Skills
+When creating or modifying a skill, ensure it follows the "Self-Healing" pattern:
+- **Automatic Setup**: If a skill needs a specific environment (like a Python venv), it must include a way to set it up automatically.
+- **Root Inclusion**: Add any new skill setup requirements to the root `setup.sh` script.
+- **Environment Isolation**: Keep dependencies local to the skill directory whenever possible.

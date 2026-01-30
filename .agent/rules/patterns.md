@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Common Patterns
 
 ## API Response Format
@@ -53,3 +57,10 @@ When implementing new functionality:
    - Implementation planning
 3. Clone best match as foundation
 4. Iterate within proven structure
+## Self-Healing Skills Pattern
+
+Every skill should be reproducible and environment-agnostic.
+1. **Local Setup**: Include a local setup mechanism (`package.json` or `setup.py`).
+2. **Auto-Initialization**: The skill bridge (e.g., `.ts` bridge) should detect if its environment is missing and trigger the local setup automatically.
+3. **Localized Environment**: Use virtual environments (`.venv`, `node_modules`) within the skill directory to avoid global policy conflicts.
+4. **Resilient Invocation**: Resolve the interpreter path dynamically to prefer the local environment.

@@ -1,22 +1,39 @@
 ---
 name: memory
-description: Project Memory Capability. Index, Search, and Retrieve project knowledge using SQLite FTS.
+description: Project Memory Capability. Semantic Index, Search, and Retrieve project knowledge using SQLite and Sentence Transformers.
 ---
 
 # Memory Capability
 
-This capability provides the core memory engine for the agent.
+This capability provides the core memory engine for the agent, featuring semantic search.
+
+## Setup
+
+The skill is designed to be **self-healing** and **reproducible**.
+
+### Automatic Setup
+When the `MemorySubskill` is initialized (typically via the Browsing skill), it automatically:
+1.  Check for a local virtual environment (`.venv`).
+2.  If missing, runs `setup.py`.
+3.  Installs `numpy` and `sentence-transformers`.
+4.  Ensures the environment is ready before any operations.
+
+### Manual Setup
+To manually initialize the environment, run:
+```bash
+python3 .agent/skills/capabilities/memory/setup.py
+```
 
 ## Tools
 
 ### `memory_core.py`
-The CLI tool for managing the memory database.
+The CLI tool for managing the memory database. It uses the local `.venv` if available.
 
 ```bash
-# Search
+# Search (Semantic)
 .agent/skills/capabilities/memory/memory_core.py search "query"
 
-# Record
+# Record (Automatic Embedding)
 .agent/skills/capabilities/memory/memory_core.py record "content" --tags "tags"
 
 # Update
@@ -25,4 +42,9 @@ The CLI tool for managing the memory database.
 
 ## Data Storage
 - Nodes: `.agent/memory/nodes/*.md` (Source of Truth)
-- Index: `.agent/memory/memory_index.db` (SQLite Cache)
+- Index: `.agent/memory/memory_index.db` (SQLite + Vectors)
+
+## Dependencies
+- `python3` (>= 3.9 recommended)
+- `numpy`
+- `sentence-transformers` (paraphrase-multilingual-MiniLM-L12-v2)
