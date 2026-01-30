@@ -183,22 +183,37 @@ def search(query, tag):
         c.execute("SELECT id, embedding FROM memory_embeddings")
         rows = c.fetchall()
         
-        scores = []
-        for row in rows:
-            db_id = row['id']
-            db_embedding = np.frombuffer(row['embedding'], dtype=np.float32)
-            score = cosine_similarity(query_embedding, db_embedding)
-            scores.append((db_id, score))
-            
-        # Top 10 by similarity
-        scores.sort(key=lambda x: x[1], reverse=True)
-        top_ids = scores[:10]
+        if not rows:
+            print(json.dumps([]))
+            return
+
+        ids = [row['id'] for row in rows]
+        embeddings = [np.frombuffer(row['embedding'], dtype=np.float32) for row in rows]
         
-        # Fetch details for top IDs
-        for mid, score in top_ids:
+        # Stack into (N, D) matrix
+        embeddings_matrix = np.vstack(embeddings)
+        
+        # Normalize matrix rows: (N, D)
+        norms = np.linalg.norm(embeddings_matrix, axis=1, keepdims=True)
+        embeddings_matrix = embeddings_matrix / (norms + 1e-10) # Avoid division by zero
+        
+        # Normalize query: (D,)
+        query_norm = np.linalg.norm(query_embedding)
+        query_vec = query_embedding / (query_norm + 1e-10)
+        
+        # Dot product: (N, D) @ (D,) -> (N,)
+        scores = np.dot(embeddings_matrix, query_vec)
+        
+        # Get top K indices
+        top_k = min(10, len(scores))
+        top_indices = np.argsort(scores)[::-1][:top_k]
+        
+        for idx in top_indices:
+            score = scores[idx]
             if score < 0.3: # Threshold
                 continue
                 
+            mid = ids[idx]
             sql = "SELECT * FROM memory_index WHERE id = ?"
             c.execute(sql, (mid,))
             row = c.fetchone()
