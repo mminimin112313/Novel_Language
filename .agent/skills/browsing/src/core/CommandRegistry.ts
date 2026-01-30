@@ -5,6 +5,8 @@ import { VisualService } from './VisualService.js';
 
 import { DiscoveryService } from './DiscoveryService.js';
 import { RefinementService } from './RefinementService.js';
+import { VisionService } from './VisionService.js';
+
 
 export interface CommandContext {
     browser: BrowserManager;
@@ -12,8 +14,10 @@ export interface CommandContext {
     visual: VisualService;
     discovery: DiscoveryService;
     refinement: RefinementService;
+    vision: VisionService;
     args: string[];
 }
+
 
 
 export type CommandHandler = (ctx: CommandContext) => Promise<any>;

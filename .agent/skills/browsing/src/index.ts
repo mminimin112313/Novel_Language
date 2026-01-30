@@ -6,7 +6,9 @@ import { InteractionService } from './core/InteractionService.js';
 import { VisualService } from './core/VisualService.js';
 import { DiscoveryService } from './core/DiscoveryService.js';
 import { RefinementService } from './core/RefinementService.js';
+import { VisionService } from './core/VisionService.js';
 import { CommandRegistry, CommandContext } from './core/CommandRegistry.js';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,7 +40,9 @@ const interaction = new InteractionService();
 const visual = new VisualService();
 const discovery = new DiscoveryService();
 const refinement = new RefinementService();
+const vision = new VisionService();
 const registry = new CommandRegistry();
+
 
 
 // Command Registrations
@@ -213,7 +217,23 @@ registry.register('wait', async (ctx) => {
     return { ok: true, url: p.url() };
 });
 
+registry.register('crop', async (ctx) => {
+    const inputArg = ctx.args[0];
+    const inputPath = path.isAbsolute(inputArg) ? inputArg : path.join(SHOT_DIR, inputArg);
+    const outputArg = ctx.args[1];
+    const outputPath = path.isAbsolute(outputArg) ? outputArg : path.join(SHOT_DIR, outputArg);
+    const x = parseFloat(ctx.args[2]);
+    const y = parseFloat(ctx.args[3]);
+    const w = parseFloat(ctx.args[4]);
+    const h = parseFloat(ctx.args[5]);
+
+    const result = await ctx.vision.cropImage(inputPath, outputPath, x, y, w, h);
+    return { ok: true, cropped_image: result };
+});
+
+
 registry.register('run-protocol', async (ctx) => {
+
     const protocolData = ctx.args[0];
     let steps: any[] = [];
     try {
@@ -234,8 +254,9 @@ registry.register('run-protocol', async (ctx) => {
         const args = (step.arguments || step.args || []).map(String);
 
         try {
-            const stepCtx: CommandContext = { ...ctx, args };
+            const stepCtx: CommandContext = { ...ctx, vision, args };
             const res = await registry.execute(cmd, stepCtx);
+
 
             if (step.screenshot) {
                 const page = await ctx.browser.getPage();
@@ -279,8 +300,9 @@ async function executeBatch(commands: any[]): Promise<any> {
     const results = [];
     for (const [cmd, ...cmdArgs] of commands) {
         try {
-            const ctx: CommandContext = { browser, interaction, visual, discovery, refinement, args: cmdArgs };
+            const ctx: CommandContext = { browser, interaction, visual, discovery, refinement, vision, args: cmdArgs };
             const res = await registry.execute(cmd, ctx);
+
             results.push(res);
             if (!res.ok) break;
         } catch (e) {
@@ -290,6 +312,7 @@ async function executeBatch(commands: any[]): Promise<any> {
     }
     return { ok: true, content: JSON.stringify(results) };
 }
+
 
 
 async function main() {
@@ -321,7 +344,9 @@ Commands:
   wait <ms>
   multi-click-at <x1> <y1> <x2> <y2> ...
   run-protocol <json_string_or_file_path>
+  crop <input> <output> <x> <y> <w> <h>
   close
+
 
 `);
         process.exit(0);
@@ -329,9 +354,10 @@ Commands:
 
     let result: any;
     const cmdArgs = args.slice(1);
-    const ctx: CommandContext = { browser, interaction, visual, discovery, refinement, args: cmdArgs };
+    const ctx: CommandContext = { browser, interaction, visual, discovery, refinement, vision, args: cmdArgs };
 
     try {
+
         if (action === 'run') {
             result = await executeBatch(JSON.parse(cmdArgs[0] || '[]'));
         } else if (action === 'run-file') {

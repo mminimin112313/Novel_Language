@@ -19,9 +19,27 @@ This skill uses a bio-inspired memory structure located in `.agent/skills/browsi
     - **Usage**: Store your *current* mission status, active selectors you are testing, or temporary variables.
     - **Action**: "I am currently on Step 2 of the login flow."
 
+## 🔄 High-Precision Execution Process (SVP)
+To ensure zero-failure automation, follow this cycle:
+
+1.  **DETECT (Structure)**: Run `visual-map` to identify the UI layout and frame hierarchy.
+2.  **OBSERVE (Details)**: Capture `screenshot` and use `inspect-at` to pin down exact coordinates.
+3.  **PLAN (Protocol)**: Draft a `run-protocol` JSON that batches all interactions.
+4.  **EXECUTE (Action)**: Run the protocol at high speed.
+5.  **VERIFY (Outcome)**: Capture final snapshots and record patterns in `brain`.
+
 - **Long-Term Memory** (`brain/long_term/`):
     - **Episodic** (`episodic/`): Logs of past sessions. **Check this before starting** to see if you've failed this task before.
     - **Semantic** (`semantic/`): **Verified Knowledge**. If you successfully identify a stable selector (e.g., `#login-button`), SAVE IT here. Future sessions should look here first.
+
+## 🔄 High-Precision Execution Process (SVP)
+Every high-stakes browsing task (Login, CAPTCHA, Scraping) MUST follow the **Structural Verification Protocol**:
+
+1.  **Detection Phase**: Run `visual-map` or `list-elements` to understand the page structure and frame hierarchy.
+2.  **Observation Phase**: Capture a `screenshot` and use `inspect-at` to verify coordinates or selectors.
+3.  **Planning Phase**: Design a JSON protocol (`run-protocol`) that accounts for the detected structure.
+4.  **Execution Phase**: Execute the protocol and verify outcomes via final-state snapshots.
+5.  **Learning Phase**: record success patterns into `brain/long_term/semantic/`.
 
 ## 📂 Hierarchical Workspace Structure
 All outputs are organized in the root `browsing_dump/` directory following a session-first schema:

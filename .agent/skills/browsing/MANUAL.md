@@ -1,15 +1,22 @@
 # Browsing Skill Manual (Systematic Guide)
 
-Welcome to the enhanced **Browsing Skill** manual. This documentation covers the SOLID-refactored architecture, advanced interaction tools, and token optimization strategies.
+This skill follows a **Protocol-First** architecture and the **Structural Verification Protocol (SVP)** to ensure high-precision automation with zero speed loss.
+
+## 🔄 High-Precision Execution Process (SVP)
+1. **Detect**: Use `visual-map` to understand the page structure.
+2. **Observe**: Capture a `screenshot` and verify targets with `inspect-at`.
+3. **Plan**: Design a `run-protocol` JSON or file.
+4. **Execute**: Run the protocol in a single high-speed batch.
+5. **Learn**: Log success/fail in the `brain/long_term/`.
 
 ## 🏗️ Architecture Overview (SOLID)
-The skill is built on modular services to ensure robustness and extensibility:
-- **`BrowserManager`**: Handles persistent sessions and tab orchestration.
-- **`InteractionService`**: Executes human-like inputs (jitter, Bezier mouse moves).
-- **`VisualService`**: Maps visual coordinates for CAPTCHA resolution.
-- **`DiscoveryService`**: Analyzes page structure and provides interactive element lists.
-- **`RefinementService`**: Processes raw HTML into clean, LLM-ready Markdown.
-- **`CommandRegistry`**: Decouples CLI commands from implementation.
+- **`BrowserManager`**: Persistent sessions & tab orchestration.
+- **`InteractionService`**: Human-like Bezier moves & keyboard jitter.
+- **`VisualService`**: Visual coordinate mapping.
+- **`DiscoveryService`**: Iframe-piercing element discovery.
+- **`VisionService`**: **[NEW]** Image cropping and template infrastructure.
+- **`RefinementService`**: HTML -> Markdown extraction.
+- **`CommandRegistry`**: Decoupled command handling.
 
 ---
 
@@ -43,6 +50,12 @@ npm run browse extract "https://en.wikipedia.org/wiki/IU_(singer)"
 Clicks multiple points sequentially in a single command. Extremely fast for CAPTCHA grid selection.
 ```bash
 npm run browse multi-click-at 100 200 150 250 200 300
+```
+
+### `crop <input> <output> <x> <y> <w> <h>` (Vision)
+Crops a specific area from a captured image. Essential for creating template matches or isolating UI components.
+```bash
+npm run browse crop screenshot.png element_crop.png 50 100 200 150
 ```
 
 ### `run-protocol <json_or_file>` (Scripting)
@@ -102,12 +115,12 @@ All artifacts generated during browsing are saved to the **root `browsing_dump` 
 
 ---
 
-## 🛡️ CAPTCHA Strategy
+## 🛡️ CAPTCHA Strategy (SVP-Driven)
 When a CAPTCHA is encountered:
-1.  **Snapshot/Screenshot**: Confirm the challenge type visually.
-2.  **`list-elements`**: Locate the reCAPTCHA iframe and its coordinates.
-3.  **Coordinate Calculation**: Use `VisualService` logic to map grid cells to page coordinates.
-4.  **Sequential `click-at`**: Execute clicks on the required cells followed by the "Verify" button.
+1.  **DETECT**: `visual-map` to find the reCAPTCHA iframe.
+2.  **OBSERVE**: `screenshot` + `crop` to isolate the challenge image for analysis.
+3.  **PLAN**: Use `multi-click-at` within a `run-protocol`.
+4.  **EXECUTE**: Rapid coordinate clicking.
 
 ---
 

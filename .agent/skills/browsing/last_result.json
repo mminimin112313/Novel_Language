@@ -1,66 +1,33 @@
 {
   "ok": true,
-  "session": "Session_2026-01-30T07-16-46-698Z",
-  "path": "C:\\Users\\mskim\\projects\\00.antigravity skill 개발\\browsing_dump\\sessions\\Session_2026-01-30T07-16-46-698Z",
+  "session": "Session_2026-01-30T07-24-34-733Z",
+  "path": "C:\\Users\\mskim\\projects\\00.antigravity skill 개발\\browsing_dump\\sessions\\Session_2026-01-30T07-24-34-733Z",
   "protocol_results": [
     {
       "step": 0,
       "command": "open",
       "result": {
         "ok": true,
-        "url": "https://nid.naver.com/nidlogin.login",
-        "title": "네이버 : 로그인",
-        "step_screenshot": "C:\\Users\\mskim\\projects\\00.antigravity skill 개발\\browsing_dump\\sessions\\Session_2026-01-30T07-16-46-698Z\\screenshots\\step_0_1769757407266.png"
+        "url": "https://www.naver.com/",
+        "title": "NAVER",
+        "step_screenshot": "C:\\Users\\mskim\\projects\\00.antigravity skill 개발\\browsing_dump\\sessions\\Session_2026-01-30T07-24-34-733Z\\screenshots\\step_0_1769757875348.png"
       }
     },
     {
       "step": 1,
-      "command": "wait",
-      "result": {
-        "ok": true,
-        "url": "https://nid.naver.com/nidlogin.login"
-      }
-    },
-    {
-      "step": 2,
-      "command": "type",
-      "result": {
-        "ok": true,
-        "url": "https://nid.naver.com/nidlogin.login"
-      }
-    },
-    {
-      "step": 3,
-      "command": "type",
-      "result": {
-        "ok": true,
-        "url": "https://nid.naver.com/nidlogin.login"
-      }
-    },
-    {
-      "step": 4,
-      "command": "click",
-      "result": {
-        "ok": true,
-        "url": "https://nid.naver.com/nidlogin.login",
-        "step_screenshot": "C:\\Users\\mskim\\projects\\00.antigravity skill 개발\\browsing_dump\\sessions\\Session_2026-01-30T07-16-46-698Z\\screenshots\\step_4_1769757413417.png"
-      }
-    },
-    {
-      "step": 5,
-      "command": "wait",
-      "result": {
-        "ok": true,
-        "url": "https://www.naver.com/"
-      }
-    },
-    {
-      "step": 6,
       "command": "screenshot",
       "result": {
         "ok": true,
         "url": "https://www.naver.com/",
-        "screenshot": "C:\\Users\\mskim\\projects\\00.antigravity skill 개발\\browsing_dump\\reports\\naver_login_final.png"
+        "screenshot": "C:\\Users\\mskim\\projects\\00.antigravity skill 개발\\browsing_dump\\sessions\\Session_2026-01-30T07-24-34-733Z\\screenshots\\naver_full.png"
+      }
+    },
+    {
+      "step": 2,
+      "command": "crop",
+      "result": {
+        "ok": true,
+        "cropped_image": "C:\\Users\\mskim\\projects\\00.antigravity skill 개발\\browsing_dump\\sessions\\Session_2026-01-30T07-24-34-733Z\\screenshots\\naver_logo_test.png"
       }
     }
   ]
