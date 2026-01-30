@@ -12,8 +12,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const cwd = process.cwd();
 
-const DUMP_DIR = path.join(cwd, '..', '..', 'browsing_dump');
+const DUMP_DIR = 'C:\\Users\\mskim\\projects\\00.antigravity skill 개발\\browsing_dump';
 if (!fs.existsSync(DUMP_DIR)) fs.mkdirSync(DUMP_DIR, { recursive: true });
+
 
 const browser = new BrowserManager(cwd);
 const interaction = new InteractionService();
