@@ -29,17 +29,27 @@ Skills are categorized into 4 distinct layers:
     └── languages/          # Language-specific idioms (Go, TS, Python)
 ```
 
-## 2. Functions & Capabilities
+## 2. Skill Catalog & Usage Guide
 
-### Semantic Memory (capabilities/memory)
-- **Search**: Hybrid search (Keyword + Semantic Similarity).
-- **Record**: Automatic embedding generation using `sentence-transformers`.
-- **Infrastructure**: Self-healing Python virtual environment (`.venv`).
+### Core Layer (Agent Behaviors)
+| Skill | Description | When to Use |
+|-------|-------------|-------------|
+| **continuous-learning** | Instinct-based system that learns your preferences and evolves them into reusable skills. | **Always On**. Use explicit commands (`/instinct-status`) when you want to review what the agent has learned about you. |
+| **iterative-retrieval** | A 4-phase loop (Dispatch -> Evaluate -> Refine -> Loop) to gather perfect context for subagents. | Use when a subagent fails due to missing context, or when "guessing" relevant files is risky/ineurrate. |
+| **strategic-compact** | Intelligent suggestion system for manual context compaction. | Use when the agent suggests it (usually after Planning or Verification phases) to reclaim token window space. |
 
-### Browsing (capabilities/browsing)
-- **Interaction**: Multi-page, state-aware web navigation.
-- **Vision**: Integrated image recognition and visual element detection.
-- **Subskill Integration**: Shares context with the Memory capability for long-term learning.
+### Capabilities Layer (Tools)
+| Skill | Description | When to Use |
+|-------|-------------|-------------|
+| **browsing** | Bio-inspired web navigation using Playwright (Vision + Action). | Use for **scraping data**, **testing web UIs** (E2E), or verifying visual elements. |
+| **memory** | Semantic Knowledge Graph using vector embeddings (Sentence Transformers). | Use to **record architectural decisions**, **save lessons learned**, or **retrieve project-specific facts** that must survive the current session. |
+
+### Workflows Layer (Process Guides)
+| Skill | Description | When to Use |
+|-------|-------------|-------------|
+| **tdd** | Enforces Red-Green-Refactor loop with 80%+ test coverage. | **MANDATORY** when writing new features, fixing bugs, or refactoring. |
+| **security-review** | Deep vulnerability audit (OWASP, Secrets, Input Validation). | Use when touching **authentication**, **payments**, **user input**, or **secrets**. |
+| **verification** | Comprehensive 6-phase quality gate (Build, Type, Lint, Test, Security, Diff). | Use **before creating a PR** or after major code changes to ensure project health. |
 
 ## 3. Initial Setup & Reproducibility
 
