@@ -98,7 +98,7 @@ async function main() {
     const action = args[0];
 
     if (!action || action === '--help' || action === '-h') {
-        console.log(`Browsing Skill CLI (SOLID + Memory Subskill)\nAvailable Commands: ${registry.getAvailableCommands().join(', ')}`);
+        process.stderr.write(`Browsing Skill CLI (SOLID + Memory Subskill)\nAvailable Commands: ${registry.getAvailableCommands().join(', ')}\n`);
         process.exit(0);
     }
 
@@ -124,11 +124,14 @@ async function main() {
         result = { ok: false, error: String(e) };
     }
 
-    console.log(JSON.stringify(result, null, 2));
+    process.stdout.write(JSON.stringify(result, null, 2) + '\n');
     fs.writeFileSync(path.join(cwd, 'last_result.json'), JSON.stringify(result, null, 2));
+
+    // Explicit exit to close all CDP handles
+    process.exit(result.ok ? 0 : 1);
 }
 
 main().catch(err => {
-    console.error('Fatal error:', err);
+    process.stderr.write(`Fatal error: ${err.message}\n`);
     process.exit(1);
 });

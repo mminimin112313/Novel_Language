@@ -44,6 +44,20 @@ export const InteractionCommands = {
         await page.keyboard.press(ctx.args[0]);
         return { ok: true, url: page.url() };
     },
+    'click-mod': async (ctx: CommandContext) => {
+        const page = await ctx.browser.getPage();
+        const selector = ctx.args[0];
+        const modifiers = ctx.args.slice(1) as any[]; // e.g. ['Control'] or ['Meta']
+        await page.click(selector, { modifiers });
+        return { ok: true, url: page.url() };
+    },
+    'mouseMove': async (ctx: CommandContext) => {
+        const page = await ctx.browser.getPage();
+        const x = parseFloat(ctx.args[0]);
+        const y = parseFloat(ctx.args[1]);
+        await page.mouse.move(x, y);
+        return { ok: true };
+    },
     'keyboardType': async (ctx: CommandContext) => {
         const page = await ctx.browser.getPage();
         await page.keyboard.type(ctx.args.join(' '));

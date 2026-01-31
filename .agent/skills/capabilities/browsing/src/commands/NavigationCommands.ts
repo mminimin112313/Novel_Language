@@ -11,6 +11,16 @@ export const NavigationCommands = {
         const p = await ctx.browser.newTab(ctx.args[0]);
         return { ok: true, url: p.url() };
     },
+    'close-tab': async (ctx: CommandContext) => {
+        await ctx.browser.closeTab();
+        const p = await ctx.browser.getPage();
+        return { ok: true, url: p?.url() };
+    },
+    'switch-tab': async (ctx: CommandContext) => {
+        const index = parseInt(ctx.args[0] || '0');
+        const p = await ctx.browser.switchTab(index);
+        return { ok: p !== null, url: p?.url() };
+    },
     'close': async (ctx: CommandContext) => {
         await ctx.browser.close();
         return { ok: true };
