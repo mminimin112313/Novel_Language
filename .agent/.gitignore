@@ -1,0 +1,19 @@
+# Agent Ignore Rules
+# Exclude binary databases and ephemeral memory
+memory/memory_index.db
+memory/working_memory.md
+memory/memory_embeddings/
+
+# Exclude backups and temps
+*.bak
+*.tmp
+*.log
+
+# Python
+__pycache__/
+.venv/
+.env
+
+# OS
+.DS_Store
+Thumbs.db

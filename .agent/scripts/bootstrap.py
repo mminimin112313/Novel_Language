@@ -84,8 +84,26 @@ def bootstrap():
 
     # 5. Make Scripts Executable
     print("🔧 Setting permissions...")
-    os.system(f"chmod +x '{AGENT_ROOT}/.agent/skills/core/continuous-learning/hooks/observe.sh'")
-    os.system(f"chmod +x '{AGENT_ROOT}/.agent/skills/core/strategic-compact/suggest-compact.sh'")
+    import stat
+    
+    scripts_to_chmod = [
+        AGENT_ROOT / ".agent/skills/core/continuous-learning/hooks/observe.sh",
+        AGENT_ROOT / ".agent/skills/core/strategic-compact/suggest-compact.sh",
+        AGENT_ROOT / ".agent/skills/capabilities/memory/scripts/check_stm.sh",
+        AGENT_ROOT / ".agent/skills/capabilities/memory/scripts/suggest_consolidation.sh",
+        AGENT_ROOT / ".agent/scripts/aliases.sh"
+    ]
+    
+    for script in scripts_to_chmod:
+        if script.exists():
+            try:
+                st = os.stat(script)
+                os.chmod(script, st.st_mode | stat.S_IEXEC)
+                print(f"  - Executable: {script.name}")
+            except Exception as e:
+                print(f"  ⚠️ Failed to chmod {script.name}: {e}")
+        else:
+            print(f"  ⚠️ Script not found: {script}")
 
 if __name__ == "__main__":
     bootstrap()
