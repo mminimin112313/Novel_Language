@@ -101,3 +101,17 @@ import { captureSnapshot } from '../src/blocks/common/utils.js';
 - `safeType(target, selector, text)`: Robust typing.
 - `findFrame(page, name)`: Smart frame locator.
 
+#### Advanced Intelligence (`src/BrowsingLib.ts`)
+- `systemDump()`: Complete state capture (Network, DOM, Accessibility, Visual).
+- `visionAnalyze(desc, area?)`: Crop and analyze UI via `@agent/vision`.
+- `inspectAt(x, y)`: DevTools-level element analysis at coordinates.
+- `executeJS(code)`: Direct JS execution in the page context.
+- `getNetworkLogs()`: Retrieve captured session traffic.
+
+## 🛠 Script Execution Mode
+Run complex TypeScript automation scripts directly via the CLI:
+```bash
+npm run browse script path/to/script.ts
+```
+The `BrowsingLib` instance is automatically injected into the `run` function of the script.
+

@@ -26,7 +26,7 @@ echo "🔧 Setting up Skills..."
 find .agent/skills -name "package.json" -not -path "*/node_modules/*" | while read package_file; do
     skill_dir=$(dirname "$package_file")
     echo "📦 Installing Node dependencies for: $skill_dir"
-    (cd "$skill_dir" && npm install)
+    (cd "$skill_dir" && npm install && npm run build --if-present)
 done
 
 # Find all setup.py files in .agent/skills (excluding node_modules/venv) and run python setup

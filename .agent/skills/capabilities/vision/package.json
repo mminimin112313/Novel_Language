@@ -2,7 +2,8 @@
     "name": "@agent/vision",
     "version": "1.0.0",
     "description": "Standalone Vision Capability for AI Agents",
-    "main": "src/index.ts",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "type": "module",
     "scripts": {
         "build": "tsc",

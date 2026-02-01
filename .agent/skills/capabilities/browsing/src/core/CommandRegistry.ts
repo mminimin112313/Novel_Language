@@ -6,6 +6,8 @@ import { VisualService } from './VisualService.js';
 import { DiscoveryService } from './DiscoveryService.js';
 import { RefinementService } from './RefinementService.js';
 import { VisionService } from './VisionService.js';
+import { NetworkService } from './NetworkService.js';
+import { BrowsingLib } from '../BrowsingLib.js';
 
 
 export interface CommandContext {
@@ -15,6 +17,8 @@ export interface CommandContext {
     discovery: DiscoveryService;
     refinement: RefinementService;
     vision: VisionService;
+    network: NetworkService;
+    browsingLib: BrowsingLib;
     paths: {
         dump: string;
         session: string;

@@ -10,6 +10,7 @@ import { VisualService } from './core/VisualService.js';
 import { DiscoveryService } from './core/DiscoveryService.js';
 import { RefinementService } from './core/RefinementService.js';
 import { VisionService } from './core/VisionService.js';
+import { NetworkService } from './core/NetworkService.js';
 import { CommandRegistry, CommandContext } from './core/CommandRegistry.js';
 
 // Commands
@@ -19,6 +20,7 @@ import { DiscoveryCommands } from './commands/DiscoveryCommands.js';
 import { VisionCommands } from './commands/VisionCommands.js';
 import { ProtocolCommands } from './commands/ProtocolCommands.js';
 import { AgentCommands } from './commands/AgentCommands.js';
+import { BrowsingLib } from './BrowsingLib.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const cwd = process.cwd();
@@ -57,7 +59,13 @@ const visual = new VisualService();
 const discovery = new DiscoveryService();
 const refinement = new RefinementService();
 const vision = new VisionService();
+const network = new NetworkService();
 const registry = new CommandRegistry();
+
+const browsingLib = new BrowsingLib(
+    browser, interaction, discovery, visual, vision, refinement, network,
+    { dump: DUMP_DIR, session: SESSION_DIR, reports: REPORT_DIR }
+);
 
 // --- Command Registration ---
 function registerModule(module: any) {
@@ -89,7 +97,7 @@ async function executeBatch(commands: any[]): Promise<any> {
 
         try {
             const ctx: CommandContext = {
-                browser, interaction, visual, discovery, refinement, vision,
+                browser, interaction, visual, discovery, refinement, vision, network, browsingLib,
                 paths, registry, args: cmdArgs.map(String)
             };
             const res = await registry.execute(cmd, ctx);
@@ -117,7 +125,7 @@ async function main() {
 
     // Create Configured Context
     const ctx: CommandContext = {
-        browser, interaction, visual, discovery, refinement, vision,
+        browser, interaction, visual, discovery, refinement, vision, network, browsingLib,
         paths, registry, args: cmdArgs
     };
 
@@ -127,6 +135,34 @@ async function main() {
         } else if (action === 'run-file') {
             const fileContent = fs.readFileSync(cmdArgs[0], 'utf8');
             result = await executeBatch(JSON.parse(fileContent));
+        } else if (action === 'script') {
+            const scriptPath = cmdArgs[0];
+            if (!scriptPath || !fs.existsSync(scriptPath)) {
+                throw new Error(`Script file not found: ${scriptPath}`);
+            }
+
+            // Execute TS script using npx tsx and pass browsingLib context
+            // For simplicity and safety, we'll use a dynamic evaluation approach
+            // or a sub-process execution that uses the same session.
+            // Since we want to share the persistent session, we should run it in-process if possible,
+            // or pass the session ID.
+
+            // In-process execution of TS:
+            // We can use a trick: require 'tsx/cjs' and then require the script, 
+            // but scripts usually export a function.
+
+            // Let's assume the script exports a default function or a 'run' function
+            // that accepts browsingLib.
+
+            // For now, let's use a more robust approach:
+            const { run } = await import(path.resolve(scriptPath));
+            if (typeof run === 'function') {
+                result = { ok: true, data: await run(browsingLib) };
+            } else {
+                throw new Error("Script must export a 'run' function.");
+            }
+        } else if (action === 'system-dump') {
+            result = await browsingLib.systemDump();
         } else {
             result = await registry.execute(action, ctx);
         }

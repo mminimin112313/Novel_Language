@@ -121,6 +121,11 @@ export class DiscoveryService {
                         const el = document.elementFromPoint(x, y) as HTMLElement;
                         if (!el) return null;
                         const rect = el.getBoundingClientRect();
+
+                        // Advanced analysis
+                        const style = window.getComputedStyle(el);
+                        const listeners = (window as any).getEventListeners ? (window as any).getEventListeners(el) : undefined;
+
                         return {
                             tagName: el.tagName.toLowerCase(),
                             selector: el.id ? `#${el.id}` : el.tagName.toLowerCase(),
@@ -128,7 +133,19 @@ export class DiscoveryService {
                             x: Math.round(rect.x),
                             y: Math.round(rect.y),
                             width: Math.round(rect.width),
-                            height: Math.round(rect.height)
+                            height: Math.round(rect.height),
+                            attributes: Array.from(el.attributes).reduce((acc: any, attr) => {
+                                acc[attr.name] = attr.value;
+                                return acc;
+                            }, {}),
+                            computedStyle: {
+                                display: style.display,
+                                visibility: style.visibility,
+                                cursor: style.cursor,
+                                color: style.color,
+                                backgroundColor: style.backgroundColor
+                            },
+                            hasListeners: !!listeners
                         };
                     }, { x: relX, y: relY });
 
@@ -174,7 +191,7 @@ export class DiscoveryService {
                 const style = window.getComputedStyle(element);
                 const isClickable = style.cursor === 'pointer' ||
                     element.hasAttribute('onclick') ||
-                    ['BUTTON', 'A', 'INPUT', 'SELECT'].includes(element.tagName);
+                    ['BUTTON', 'A', 'INPUT', 'SELECT', 'TEXTAREA'].includes(element.tagName);
 
                 const text = (element.innerText || '').trim();
 
@@ -191,12 +208,35 @@ export class DiscoveryService {
                 }
             });
 
-            // Very basic clustering: if parent and child have same text and similar bounds, keep child if clickable, else keep parent
-            return map.filter((item, index) => {
-                // This is a simplified cluster logic to save tokens
-                if (item.tagName === 'body' || item.tagName === 'html') return false;
-                return true;
-            });
+            return map;
+        });
+    }
+
+    async getAccessibilityTree(page: Page): Promise<any> {
+        // Use Playwright's built-in accessibility API if available
+        const p = page as any;
+        if (p.accessibility && typeof p.accessibility.snapshot === 'function') {
+            return await p.accessibility.snapshot();
+        }
+        console.warn("Playwright accessibility API not available on this page/version.");
+        return { error: "Accessibility API not available" };
+    }
+
+    async getAdvancedDomStructure(page: Page): Promise<any> {
+        return await page.evaluate(() => {
+            function summarizeNode(node: Element, depth: number = 0): any {
+                if (depth > 5) return { tag: node.tagName.toLowerCase(), childrenCount: node.children.length };
+
+                const rect = node.getBoundingClientRect();
+                return {
+                    tag: node.tagName.toLowerCase(),
+                    id: node.id || undefined,
+                    class: node.className || undefined,
+                    rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
+                    children: Array.from(node.children).map(child => summarizeNode(child, depth + 1))
+                };
+            }
+            return summarizeNode(document.body);
         });
     }
 }

@@ -84,5 +84,35 @@ export const InteractionCommands = {
         await frame.click(selector);
         await frame.type(selector, text, { delay: 50 });
         return { ok: true };
+    },
+    'vision-click': async (ctx: CommandContext) => {
+        return await ctx.browsingLib.visionClick(ctx.args.join(' '));
+    },
+    'vision-analyze': async (ctx: CommandContext) => {
+        const [desc, ...rectArgs] = ctx.args;
+        let area;
+        if (rectArgs.length >= 4) {
+            area = {
+                x: parseFloat(rectArgs[0]),
+                y: parseFloat(rectArgs[1]),
+                width: parseFloat(rectArgs[2]),
+                height: parseFloat(rectArgs[3])
+            };
+        }
+        return await ctx.browsingLib.visionAnalyze(desc, area);
+    },
+    'inspect-at': async (ctx: CommandContext) => {
+        const x = parseFloat(ctx.args[0]);
+        const y = parseFloat(ctx.args[1]);
+        return await ctx.browsingLib.inspectAt(x, y);
+    },
+    'execute-js': async (ctx: CommandContext) => {
+        return await ctx.browsingLib.executeJS(ctx.args.join(' '));
+    },
+    'get-network-logs': async (ctx: CommandContext) => {
+        return await ctx.browsingLib.getNetworkLogs();
+    },
+    'system-dump': async (ctx: CommandContext) => {
+        return await ctx.browsingLib.systemDump();
     }
 };

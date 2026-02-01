@@ -214,6 +214,10 @@ When tests run, the following artifacts are captured:
 - Screenshot of the failing state
 - Video recording of the test
 - Trace file for debugging (step-by-step replay)
+- **Advanced System Dump**: Run `npm run browse system-dump` in the failing state to get:
+    - Detailed `dom_structure.json`
+    - `network_logs.json` for API failures
+    - Visual map of interactive elements
 - Network logs
 - Console logs
 
@@ -311,6 +315,8 @@ For PMX, prioritize these E2E tests:
 - ✅ Test critical user journeys end-to-end
 - ✅ Run tests before merging to main
 - ✅ Review artifacts when tests fail
+- ✅ Use `vision-analyze` if traditional selectors are too brittle
+- ✅ Analyze `dom_structure.json` to understand complex component trees
 
 **DON'T:**
 - ❌ Use brittle selectors (CSS classes can change)

@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
+import { drawBox, addMemo, crop, analyzeText } from '@agent/vision';
 
 export class VisionService {
     /**
@@ -109,5 +110,15 @@ export class VisionService {
         }
 
         return null;
+    }
+
+    async cropAndAnalyze(inputPath: string, outputPath: string, rect: { x: number, y: number, width: number, height: number }): Promise<string> {
+        await crop(inputPath, outputPath, { left: rect.x, top: rect.y, width: rect.width, height: rect.height });
+        return await analyzeText(outputPath);
+    }
+
+    async annotate(inputPath: string, outputPath: string, rect: { x: number, y: number, width: number, height: number }, label: string): Promise<void> {
+        await drawBox(inputPath, outputPath, rect, 'red');
+        await addMemo(outputPath, outputPath, label, 'top-left');
     }
 }

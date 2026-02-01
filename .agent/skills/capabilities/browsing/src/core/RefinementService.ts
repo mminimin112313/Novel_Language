@@ -13,4 +13,9 @@ export class RefinementService {
     convertToMarkdown(html: string): string {
         return this.turndown.turndown(html);
     }
+
+    async toMarkdown(page: any): Promise<string> {
+        const html = await page.content();
+        return this.turndown.turndown(html);
+    }
 }
