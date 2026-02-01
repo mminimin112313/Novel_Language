@@ -1,6 +1,8 @@
 
 import * as path from 'path';
 import * as fs from 'fs';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 import { fileURLToPath } from 'url';
 import { BrowserManager } from './core/BrowserManager.js';
 import { InteractionService } from './core/InteractionService.js';
@@ -17,7 +19,6 @@ import { DiscoveryCommands } from './commands/DiscoveryCommands.js';
 import { VisionCommands } from './commands/VisionCommands.js';
 import { ProtocolCommands } from './commands/ProtocolCommands.js';
 import { AgentCommands } from './commands/AgentCommands.js';
-import { MemoryCommands } from './commands/MemoryCommands.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const cwd = process.cwd();
@@ -71,7 +72,6 @@ registerModule(DiscoveryCommands);
 registerModule(VisionCommands);
 registerModule(ProtocolCommands);
 registerModule(AgentCommands);
-registerModule(MemoryCommands); // New Subskill
 
 // --- Execution Logic ---
 async function executeBatch(commands: any[]): Promise<any> {
@@ -136,6 +136,21 @@ async function main() {
 
     process.stdout.write(JSON.stringify(result, null, 2) + '\n');
     fs.writeFileSync(path.join(cwd, 'last_result.json'), JSON.stringify(result, null, 2));
+
+    // Log Outcome
+    const status = result.ok ? 'SUCCESS' : 'FAILURE';
+    const outcome = result.ok ? 'Browsing session completed successfully.' : `Browsing session failed: ${result.error}`;
+    const logScriptPath = path.join(projectRoot, '.agent/skills/knowledge/work-logger/log_work.py');
+
+    if (fs.existsSync(logScriptPath)) {
+        try {
+            const execAsync = promisify(exec);
+            const cmd = `python3 "${logScriptPath}" --status "${status}" --task "Browsing Session ${sessionId}" --outcome "${outcome.replace(/"/g, '\\"')}" --artifacts "${REPORT_DIR}"`;
+            await execAsync(cmd);
+        } catch (logErr) {
+            console.error("Failed to log work:", logErr);
+        }
+    }
 
     // Explicit exit to close all CDP handles
     process.exit(result.ok ? 0 : 1);

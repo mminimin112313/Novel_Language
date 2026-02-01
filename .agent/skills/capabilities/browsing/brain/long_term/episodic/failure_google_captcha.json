@@ -1,8 +1,0 @@
-{
-    "timestamp": "2026-01-30T15:20:00Z",
-    "task": "Google search for IU latest album",
-    "status": "failed",
-    "reason": "Google CAPTCHA triggered",
-    "url": "https://www.google.com/search?q=IU+latest+album",
-    "outcome": "Switching to DuckDuckGo for smoother automation demonstration."
-}

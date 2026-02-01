@@ -1,109 +1,69 @@
-#!/usr/bin/env python3
 import os
 import sys
-import json
-import shutil
-from pathlib import Path
 
-# --- Configuration ---
-AGENT_ROOT = Path(__file__).parent.parent.parent.absolute()
-CONFIG_TEMPLATE = AGENT_ROOT / ".agent/config/settings.hooks.json"
-
-# Potential Settings Paths (Priority Order)
-SETTINGS_PATHS = [
-    Path.home() / "Library/Application Support/Antigravity/User/settings.json",
-    Path.home() / "Library/Application Support/Code/User/settings.json",
-    Path.home() / ".config/Code/User/settings.json",
-    Path.home() / ".vscode-server/data/Machine/settings.json"
-]
-
-def find_settings_file():
-    for path in SETTINGS_PATHS:
-        if path.exists():
-            return path
-    return None
-
-def merge_hooks(user_settings, agent_hooks):
-    """
-    Intelligently merges agent hooks into user settings.
-    Overwrites conflicting hooks but preserves other user configs.
-    """
-    if "hooks" not in user_settings:
-        user_settings["hooks"] = {}
-    
-    # Simple deep merge for the 'hooks' key
-    # We replace the specific Pre/PostToolUse lists completely to ensure state consistency
-    # (Future improvement: Append instead of replace if users have custom hooks)
-    for key, value in agent_hooks["hooks"].items():
-        user_settings["hooks"][key] = value
-    
-    return user_settings
-
-def bootstrap():
-    print(f"🚀 Bootstrapping Agent Kernel from: {AGENT_ROOT}")
-    
-    # 1. Locate Settings
-    target_settings = find_settings_file()
-    if not target_settings:
-        print("❌ Could not find VSCode/Antigravity settings.json.")
-        sys.exit(1)
-    
-    print(f"📂 Found settings file: {target_settings}")
-
-    # 2. Load Template & Interpolate
-    with open(CONFIG_TEMPLATE, "r") as f:
-        template_str = f.read()
-    
-    # Interpolate ${AGENT_ROOT}
-    template_str = template_str.replace("${AGENT_ROOT}", str(AGENT_ROOT))
-    agent_config = json.loads(template_str)
-
-    # 3. Backup & Load User Settings
-    if target_settings.exists():
-        backup_path = target_settings.with_suffix(".json.bak")
-        shutil.copy(target_settings, backup_path)
-        print(f"💾 Backed up settings to: {backup_path}")
-        
-        try:
-            with open(target_settings, "r") as f:
-                user_settings = json.load(f)
-        except json.JSONDecodeError:
-            print("⚠️  User settings.json was invalid JSON. Starting fresh.")
-            user_settings = {}
+def create_directory(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+        print(f"[CREATED] Directory: {path}")
     else:
-        user_settings = {}
+        print(f"[EXISTS] Directory: {path}")
 
-    # 4. Merge & Write
-    new_settings = merge_hooks(user_settings, agent_config)
-    
-    with open(target_settings, "w") as f:
-        json.dump(new_settings, f, indent=4)
-    
-    print("✅ Agent Hooks injected successfully!")
-    print("🎉 System is active. Example: Run a tool to trigger observation.")
-
-    # 5. Make Scripts Executable
-    print("🔧 Setting permissions...")
-    import stat
-    
-    scripts_to_chmod = [
-        AGENT_ROOT / ".agent/skills/core/continuous-learning/hooks/observe.sh",
-        AGENT_ROOT / ".agent/skills/core/strategic-compact/suggest-compact.sh",
-        AGENT_ROOT / ".agent/skills/capabilities/memory/scripts/check_stm.sh",
-        AGENT_ROOT / ".agent/skills/capabilities/memory/scripts/suggest_consolidation.sh",
-        AGENT_ROOT / ".agent/scripts/aliases.sh"
+def update_gitignore():
+    gitignore_path = ".gitignore"
+    entries = [
+        "# Agent Contexts",
+        ".agent/contexts/active/",
+        ".agent/scripts/"
     ]
     
-    for script in scripts_to_chmod:
-        if script.exists():
-            try:
-                st = os.stat(script)
-                os.chmod(script, st.st_mode | stat.S_IEXEC)
-                print(f"  - Executable: {script.name}")
-            except Exception as e:
-                print(f"  ⚠️ Failed to chmod {script.name}: {e}")
-        else:
-            print(f"  ⚠️ Script not found: {script}")
+    existing_lines = []
+    if os.path.exists(gitignore_path):
+        with open(gitignore_path, "r") as f:
+            existing_lines = [line.strip() for line in f.readlines()]
+    
+    new_entries = [e for e in entries if e not in existing_lines]
+    
+    if new_entries:
+        with open(gitignore_path, "a") as f:
+            f.write("\n" + "\n".join(new_entries) + "\n")
+        print(f"[UPDATED] .gitignore with {len(new_entries)} new entries.")
+    else:
+        print("[OK] .gitignore is up to date.")
+
+def main():
+    root_dir = os.getcwd()
+    agent_dir = os.path.join(root_dir, ".agent")
+    
+    print(f"Bootstrapping Agent Environment in: {root_dir}")
+    
+    # 1. Define Directory Structure
+    dirs = [
+        ".agent/contexts/active",
+        ".agent/contexts/history/work_logs",
+        ".agent/contexts/history/decisions",
+        ".agent/contexts/reference",
+        ".agent/contexts/project",
+        ".agent/contexts/personas",
+        ".agent/scripts",
+        ".agent/workflows",
+        ".agent/rules"
+    ]
+    
+    # 2. Create Directories
+    for d in dirs:
+        create_directory(os.path.join(root_dir, d))
+        
+    # 3. Git Configuration
+    update_gitignore()
+    
+    # 4. Check for Skills (Optional Warning)
+    work_logger_path = os.path.join(agent_dir, "skills/knowledge/work-logger/SKILL.md")
+    if not os.path.exists(work_logger_path):
+        print("[WARN] WorkLogger skill is missing. You may needed to run: /update-kernel")
+    else:
+        print("[OK] WorkLogger skill detected.")
+        
+    print("\nBootstrap Complete. Environment is ready.")
 
 if __name__ == "__main__":
-    bootstrap()
+    main()

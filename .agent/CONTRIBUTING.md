@@ -10,6 +10,13 @@ To ensure this project remains high-quality and cross-platform (Mac, Linux, Wind
 - **Rules & Patterns**: Battle-tested guidelines for performance and security.
 - **MCP Configs**: New server integrations for common tools.
 
+## 0. First-time Setup
+Upon cloning this repository, you **MUST** run the setup script to initialize the agent's context and hooks:
+```bash
+./setup.sh
+```
+This ensures your environment matches the team's standard configuration.
+
 ## 1. Shell Scripts vs Node.js
 - **Prefer Node.js scripts** over Bash (`.sh`) scripts for core logic.
   - ✅ `node scripts/setup.js`

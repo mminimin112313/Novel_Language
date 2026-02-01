@@ -36,4 +36,3 @@ This rule defines the technical mandates for implementing and maintaining agent 
 
 ### Knowledge Reuse
 - **Refactoring**: When adding logic, search `knowledge/` first to reuse existing patterns.
-- **Persistence**: High-value technical pivots or fixes discovered during work MUST be recorded into `capabilities/memory`.

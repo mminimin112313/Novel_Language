@@ -16,7 +16,7 @@ trigger: always_on
 - **tmux reminder**: Suggests tmux for long-running commands (npm, pnpm, yarn, cargo, etc.)
 - **git push review**: Opens Zed for review before push
 - **doc blocker**: Blocks creation of unnecessary .md/.txt files
-- **Memory First**: Always run `remem "context"` before starting complex tasks.
+
 
 ### PostToolUse
 - **PR creation**: Logs PR URL and GitHub Actions status
@@ -26,7 +26,6 @@ trigger: always_on
 
 ### Stop
 - **console.log audit**: Checks all modified files for console.log before session ends
-- **Memory Last**: Always run `memo "summary"` or `memo "lesson learned"` before ending a session.
     - Run manually: `./.agent/scripts/check-console-log.sh`
 
 ## Executable Helpers

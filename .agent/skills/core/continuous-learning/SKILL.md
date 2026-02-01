@@ -128,7 +128,7 @@ The observer can run in the background analyzing observations:
 
 ```bash
 # Start background observer
-~/.claude/skills/core/continuous-learning/agents/start-observer.sh
+~/.claude/skills/core/continuous-learning/agents/observer/start-observer.sh
 ```
 
 ## Commands
