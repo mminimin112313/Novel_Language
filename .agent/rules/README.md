@@ -8,6 +8,7 @@ This directory contains the authoritative rules and standards for the `everythin
 
 ## Workflows & Processes
 - [**agents.md**](./agents.md): Subagent delegation rules and persona catalog.
+- [**project-scaffolding.md**](./project-scaffolding.md): **NEW PROJECT SETUP**. How to copy the kernel and customize context/rules.
 - [**git-workflow.md**](./git-workflow.md): Commit messages, PR standards, and branching model.
 - [**hooks.md**](./hooks.md): Automated quality checks (Pre/Post tool use).
 - [**testing.md**](./testing.md): TDD enforcement and coverage requirements.

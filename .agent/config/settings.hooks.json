@@ -11,6 +11,15 @@
                 ]
             },
             {
+                "matcher": "tool == \"task_boundary\"",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "${AGENT_ROOT}/.agent/skills/capabilities/memory/scripts/check_stm.sh"
+                    }
+                ]
+            },
+            {
                 "matcher": "tool == \"replace_file_content\" || tool == \"write_to_file\"",
                 "hooks": [
                     {
@@ -29,6 +38,12 @@
                         "command": "${AGENT_ROOT}/.agent/skills/core/continuous-learning/hooks/observe.sh post"
                     }
                 ]
+            }
+        ],
+        "Stop": [
+            {
+                "type": "command",
+                "command": "${AGENT_ROOT}/.agent/skills/capabilities/memory/scripts/suggest_consolidation.sh"
             }
         ]
     }
