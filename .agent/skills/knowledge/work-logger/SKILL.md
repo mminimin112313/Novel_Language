@@ -15,7 +15,7 @@ A Python script to append a structured log entry to `.agent/contexts/history/wor
 
 **Usage**:
 ```bash
-python .agent/skills/knowledge/work-logger/log_work.py --status "SUCCESS" --task "Login to Naver" --outcome "Successfully logged in and retrieved cookies."
+python .agent/skills/knowledge/work-logger/log_work.py --status "SUCCESS" --task "System Initialization" --outcome "All services started successfully."
 ```
 
 **Arguments**:
@@ -37,17 +37,17 @@ python .agent/skills/knowledge/work-logger/log_work.py --status "SUCCESS" --task
 Logs are saved as `YYYY-MM-DD_<TaskSlug>.md` in `.agent/contexts/history/work_logs/`.
 
 ```markdown
-# [SUCCESS] Login to Naver
+# [SUCCESS] System Initialization
 
 **Date**: 2024-05-20 14:00:00
 **Status**: SUCCESS
 
 ## Outcome
-Successfully logged in and retrieved cookies.
+All services started successfully.
 
 ## Reflections
-- Naver requires a specialized "safeType" to avoid bot detection.
+- Environment variables were correctly loaded.
 
 ## Artifacts
-- `browsing_dump/sessions/Session_.../final.png`
+- `logs/startup.log`
 ```

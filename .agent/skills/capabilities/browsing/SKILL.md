@@ -69,9 +69,9 @@ Instead of static JSON, you write dynamic code.
 Create a temporary script (e.g., `temp_flow.ts`) and run it using `npx tsx`.
 
 ```typescript
-// Example: Naver Blog Post Flow
+```typescript
+// Example: Google Search Flow
 import { chromium } from 'playwright-core';
-import { openEditor, handlePopup, writePost } from '../src/blocks/naver/editor.js';
 import { captureSnapshot } from '../src/blocks/common/utils.js';
 
 (async () => {
@@ -80,20 +80,15 @@ import { captureSnapshot } from '../src/blocks/common/utils.js';
     const page = await context.newPage();
     
     // 1. Open
-    await openEditor(page);
+    await page.goto('https://www.google.com');
     
-    // 2. Handle Popup
-    await handlePopup(page);
-    
-    // 3. Write
-    await writePost(page, {
-        title: "Hello from TS Blocks",
-        content: "This is a dynamic test.",
-        components: { hr: true, quote: true }
-    });
+    // 2. Search
+    await page.fill('textarea[name="q"]', 'Antigravity Agent');
+    await page.press('textarea[name="q"]', 'Enter');
+    await page.waitForNavigation();
 
-    // 4. Verify
-    await captureSnapshot(page, 'final_result', 'PostWriteForm');
+    // 3. Verify
+    await captureSnapshot(page, 'final_result', 'GoogleSearch');
     
     await browser.close();
 })();
@@ -106,7 +101,3 @@ import { captureSnapshot } from '../src/blocks/common/utils.js';
 - `safeType(target, selector, text)`: Robust typing.
 - `findFrame(page, name)`: Smart frame locator.
 
-#### Naver Blocks (`src/blocks/naver/editor.ts`)
-- `openEditor(page)`: Navigates to write page.
-- `handlePopup(page)`: Dismisses draft recovery.
-- `writePost(page, options)`: Fills title and content.
