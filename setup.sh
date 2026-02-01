@@ -19,19 +19,22 @@ if ! command -v python3 &> /dev/null; then
     exit 1
 fi
 
-# 2. (Memory Skill setup removed by user request)
+# 2. Setup All Skills
+echo "🔧 Setting up Skills..."
 
-# 3. Setup Browsing Skill
-echo "🌐 Setting up Browsing Skill..."
-if [ -d ".agent/skills/capabilities/browsing" ]; then
-    cd .agent/skills/capabilities/browsing
-    if [ -f "package.json" ]; then
-        npm install
-    fi
-    cd - > /dev/null
-else
-    echo "⚠️ Warning: Browsing skill directory not found."
-fi
+# Find all package.json files in .agent/skills (excluding node_modules) and run npm install
+find .agent/skills -name "package.json" -not -path "*/node_modules/*" | while read package_file; do
+    skill_dir=$(dirname "$package_file")
+    echo "📦 Installing Node dependencies for: $skill_dir"
+    (cd "$skill_dir" && npm install)
+done
+
+# Find all setup.py files in .agent/skills (excluding node_modules/venv) and run python setup
+find .agent/skills -name "setup.py" -not -path "*/node_modules/*" -not -path "*/.venv/*" | while read setup_file; do
+    skill_dir=$(dirname "$setup_file")
+    echo "🐍 Installing Python dependencies for: $skill_dir"
+    (cd "$skill_dir" && python3 setup.py)
+done
 
 # 4. (Memory Structure init removed by user request)
 
