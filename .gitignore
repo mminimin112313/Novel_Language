@@ -12,3 +12,9 @@ __pycache__/
 *.pyc
 
 
+
+# Agent Contexts
+# Agent Contexts
+.agent/contexts/
+
+.agent/scripts/

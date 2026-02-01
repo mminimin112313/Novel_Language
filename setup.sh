@@ -19,13 +19,7 @@ if ! command -v python3 &> /dev/null; then
     exit 1
 fi
 
-# 2. Setup Memory Skill (and its venv)
-echo "🧠 Setting up Memory Skill..."
-if [ -f ".agent/skills/capabilities/memory/setup.py" ]; then
-    python3 .agent/skills/capabilities/memory/setup.py
-else
-    echo "⚠️ Warning: Memory setup script not found at .agent/skills/capabilities/memory/setup.py"
-fi
+# 2. (Memory Skill setup removed by user request)
 
 # 3. Setup Browsing Skill
 echo "🌐 Setting up Browsing Skill..."
@@ -39,8 +33,6 @@ else
     echo "⚠️ Warning: Browsing skill directory not found."
 fi
 
-# 4. Initialize Memory Structure
-echo "📁 Initializing project structure..."
-mkdir -p .agent/memory/nodes
+# 4. (Memory Structure init removed by user request)
 
 echo "✅ Setup complete! You are ready to go with everything-antigravity."
