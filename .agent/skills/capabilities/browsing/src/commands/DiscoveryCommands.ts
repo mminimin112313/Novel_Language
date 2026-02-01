@@ -12,6 +12,22 @@ export const DiscoveryCommands = {
         });
         return { ok: true, url: page.url(), content: cleanContent.slice(0, 500000) };
     },
+    'snapshot-iframe': async (ctx: CommandContext) => {
+        const page = await ctx.browser.getPage();
+        const selector = ctx.args[0] || 'mainFrame';
+        const frames = page.frames();
+        const frame = frames.find(f => f.name() === selector || f.url().includes(selector)) || page.mainFrame().childFrames().find(f => f.name() === selector);
+
+        if (!frame) return { ok: false, error: `Frame not found for identifier: ${selector}` };
+
+        const cleanContent = await frame.evaluate(() => {
+            const clone = document.documentElement.cloneNode(true) as HTMLElement;
+            const toRemove = clone.querySelectorAll('script, style, link, svg, noscript');
+            toRemove.forEach(el => el.remove());
+            return clone.outerHTML;
+        });
+        return { ok: true, content: cleanContent.slice(0, 500000) };
+    },
     'getText': async (ctx: CommandContext) => {
         const page = await ctx.browser.getPage();
         const text = await page.innerText(ctx.args[0]);

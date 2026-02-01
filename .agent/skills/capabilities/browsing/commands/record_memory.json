@@ -1,0 +1,10 @@
+[
+    {
+        "command": "memory-record",
+        "args": [
+            "Naver Blog Smart Editor One Automation Details:\n- Editor Frame: #mainFrame\n- Title Input Selector: .se-documentTitle .se-module-text\n- Content Area Selector: .se-content\n- Bold Button: button.se-bold-toolbar-button\n- Italic Button: button.se-italic-toolbar-button\n- Publish Button: button.publish_btn__m9KHH\n- Strategy: Navigate to blog.naver.com, click 글쓰기 (a[alt='글쓰기']), switch to tab 1, then interact with elements inside #mainFrame.",
+            "automation,naver-blog,selectors",
+            "Naver Blog Editor Automation Guide"
+        ]
+    }
+]

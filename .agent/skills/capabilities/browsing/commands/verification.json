@@ -1,0 +1,20 @@
+[
+    {
+        "command": "open",
+        "args": [
+            "https://www.naver.com"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "2000"
+        ]
+    },
+    {
+        "command": "screenshot",
+        "args": [
+            "verification_status.png"
+        ]
+    }
+]

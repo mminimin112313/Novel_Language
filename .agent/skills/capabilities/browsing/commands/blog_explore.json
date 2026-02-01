@@ -1,0 +1,24 @@
+[
+    {
+        "command": "open",
+        "args": [
+            "https://section.blog.naver.com/"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "3000"
+        ]
+    },
+    {
+        "command": "snapshot",
+        "args": []
+    },
+    {
+        "command": "screenshot",
+        "args": [
+            "blog_main"
+        ]
+    }
+]

@@ -1,0 +1,105 @@
+[
+    {
+        "command": "open",
+        "args": [
+            "https://blog.naver.com/kmg9463?Redirect=Write&"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "10000"
+        ]
+    },
+    {
+        "command": "click-iframe",
+        "args": [
+            "mainFrame",
+            ".se-popup-alert-confirm button >> text='취소'"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "1000"
+        ]
+    },
+    {
+        "command": "type-iframe",
+        "args": [
+            "mainFrame",
+            ".se-title-text",
+            "Advanced Components Analysis V8"
+        ]
+    },
+    {
+        "command": "click-iframe",
+        "args": [
+            "mainFrame",
+            ".se-content"
+        ]
+    },
+    {
+        "command": "click-iframe",
+        "args": [
+            "mainFrame",
+            "button.se-insert-horizontal-line-default-toolbar-button"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "1000"
+        ]
+    },
+    {
+        "command": "click-iframe",
+        "args": [
+            "mainFrame",
+            "button.se-insert-quotation-default-toolbar-button"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "1000"
+        ]
+    },
+    {
+        "command": "keyboardType",
+        "args": [
+            "This is a block quotation test."
+        ]
+    },
+    {
+        "command": "keyboard",
+        "args": [
+            "Enter"
+        ]
+    },
+    {
+        "command": "click-iframe",
+        "args": [
+            "mainFrame",
+            "button.se-text-format-toolbar-button"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "2000"
+        ]
+    },
+    {
+        "command": "snapshot-iframe",
+        "args": [
+            "mainFrame"
+        ]
+    },
+    {
+        "command": "screenshot",
+        "args": [
+            "advanced_v8_results.png"
+        ]
+    }
+]

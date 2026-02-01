@@ -1,0 +1,24 @@
+[
+    {
+        "command": "open",
+        "args": [
+            "https://blog.editor.naver.com/editor"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "5000"
+        ]
+    },
+    {
+        "command": "snapshot",
+        "args": []
+    },
+    {
+        "command": "screenshot",
+        "args": [
+            "editor_main.png"
+        ]
+    }
+]

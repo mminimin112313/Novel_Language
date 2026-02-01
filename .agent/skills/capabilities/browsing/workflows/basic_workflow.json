@@ -1,0 +1,11 @@
+{
+    "name": "basic_editor_test",
+    "description": "Basic test of the Naver Blog Editor using the new workflow engine",
+    "blocks": [
+        "open_editor",
+        "handle_popup",
+        "set_title",
+        "insert_components",
+        "snapshot_editor"
+    ]
+}

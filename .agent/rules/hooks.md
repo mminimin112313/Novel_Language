@@ -25,6 +25,13 @@ trigger: always_on
 
 ### Stop
 - **console.log audit**: Checks all modified files for console.log before session ends
+    - Run manually: `./.agent/scripts/check-console-log.sh`
+
+## Executable Helpers
+The agent can use the following scripts to enforce these hooks:
+- **Type Check**: `./.agent/scripts/verify-types.sh`
+- **Format**: `./.agent/scripts/format.sh <files>`
+- **Console Log**: `./.agent/scripts/check-console-log.sh`
 
 ## Auto-Accept Permissions
 

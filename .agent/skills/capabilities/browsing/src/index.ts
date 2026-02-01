@@ -76,7 +76,17 @@ registerModule(MemoryCommands); // New Subskill
 // --- Execution Logic ---
 async function executeBatch(commands: any[]): Promise<any> {
     const results = [];
-    for (const [cmd, ...cmdArgs] of commands) {
+    for (const item of commands) {
+        let cmd: string;
+        let cmdArgs: any[];
+
+        if (Array.isArray(item)) {
+            [cmd, ...cmdArgs] = item;
+        } else {
+            cmd = item.command || item.cmd;
+            cmdArgs = item.args || item.arguments || [];
+        }
+
         try {
             const ctx: CommandContext = {
                 browser, interaction, visual, discovery, refinement, vision,

@@ -12,11 +12,13 @@ export const NavigationCommands = {
         return { ok: true, url: p.url() };
     },
     'close-tab': async (ctx: CommandContext) => {
+        await ctx.browser.ensureBrowser();
         await ctx.browser.closeTab();
         const p = await ctx.browser.getPage();
         return { ok: true, url: p?.url() };
     },
     'switch-tab': async (ctx: CommandContext) => {
+        await ctx.browser.ensureBrowser();
         const index = parseInt(ctx.args[0] || '0');
         const p = await ctx.browser.switchTab(index);
         return { ok: p !== null, url: p?.url() };
@@ -30,5 +32,16 @@ export const NavigationCommands = {
         await ctx.interaction.sleep(ms);
         const p = await ctx.browser.getPage();
         return { ok: true, url: p.url() };
+    },
+    'list-tabs': async (ctx: CommandContext) => {
+        await ctx.browser.ensureBrowser();
+        const context = ctx.browser.getContext();
+        if (!context) return { ok: false, error: 'No browser context' };
+        const pages = context.pages();
+        const tabs = pages.map((p, i) => ({
+            index: i,
+            url: p.url()
+        }));
+        return { ok: true, tabs };
     }
 };

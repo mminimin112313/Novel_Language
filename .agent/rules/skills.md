@@ -4,42 +4,36 @@ trigger: always_on
 
 # Skills & Capabilities Rules
 
-Every specialized capability in the project must follow the **Layered Domain Architecture**. This rule defines the ecosystem map and the technical mandates for all agent skills.
+# Skills & Capabilities Rules
 
-## 1. Skill Ecosystem Map
+> [!NOTE]
+> For the high-level architectural manifesto and layer definitions, see [architecture.md](./architecture.md).
 
-### Core Layer (`.agent/skills/core/`)
-Essential behaviors and lifecycle optimizations:
-- **`continuous-learning`**: Instinct-based system that evolves session observations into skills.
-- **`iterative-retrieval`**: Progressive context refinement to solve subagent context gaps (max 3 cycles).
-- **`strategic-compact`**: Manual compaction suggestions at logical boundaries (exploration vs execution).
-- **`eval-harness`**: Formal evaluation framework implementing Eval-Driven Development (EDD).
+This rule defines the technical mandates for implementing and maintaining agent skills within the **Layered Domain Architecture**.
 
-### Capabilities Layer (`.agent/skills/capabilities/`)
-Executable tools with external runtimes and "Eyes/Hands" functions:
-- **`memory`**: Semantic Knowledge Graph (SQLite + Sentence Transformers) for persistent project insights.
-- **`browsing`**: State-aware Playwright interaction with vision, element discovery, and memory integration.
+## 1. Skill Implementation Standards
 
-### Workflows Layer (`.agent/skills/workflows/`)
-Process guides and quality gates:
-- **`tdd`**: Red-Green-Refactor loop with 80%+ coverage requirements (Unit, Integration, E2E).
-- **`security-review`**: Checklist-driven vulnerability auditing and secure pattern enforcement (Zod, JWT, RLS).
-- **`verification`**: Comprehensive 6-phase session integrity check (Build, Types, Lint, Test, Security, Diff).
+### Structure & Documentation
+- **Mandatory `SKILL.md`**: Every skill directory MUST have a `SKILL.md` file. without exception.
+- **Frontmatter**: Use strict YAML frontmatter for machine readability.
+  ```yaml
+  ---
+  name: skill-name
+  description: One-line description
+  layer: capabilities|core|workflows|knowledge
+  ---
+  ```
+- **Sections**: The `SKILL.md` must include:
+  - `## Tools Provided`: What can the agent *do* with this?
+  - `## When to Use`: Explicit triggers or scenarios.
+  - `## Setup`: Dependencies and initialization (if applicable).
 
-### Knowledge Layer (`.agent/skills/knowledge/`)
-Reference-only patterns and "Books" of development:
-- **`project-context`**: Primary intent, architecture, stack, and PRD (converted from `.context`).
-- **`contexts`**: Role-specific dynamic system prompt injections (Dev, Research, Review).
-- **`agent-personas`**: Shared library of subagent persona instructions.
-- **`languages/backend/frontend/database`**: Specialized technical best practices (Go, React, SQL).
-
-## 2. Self-Healing Mandate (Crucial)
+### Self-Healing & reproducibility
 - **Automatic Setup**: Skills with dependencies MUST include `setup.py` (Python) or `package.json` (JS).
 - **Lazy Initialization**: Skill bridges (e.g., `MemorySkill.ts`) MUST detect environmental gaps and trigger setup on first use.
 - **Environment Isolation**: Always prioritize local `.venv` or `node_modules` within the skill folder.
 - **Runtime Resolution**: Dynamically resolve the local interpreter path (e.g., `./.venv/bin/python3`).
 
-## 3. Documentation Standard
-- **`SKILL.md`**: Mandatory in every directory. Must define "When to Use", "Tools Provided", and "Setup".
+### Knowledge Reuse
 - **Refactoring**: When adding logic, search `knowledge/` first to reuse existing patterns.
 - **Persistence**: High-value technical pivots or fixes discovered during work MUST be recorded into `capabilities/memory`.

@@ -1,0 +1,20 @@
+[
+    {
+        "command": "switch-tab",
+        "args": [
+            "1"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "8000"
+        ]
+    },
+    {
+        "command": "snapshot-iframe",
+        "args": [
+            "mainFrame"
+        ]
+    }
+]

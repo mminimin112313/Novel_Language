@@ -1,0 +1,116 @@
+[
+  {
+    "name": "verification",
+    "description": "No description provided.",
+    "path": "skills/workflows/verification/SKILL.md",
+    "category": "workflows"
+  },
+  {
+    "name": "tdd-workflow",
+    "description": "Use this skill when writing new features, fixing bugs, or refactoring code. Enforces test-driven development with 80%+ coverage including unit, integration, and E2E tests.",
+    "path": "skills/workflows/tdd/SKILL.md",
+    "category": "workflows"
+  },
+  {
+    "name": "security-review",
+    "description": "Use this skill when adding authentication, handling user input, working with secrets, creating API endpoints, or implementing payment/sensitive features. Provides comprehensive security checklist and patterns.",
+    "path": "skills/workflows/security-review/SKILL.md",
+    "category": "workflows"
+  },
+  {
+    "name": "frontend-patterns",
+    "description": "Frontend development patterns for React, Next.js, state management, performance optimization, and UI best practices.",
+    "path": "skills/knowledge/frontend/SKILL.md",
+    "category": "knowledge"
+  },
+  {
+    "name": "coding-standards",
+    "description": "Universal coding standards, best practices, and patterns for TypeScript, JavaScript, React, and Node.js development.",
+    "path": "skills/knowledge/coding-standards/SKILL.md",
+    "category": "knowledge"
+  },
+  {
+    "name": "backend-patterns",
+    "description": "Backend architecture patterns, API design, database optimization, and server-side best practices for Node.js, Express, and Next.js API routes.",
+    "path": "skills/knowledge/backend/SKILL.md",
+    "category": "knowledge"
+  },
+  {
+    "name": "strategic-compact",
+    "description": "Suggests manual context compaction at logical intervals to preserve context through task phases rather than arbitrary auto-compaction.",
+    "path": "skills/core/strategic-compact/SKILL.md",
+    "category": "core"
+  },
+  {
+    "name": "iterative-retrieval",
+    "description": "Pattern for progressively refining context retrieval to solve the subagent context problem",
+    "path": "skills/core/iterative-retrieval/SKILL.md",
+    "category": "core"
+  },
+  {
+    "name": "eval-harness",
+    "description": "Formal evaluation framework for Claude Code sessions implementing eval-driven development (EDD) principles",
+    "path": "skills/core/eval-harness/SKILL.md",
+    "category": "core"
+  },
+  {
+    "name": "dispatcher",
+    "description": "Meta-skill that indexes available capabilities and routes user requests to the most appropriate skill.",
+    "path": "skills/core/dispatcher/SKILL.md",
+    "category": "core"
+  },
+  {
+    "name": "continuous-learning-v2",
+    "description": "Instinct-based learning system that observes sessions via hooks, creates atomic instincts with confidence scoring, and evolves them into skills/commands/agents.",
+    "path": "skills/core/continuous-learning/SKILL.md",
+    "category": "core"
+  },
+  {
+    "name": "vision",
+    "description": "Advanced computer vision and image processing. capable of OCR (reading text), annotation (drawing boxes), and cropping screenshots.",
+    "path": "skills/capabilities/vision/SKILL.md",
+    "category": "capabilities"
+  },
+  {
+    "name": "memory",
+    "description": "Project Memory Capability. Semantic Index, Search, and Retrieve project knowledge using SQLite and Sentence Transformers.",
+    "path": "skills/capabilities/memory/SKILL.md",
+    "category": "capabilities"
+  },
+  {
+    "name": "browsing",
+    "description": "Control a web browser locally to navigate, take screenshots (snapshots), and interact with websites. Best for web automation tasks.",
+    "path": "skills/capabilities/browsing/SKILL.md",
+    "category": "capabilities"
+  },
+  {
+    "name": "postgres-patterns",
+    "description": "PostgreSQL database patterns for query optimization, schema design, indexing, and security. Based on Supabase best practices.",
+    "path": "skills/knowledge/database/postgres/SKILL.md",
+    "category": "knowledge"
+  },
+  {
+    "name": "clickhouse-io",
+    "description": "ClickHouse database patterns, query optimization, analytics, and data engineering best practices for high-performance analytical workloads.",
+    "path": "skills/knowledge/database/clickhouse/SKILL.md",
+    "category": "knowledge"
+  },
+  {
+    "name": "golang-testing",
+    "description": "Go testing patterns including table-driven tests, subtests, benchmarks, fuzzing, and test coverage. Follows TDD methodology with idiomatic Go practices.",
+    "path": "skills/knowledge/languages/golang/testing/SKILL.md",
+    "category": "knowledge"
+  },
+  {
+    "name": "golang-patterns",
+    "description": "Idiomatic Go patterns, best practices, and conventions for building robust, efficient, and maintainable Go applications.",
+    "path": "skills/knowledge/languages/golang/patterns/SKILL.md",
+    "category": "knowledge"
+  },
+  {
+    "name": "vision",
+    "description": "Advanced computer vision and image processing. capable of OCR (reading text), annotation (drawing boxes), and cropping screenshots.",
+    "path": "skills/capabilities/browsing/node_modules/@agent/vision/SKILL.md",
+    "category": "capabilities"
+  }
+]

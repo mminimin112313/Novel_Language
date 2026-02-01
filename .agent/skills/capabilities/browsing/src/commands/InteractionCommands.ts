@@ -62,5 +62,27 @@ export const InteractionCommands = {
         const page = await ctx.browser.getPage();
         await page.keyboard.type(ctx.args.join(' '));
         return { ok: true, url: page.url() };
+    },
+    'click-iframe': async (ctx: CommandContext) => {
+        const page = await ctx.browser.getPage();
+        const frameSelector = ctx.args[0];
+        const selector = ctx.args[1];
+        const frame = page.frame({ name: frameSelector }) || page.frames().find(f => f.url().includes(frameSelector));
+        if (!frame) return { ok: false, error: `Frame not found: ${frameSelector}` };
+
+        await frame.click(selector);
+        return { ok: true };
+    },
+    'type-iframe': async (ctx: CommandContext) => {
+        const page = await ctx.browser.getPage();
+        const frameSelector = ctx.args[0];
+        const selector = ctx.args[1];
+        const text = ctx.args.slice(2).join(' ');
+        const frame = page.frame({ name: frameSelector }) || page.frames().find(f => f.url().includes(frameSelector));
+        if (!frame) return { ok: false, error: `Frame not found: ${frameSelector}` };
+
+        await frame.click(selector);
+        await frame.type(selector, text, { delay: 50 });
+        return { ok: true };
     }
 };

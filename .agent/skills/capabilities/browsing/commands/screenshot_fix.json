@@ -1,0 +1,8 @@
+[
+    {
+        "command": "screenshot",
+        "args": [
+            "blog_main.png"
+        ]
+    }
+]

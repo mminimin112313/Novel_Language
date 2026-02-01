@@ -1,6 +1,6 @@
 ---
 name: browsing
-description: Control a web browser locally to navigate, snapshot, and interact with websites using a cognitive architecture.
+description: Control a web browser locally to navigate, take screenshots (snapshots), and interact with websites. Best for web automation tasks.
 ---
 
 # Browsing Skill
@@ -71,83 +71,57 @@ npm install
 npm run build
 ```
 
-## Usage
+## Usage Patterns
 
-### Full Command List
+This skill exposes a library of **TypeScript Functions** ("Blocks"). To use it, you must generate and execute a TypeScript script.
 
-| Command | Arguments | Description |
-|---|---|---|
-| `open` | `<url>` | Opens a URL in the persistent context. |
-| `click` | `<selector>` | Selector-based click. |
-| `click-at` | `<x> <y>` | **Pinpoint**: Absolute coordinate click (Human-like). |
-| `type` | `<selector> <text>` | Human-like typing with jitter. |
-| `inspect-at`| `<x> <y>` | **Optimization**: Hit-test element at coordinates (99% token saving). |
-| `visual-map`| - | **Optimization**: Pruned, weighted visual tree for navigation. |
-| `snapshot` | - | **Optimization**: Cleaned HTML (Scripts/Styles removed). |
-| `extract` | `<url> [sel]` | Markdown-first content extraction. |
-| `list-elements`| - | Recursive discovery of interactive elements + bounds. |
-| `human-search`| `<query>` | Anti-bot Google search flow. |
-| `screenshot` | `<name>` | **Saves to root `browsing_dump/`**. |
-| `memory-record` | `<content> [tags] [title]` | Record a memory in the project knowledge base. |
-| `memory-update` | `<id> [content] [tags] [title]` | Update an existing memory (content/tags/title). |
-| `memory-search` | `<query> [tag]` | Search the project memory using Full Text Search. |
+### 1. Concept: Building Blocks
+Instead of static JSON, you write dynamic code.
+- **Primitives**: `src/logic/actions.ts` (safeClick, safeType)
+- **Capabilities**: `src/blocks/` (openEditor, writePost)
 
-## 🧬 Memory Maintenance & Cleanup
+### 2. How to Execute
+Create a temporary script (e.g., `temp_flow.ts`) and run it using `npx tsx`.
 
-To maintain cognitive efficiency and prevent token bloat, follow the **Bio-inspired Cleanup Protocol**:
+```typescript
+// Example: Naver Blog Post Flow
+import { chromium } from 'playwright-core';
+import { openEditor, handlePopup, writePost } from '../src/blocks/naver/editor.js';
+import { captureSnapshot } from '../src/blocks/common/utils.js';
 
-1. **Episodic Compression**: At the end of each session, summarize long episodic logs in `brain/long_term/episodic/` and archive old raw JSONs to `browsing_dump/archive/`.
-2. **Semantic Extraction**: Move repeatedly successful patterns (selectors, coordinates) from episodic memory to `brain/long_term/semantic/`.
-3. **Sensory Flush**: Clear `brain/sensory/` contents after the current task is completed.
-4. **Dump Management**: Periodically purge the root `browsing_dump/` directory of temporary screenshots.
+(async () => {
+    const browser = await chromium.launch({ headless: false });
+    const context = await browser.newContext({ viewport: { width: 1920, height: 1080 } });
+    const page = await context.newPage();
+    
+    // 1. Open
+    await openEditor(page);
+    
+    // 2. Handle Popup
+    await handlePopup(page);
+    
+    // 3. Write
+    await writePost(page, {
+        title: "Hello from TS Blocks",
+        content: "This is a dynamic test.",
+        components: { hr: true, quote: true }
+    });
 
-
-
-## 🛠️ Internal Architecture (SOLID)
-
-The skill has been refactored deeply to follow SOLID principles:
-
-- **Composition Root**: `src/index.ts` handles wiring and configuration.
-- **Command Modules**: Each domain (Navigation, Vision, Memory) has its own module in `src/commands/`.
-- **Subskills**: Specialized capabilities like **Memory** are implemented as subskills with their own logic (e.g., Python-based memory core).
-
-### 🧠 Project Memory Subskill
-
-A dedicated Python-based memory engine is embedded at `src/subskills/memory/memory_core.py`.
-It allows you to explicitly record architectural decisions and facts that persist beyond sessions.
-
-**Features**:
-- **Source of Truth**: Markdown files in `.agent/memory/nodes/` (Human readable, Git-trackable).
-- **Performance**: Uses an SQLite-based Index/Cache (`.agent/memory/memory_index.db`) for FTS (Full Text Search).
-- **Sync**: The `sync` command rebuilds the index from files if needed.
-
-## 🛠️ Tools Directory
-
-This skill includes a `tools/` folder for specialized data processing.
-
-- **Markdown Extraction**: Automatically converts complex HTML into clean, readable Markdown using `turndown`.
-- **Structural Discovery**: Uses specialized scripts (`element_discovery.ts`) to map the page's interactive surface area, making it easier for agents to select the right buttons.
-
-
-
-### Running External Workflows
-
-You can run JSON command files located anywhere on your system. This allows you to keep project-specific workflows separate from the generic skill.
-
-```bash
-# Example: Run a specific workflow from your project root
-npm run browse run-file commands/examples/google_search.json
+    // 4. Verify
+    await captureSnapshot(page, 'final_result', 'PostWriteForm');
+    
+    await browser.close();
+})();
 ```
 
-### Generic Example
+### 3. API Reference
 
-```bash
-# Run the built-in example
-npm run browse run-file commands/examples/google_search.json
-```
+#### Core Actions (`src/logic/actions.ts`)
+- `safeClick(target, selector)`: Robust click with logging.
+- `safeType(target, selector, text)`: Robust typing.
+- `findFrame(page, name)`: Smart frame locator.
 
-## Learning Protocol
-
-1. **Before Action**: Check `brain/long_term/semantic` for known selectors/rules for the current domain.
-2. **After Success**: If you found a new reliable selector/pattern, create a new file in `brain/long_term/semantic/` (e.g., `duckduckgo_rules.json`) to "learn" it.
-3. **After Failure**: Log the failure in `brain/long_term/episodic/` so you don't repeat the mistake.
+#### Naver Blocks (`src/blocks/naver/editor.ts`)
+- `openEditor(page)`: Navigates to write page.
+- `handlePopup(page)`: Dismisses draft recovery.
+- `writePost(page, options)`: Fills title and content.

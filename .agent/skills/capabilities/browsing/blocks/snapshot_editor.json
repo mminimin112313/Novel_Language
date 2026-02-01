@@ -1,0 +1,12 @@
+{
+    "name": "snapshot_editor",
+    "description": "Takes a snapshot of the editor frame",
+    "steps": [
+        {
+            "command": "snapshot-iframe",
+            "args": [
+                "PostWriteForm"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,93 @@
+[
+    {
+        "command": "open",
+        "args": [
+            "https://blog.naver.com/kmg9463?Redirect=Write&"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "10000"
+        ]
+    },
+    {
+        "command": "click-iframe",
+        "args": [
+            "PostWriteForm",
+            "button:has-text('취소')"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "1000"
+        ]
+    },
+    {
+        "command": "type-iframe",
+        "args": [
+            "PostWriteForm",
+            ".se-title-text",
+            "Advanced Components Analysis V9"
+        ]
+    },
+    {
+        "command": "click-iframe",
+        "args": [
+            "PostWriteForm",
+            ".se-content"
+        ]
+    },
+    {
+        "command": "click-iframe",
+        "args": [
+            "PostWriteForm",
+            "button.se-insert-horizontal-line-default-toolbar-button"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "1000"
+        ]
+    },
+    {
+        "command": "click-iframe",
+        "args": [
+            "PostWriteForm",
+            "button.se-insert-quotation-default-toolbar-button"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "1000"
+        ]
+    },
+    {
+        "command": "keyboardType",
+        "args": [
+            "This is a block quotation test."
+        ]
+    },
+    {
+        "command": "click-iframe",
+        "args": [
+            "PostWriteForm",
+            "button.se-text-format-toolbar-button"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "2000"
+        ]
+    },
+    {
+        "command": "snapshot-iframe",
+        "args": [
+            "PostWriteForm"
+        ]
+    }
+]

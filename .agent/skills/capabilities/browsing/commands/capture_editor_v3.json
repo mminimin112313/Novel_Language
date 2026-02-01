@@ -1,0 +1,24 @@
+[
+    {
+        "command": "switch-tab",
+        "args": [
+            "1"
+        ]
+    },
+    {
+        "command": "wait",
+        "args": [
+            "8000"
+        ]
+    },
+    {
+        "command": "snapshot",
+        "args": []
+    },
+    {
+        "command": "screenshot",
+        "args": [
+            "editor_v3.png"
+        ]
+    }
+]

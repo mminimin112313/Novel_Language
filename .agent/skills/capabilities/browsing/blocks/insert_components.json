@@ -1,0 +1,45 @@
+{
+    "name": "insert_components",
+    "description": "Inserts horizontal line and quotation components",
+    "steps": [
+        {
+            "command": "click-iframe",
+            "args": [
+                "PostWriteForm",
+                ".se-content"
+            ]
+        },
+        {
+            "command": "click-iframe",
+            "args": [
+                "PostWriteForm",
+                "button.se-insert-horizontal-line-default-toolbar-button"
+            ]
+        },
+        {
+            "command": "wait",
+            "args": [
+                "1000"
+            ]
+        },
+        {
+            "command": "click-iframe",
+            "args": [
+                "PostWriteForm",
+                "button.se-insert-quotation-default-toolbar-button"
+            ]
+        },
+        {
+            "command": "wait",
+            "args": [
+                "1000"
+            ]
+        },
+        {
+            "command": "keyboardType",
+            "args": [
+                "Workflow Engine Test Content"
+            ]
+        }
+    ]
+}
