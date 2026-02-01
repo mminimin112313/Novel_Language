@@ -28,11 +28,20 @@ This rule defines the technical mandates for implementing and maintaining agent 
   - `## When to Use`: Explicit triggers or scenarios.
   - `## Setup`: Dependencies and initialization (if applicable).
 
-### Self-Healing & reproducibility
-- **Automatic Setup**: Skills with dependencies MUST include `setup.py` (Python) or `package.json` (JS).
+## 2. Key Skills Inventory
+
+### Capabilities
+- **browsing**: Multi-agent local browser control with Vision & Network capture.
+- **vision**: Image processing, OCR, and 어노테이션 drawing.
+
+### Knowledge
+- **korean-law**: Official National Law Information Center API integration for Laws/Precedents.
+
+## 3. Self-Healing & reproducibility
+- **Automatic Setup**: Skills with dependencies MUST include `package.json` (JS) or `requirements.txt` (Python).
 - **Lazy Initialization**: Skill bridges (e.g., `MemorySkill.ts`) MUST detect environmental gaps and trigger setup on first use.
-- **Environment Isolation**: Always prioritize local `.venv` or `node_modules` within the skill folder.
-- **Runtime Resolution**: Dynamically resolve the local interpreter path (e.g., `./.venv/bin/python3`).
+- **Environment Isolation (CRITICAL)**: Always prioritize local `.venv` or `node_modules` within the skill directory. Python skills MUST be run using their local `.venv/bin/python3`.
+- **Runtime Resolution**: Dynamically resolve the local interpreter path (e.g., `./.agent/skills/knowledge/korean-law/.venv/bin/python3`).
 
 ### Knowledge Reuse
 - **Refactoring**: When adding logic, search `knowledge/` first to reuse existing patterns.
