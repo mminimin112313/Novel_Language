@@ -43,5 +43,27 @@ export const NavigationCommands = {
             url: p.url()
         }));
         return { ok: true, tabs };
+    },
+
+    // --- Phase 2: New commands from BrowserMCP ---
+
+    'go-back': async (ctx: CommandContext) => {
+        const page = await ctx.browser.getPage();
+        await page.goBack();
+        return { ok: true, url: page.url() };
+    },
+
+    'go-forward': async (ctx: CommandContext) => {
+        const page = await ctx.browser.getPage();
+        await page.goForward();
+        return { ok: true, url: page.url() };
+    },
+
+    'get-console-logs': async (ctx: CommandContext) => {
+        // Console logs are captured via page.on('console')
+        // This requires setup in BrowserManager
+        const page = await ctx.browser.getPage();
+        const logs = (page as any)._consoleLogs || [];
+        return { ok: true, logs };
     }
 };

@@ -114,5 +114,83 @@ export const InteractionCommands = {
     },
     'system-dump': async (ctx: CommandContext) => {
         return await ctx.browsingLib.systemDump();
+    },
+
+    // --- Phase 2: New commands from BrowserMCP ---
+
+    'hover': async (ctx: CommandContext) => {
+        const page = await ctx.browser.getPage();
+        const selector = ctx.args[0];
+        await page.hover(selector);
+        return { ok: true, selector };
+    },
+
+    'drag': async (ctx: CommandContext) => {
+        const page = await ctx.browser.getPage();
+        const startSelector = ctx.args[0];
+        const endSelector = ctx.args[1];
+
+        const startEl = await page.waitForSelector(startSelector, { timeout: 5000 });
+        const endEl = await page.waitForSelector(endSelector, { timeout: 5000 });
+
+        const startBox = await startEl?.boundingBox();
+        const endBox = await endEl?.boundingBox();
+
+        if (!startBox || !endBox) {
+            return { ok: false, error: 'Could not find elements for drag' };
+        }
+
+        await page.mouse.move(startBox.x + startBox.width / 2, startBox.y + startBox.height / 2);
+        await page.mouse.down();
+        await page.mouse.move(endBox.x + endBox.width / 2, endBox.y + endBox.height / 2, { steps: 10 });
+        await page.mouse.up();
+
+        return { ok: true, from: startSelector, to: endSelector };
+    },
+
+    'select-option': async (ctx: CommandContext) => {
+        const page = await ctx.browser.getPage();
+        const selector = ctx.args[0];
+        const value = ctx.args[1];
+
+        await page.selectOption(selector, value);
+        return { ok: true, selector, value };
+    },
+
+    'press-key': async (ctx: CommandContext) => {
+        const page = await ctx.browser.getPage();
+        const key = ctx.args[0];
+        const modifiers = ctx.args.slice(1);
+
+        if (modifiers.length > 0) {
+            // Handle modifiers like Control+A
+            const combo = [...modifiers, key].join('+');
+            await page.keyboard.press(combo);
+        } else {
+            await page.keyboard.press(key);
+        }
+
+        return { ok: true, key, modifiers };
+    },
+
+    'aria-snapshot': async (ctx: CommandContext) => {
+        const page = await ctx.browser.getPage();
+        const url = page.url();
+        const title = await page.title();
+
+        // Use safe access pattern for accessibility API
+        const p = page as any;
+        let snapshot = null;
+        if (p.accessibility && typeof p.accessibility.snapshot === 'function') {
+            snapshot = await p.accessibility.snapshot();
+        }
+
+        return {
+            ok: true,
+            url,
+            title,
+            snapshot,
+            timestamp: new Date().toISOString()
+        };
     }
 };
