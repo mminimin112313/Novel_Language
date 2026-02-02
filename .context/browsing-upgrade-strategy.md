@@ -5,65 +5,22 @@ Upgrade our browsing skill by incorporating proven patterns from BrowserMCP whil
 
 ---
 
-## Phase 1: Core Architecture Improvements
+## Phase 1: Core Architecture & Persistence (Priority: CRITICAL)
 
-### 1.1 Zod Schema Validation (Priority: HIGH)
-**Source**: BrowserMCP `tools/*.ts`
-**Action**: Add Zod-based input validation to all commands.
+### 1.1 MCP Server Mode Implementation
+**Goal**: Convert the skill from a stateless CLI to a long-lived MCP Server to maintain browser sessions in memory.
+- **New File**: `src/server.ts` - Implements MCP Stdio transport and tool handlers.
+- **Modify**: `package.json` - Add `@modelcontextprotocol/sdk`.
 
-```typescript
-// Example: NavigationCommands.ts
-import { z } from 'zod';
-const NavigateParams = z.object({
-    url: z.string().url(),
-    waitUntil: z.enum(['load', 'domcontentloaded', 'networkidle']).optional()
-});
-```
+### 1.2 Enhanced Browser Persistence
+- **Modify**: `BrowserManager.ts` to better handle CDP reconnection and persistent user data.
+- Ensure the browser instance is manageable as a singleton within the server process.
 
-**Benefits**:
-- Type-safe runtime validation
-- Auto-generated JSON schemas for documentation
-- Better error messages
+### 1.3 Zod Schema Validation
+(Existing plan)
 
----
-
-### 1.2 ARIA Snapshot System (Priority: HIGH)
-**Source**: BrowserMCP `utils/aria-snapshot.ts`
-**Action**: Implement ARIA snapshot capture after each action.
-
-```typescript
-// New file: src/core/AriaSnapshotService.ts
-export class AriaSnapshotService {
-    async capture(page: Page): Promise<AriaSnapshot> {
-        const url = page.url();
-        const title = await page.title();
-        const snapshot = await page.accessibility.snapshot();
-        return { url, title, snapshot };
-    }
-}
-```
-
-**Benefits**:
-- Semantic page state for AI agents
-- Better action verification
-- Reduced reliance on visual screenshots
-
----
-
-### 1.3 Unified Tool Pattern (Priority: MEDIUM)
-**Source**: BrowserMCP `tools/tool.ts`
-**Action**: Standardize command interface.
-
-```typescript
-interface Tool {
-    schema: {
-        name: string;
-        description: string;
-        inputSchema: JsonSchema;
-    };
-    handle: (ctx: CommandContext, params: unknown) => Promise<ToolResult>;
-}
-```
+### 1.4 ARIA Snapshot System
+(Existing plan)
 
 ---
 

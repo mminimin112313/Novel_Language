@@ -21,6 +21,7 @@ import { VisionCommands } from './commands/VisionCommands.js';
 import { ProtocolCommands } from './commands/ProtocolCommands.js';
 import { AgentCommands } from './commands/AgentCommands.js';
 import { BrowsingLib } from './BrowsingLib.js';
+import { BrowsingMcpServer } from './server.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const cwd = process.cwd();
@@ -130,6 +131,13 @@ async function main() {
     };
 
     try {
+        if (action === '--mcp') {
+            const server = new BrowsingMcpServer(browsingLib);
+            await server.run();
+            // Don't exit main yet, let the server handle lifecycle
+            return;
+        }
+
         if (action === 'run') {
             result = await executeBatch(JSON.parse(cmdArgs[0] || '[]'));
         } else if (action === 'run-file') {
