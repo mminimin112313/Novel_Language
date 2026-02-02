@@ -43,15 +43,25 @@ This template provides a comprehensive collection of production-ready configurat
 
 ### 1. Installation & Setup
 Copy the contents of this folder to your project root and run the setup script:
+
+**Linux/macOS:**
 ```bash
 cp -r agent-template/. .
 ./setup.sh
 ```
-The `setup.sh` script automatically:
-- Detects required runtimes (Node.js, Python).
-- Initializes virtual environments for specialized skills.
-- Installs necessary dependencies.
-- Sets up the core directory structure.
+
+**Windows (CMD or PowerShell):**
+```cmd
+setup.bat
+```
+
+The setup scripts automatically:
+- Detect required runtimes (Node.js, Python).
+- Initialize virtual environments for specialized skills.
+- Install necessary dependencies.
+- Fix missing configuration files (e.g., `tsconfig.json` for dispatcher).
+- Set up the core directory structure.
+
 
 ### 2. Customization
 - **Rules**: Edit `.agent/rules/00-core.md` to set your project's "Constitution".
