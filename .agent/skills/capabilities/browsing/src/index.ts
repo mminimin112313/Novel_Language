@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import { BrowserManager } from './core/BrowserManager.js';
 import { InteractionService } from './core/InteractionService.js';
 import { VisualService } from './core/VisualService.js';
@@ -163,7 +163,7 @@ async function main() {
             // that accepts browsingLib.
 
             // For now, let's use a more robust approach:
-            const { run } = await import(path.resolve(scriptPath));
+            const { run } = await import(pathToFileURL(path.resolve(scriptPath)).href);
             if (typeof run === 'function') {
                 result = { ok: true, data: await run(browsingLib) };
             } else {

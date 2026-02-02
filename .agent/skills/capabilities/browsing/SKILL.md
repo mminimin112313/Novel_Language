@@ -56,6 +56,42 @@ npm install
 npm run build
 ```
 
+## 🚀 Server Mode (CRITICAL - Read First!)
+
+> [!IMPORTANT]
+> The browsing skill **MUST** run with a persistent browser server to avoid session loss.
+> Without this, the browser closes after each command execution!
+
+### Step 1: Start the Browser Server (Keep Running)
+In a separate terminal, start the persistent browser server:
+
+```bash
+cd .agent/skills/capabilities/browsing
+node dist/browser-server.js
+```
+
+This keeps the browser open in the background. **Do not close this terminal.**
+
+### Step 2: Execute Commands
+In another terminal, run your commands or scripts:
+
+```bash
+node dist/index.js open "https://www.google.com"
+node dist/index.js type "textarea[name='q']" "Hello World"
+node dist/index.js press "Enter"
+```
+
+These commands will connect to the existing browser via CDP (Chrome DevTools Protocol) on port 9222.
+
+### Alternative: MCP Server Mode
+For agent integrations (Claude, etc.), use the MCP server:
+
+```bash
+node dist/index.js --mcp
+```
+
+This runs as a long-lived MCP server over stdio, maintaining the browser session until the server is stopped.
+
 ## Usage Patterns
 
 This skill exposes a library of **TypeScript Functions** ("Blocks"). To use it, you must generate and execute a TypeScript script.

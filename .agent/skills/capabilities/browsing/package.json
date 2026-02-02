@@ -6,7 +6,8 @@
     "main": "dist/index.js",
     "scripts": {
         "build": "tsc",
-        "browse": "node dist/index.js"
+        "browse": "node dist/index.js",
+        "server": "node dist/browser-server.js"
     },
     "dependencies": {
         "@types/pngjs": "^6.0.5",
