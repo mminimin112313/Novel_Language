@@ -9,6 +9,8 @@ import { VisionService } from './core/VisionService.js';
 import { RefinementService } from './core/RefinementService.js';
 import { NetworkService } from './core/NetworkService.js';
 
+import { CacheService } from './core/CacheService.js';
+
 export interface BrowsingPathConfig {
     dump: string;
     session: string;
@@ -16,6 +18,8 @@ export interface BrowsingPathConfig {
 }
 
 export class BrowsingLib {
+    private cache: CacheService;
+
     constructor(
         private browser: BrowserManager,
         private interaction: InteractionService,
@@ -25,7 +29,9 @@ export class BrowsingLib {
         private refinement: RefinementService,
         private network: NetworkService,
         private paths: BrowsingPathConfig
-    ) { }
+    ) {
+        this.cache = new CacheService(paths.dump); // Use dump dir (project root based) for cache base
+    }
 
     async getPage(): Promise<Page> {
         return await this.browser.getPage();
@@ -139,10 +145,24 @@ export class BrowsingLib {
         return { ok: true, logs: this.network.getLogs() };
     }
 
-    async extractContent() {
+    async extractContent(useCache: boolean = true) {
         const page = await this.getPage();
+        const url = page.url();
+
+        if (useCache) {
+            const cached = this.cache.get<string>(url);
+            if (cached) {
+                return { ok: true, content: cached, cached: true };
+            }
+        }
+
         const markdown = await this.refinement.toMarkdown(page);
-        return { ok: true, content: markdown };
+
+        if (useCache) {
+            this.cache.set(url, markdown);
+        }
+
+        return { ok: true, content: markdown, cached: false };
     }
 
     // Expose core services for advanced usage

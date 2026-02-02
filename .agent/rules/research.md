@@ -24,3 +24,9 @@ Every research report must follow this structure:
 - Use Mermaid diagrams for all architectural or structural representations.
 - Use `render_diffs` or code snippets to highlight critical logic.
 - Ensure all file links are absolute and clickable within the workspace.
+
+## 5. Agentic Research Workflow
+When conducting deep research, prefer the **Agentic Research Workflow** defined in `.agent/workflows/research.md`.
+- Use the `/research` command to trigger this workflow.
+- This leverages specialized `researcher` and `writer` agents for higher quality output.
+- Caching is enabled by default to speed up iterative research.
