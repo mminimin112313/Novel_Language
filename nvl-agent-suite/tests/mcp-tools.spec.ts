@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { toolCompileNVL, toolRunPipeline } from "../src/mcp/tools.js";
+import { toolAqlQuery, toolCompileNVL, toolRunPipeline } from "../src/mcp/tools.js";
 
 describe("mcp tools", () => {
   it("compiles via tool wrapper", async () => {
@@ -13,5 +13,15 @@ describe("mcp tools", () => {
     });
     expect(out.runId).toBeTruthy();
     expect(out.attempts).toBeGreaterThan(0);
+  });
+
+  it("queries via AQL tool wrapper", async () => {
+    const out = await toolAqlQuery({
+      source: "ACTOR Hero\nSET Hero.location = Town\n",
+      query: "SELECT name, location, status FROM Actors"
+    });
+    expect(out.compileSuccess).toBe(true);
+    expect(out.output).toContain("Hero");
+    expect(out.output).toContain("Town");
   });
 });

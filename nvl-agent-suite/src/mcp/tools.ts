@@ -3,6 +3,7 @@ import path from "node:path";
 import { compileNVL } from "../compiler/index.js";
 import { runPipeline } from "../orchestrator/pipeline.js";
 import { RUNS_DIR } from "../config.js";
+import { runAql } from "../query/index.js";
 
 export async function toolCompileNVL(source: string) {
   const result = compileNVL(source);
@@ -51,4 +52,15 @@ export async function toolReadRunFile(runId: string, fileName: string) {
   const target = path.join(RUNS_DIR, runId, fileName);
   const content = await fs.readFile(target, "utf8");
   return { runId, fileName, content };
+}
+
+export async function toolAqlQuery(params: { source: string; query: string }) {
+  const compilation = compileNVL(params.source);
+  const output = runAql(compilation, params.query);
+
+  return {
+    compileSuccess: compilation.success,
+    diagnostics: compilation.diagnostics,
+    output
+  };
 }

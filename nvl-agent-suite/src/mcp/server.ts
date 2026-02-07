@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { toolCompileNVL, toolReadRunFile, toolRunPipeline } from "./tools.js";
+import { toolAqlQuery, toolCompileNVL, toolReadRunFile, toolRunPipeline } from "./tools.js";
 
 const server = new McpServer({
   name: "nvl-agent-suite-mcp",
@@ -19,6 +19,29 @@ server.registerTool(
   },
   async ({ source }) => {
     const result = await toolCompileNVL(source);
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
+    };
+  }
+);
+
+server.registerTool(
+  "nvl_aql",
+  {
+    title: "Query NVL (AQL)",
+    description: "Run AQL query over compiled NVL state/events for plot search and consistency investigation.",
+    inputSchema: {
+      source: z.string().min(1),
+      query: z.string().min(1)
+    }
+  },
+  async ({ source, query }) => {
+    const result = await toolAqlQuery({ source, query });
     return {
       content: [
         {
