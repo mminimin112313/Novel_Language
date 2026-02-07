@@ -1,0 +1,44 @@
+[
+  {
+    "level": "error",
+    "line": 11,
+    "code": "E_EPISTEMIC",
+    "message": "Helen says unknown fact 'WhistleHeard'."
+  },
+  {
+    "level": "error",
+    "line": 12,
+    "code": "E_SPATIAL_MISMATCH",
+    "message": "GIVE requires same location. Roylott@Manor, Snake@Unknown."
+  },
+  {
+    "level": "error",
+    "line": 12,
+    "code": "E_GIVE_ITEM",
+    "message": "Roylott does not own 'Whistle'."
+  },
+  {
+    "level": "error",
+    "line": 13,
+    "code": "E_CAUSALITY_TIME",
+    "message": "World time moved backwards (1892-04-01T08:00:00Z -> 1892-03-01T08:00:00Z) without flashback mode."
+  },
+  {
+    "level": "error",
+    "line": 14,
+    "code": "E_SPATIAL_MISMATCH",
+    "message": "ATTACK requires same location. Snake@Unknown, Roylott@Manor."
+  },
+  {
+    "level": "error",
+    "line": 15,
+    "code": "E_ONTOLOGY_DEAD",
+    "message": "Roylott is dead and cannot act."
+  },
+  {
+    "level": "error",
+    "line": 15,
+    "code": "E_EPISTEMIC",
+    "message": "Roylott says unknown fact 'Confession'."
+  }
+]

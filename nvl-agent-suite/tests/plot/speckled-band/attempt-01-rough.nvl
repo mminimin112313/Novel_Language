@@ -1,0 +1,15 @@
+# The Adventure of the Speckled Band conversion attempt 1 (intentionally inconsistent)
+ACTOR Holmes
+ACTOR Watson
+ACTOR Helen
+ACTOR Roylott
+ACTOR Snake
+SCENE ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+SET Helen.location = BakerStreet
+SET Holmes.location = BakerStreet
+SET Roylott.location = Manor
+ACTION SPEAK subject=Helen target=Holmes fact=WhistleHeard
+ACTION GIVE subject=Roylott target=Snake item=Whistle
+SCENE PastEvent worldTime=1892-03-01T08:00:00Z narrative=2 mode=normal
+ACTION ATTACK subject=Snake target=Roylott damage=120
+ACTION SPEAK subject=Roylott fact=Confession
