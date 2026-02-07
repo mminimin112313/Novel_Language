@@ -14,11 +14,7 @@ async function main() {
     titleHint: args.title,
     projectId: args.project,
     chapterCount: args.chapters ? Number(args.chapters) : undefined,
-    style: args.style,
-    apiKey: args.apiKey ?? process.env.GEMINI_API_KEY,
-    plannerModel: args.plannerModel,
-    architectModel: args.architectModel,
-    novelistModel: args.novelistModel
+    style: args.style
   });
 
   process.stdout.write(JSON.stringify(result, null, 2));
@@ -63,11 +59,7 @@ function printUsage() {
       "  --style Noir",
       "",
       "optional:",
-      "  --project <project-id>",
-      "  --apiKey <GEMINI_API_KEY>",
-      "  --plannerModel <model>",
-      "  --architectModel <model>",
-      "  --novelistModel <model>"
+      "  --project <project-id>"
     ].join("\n") + "\n"
   );
 }

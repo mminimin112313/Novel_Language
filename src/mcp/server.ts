@@ -1,7 +1,15 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { toolCompileNVL, toolReadRunFile, toolRunPipeline, toolWriteNovel } from "./tools.js";
+import {
+  toolAqlQuery,
+  toolCompileNVL,
+  toolEpisodePack,
+  toolManuscriptLint,
+  toolReadRunFile,
+  toolRunPipeline,
+  toolWriteNovel
+} from "./tools.js";
 
 const server = new McpServer({
   name: "nvl-agent-suite-mcp",
@@ -31,6 +39,29 @@ server.registerTool(
 );
 
 server.registerTool(
+  "nvl_aql",
+  {
+    title: "Query NVL (AQL)",
+    description: "Run AQL query over compiled NVL state/events for plot search and consistency investigation.",
+    inputSchema: {
+      source: z.string().min(1),
+      query: z.string().min(1)
+    }
+  },
+  async ({ source, query }: { source: string; query: string }) => {
+    const result = await toolAqlQuery({ source, query });
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
+    };
+  }
+);
+
+server.registerTool(
   "nvl_pipeline",
   {
     title: "Run NVL Pipeline",
@@ -38,36 +69,70 @@ server.registerTool(
     inputSchema: {
       direction: z.string().min(1),
       style: z.string().optional(),
-      apiKey: z.string().optional(),
-      architectModel: z.string().optional(),
-      novelistModel: z.string().optional(),
       maxAttempts: z.number().int().min(1).max(12).optional()
     }
   },
   async ({
     direction,
     style,
-    apiKey,
-    architectModel,
-    novelistModel,
     maxAttempts
   }: {
     direction: string;
     style?: string;
-    apiKey?: string;
-    architectModel?: string;
-    novelistModel?: string;
     maxAttempts?: number;
   }) => {
     const result = await toolRunPipeline({
       direction,
       style,
-      apiKey,
-      architectModel,
-      novelistModel,
       maxAttempts
     });
 
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
+    };
+  }
+);
+
+server.registerTool(
+  "nvl_episode_pack",
+  {
+    title: "Build Episode Pack",
+    description: "Compile NVL and build an episode context pack from an EpisodeSpec (selection + writing requirements).",
+    inputSchema: {
+      source: z.string().min(1),
+      spec: z.unknown()
+    }
+  },
+  async ({ source, spec }: { source: string; spec: unknown }) => {
+    const result = await toolEpisodePack({ source, spec });
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
+    };
+  }
+);
+
+server.registerTool(
+  "nvl_manuscript_lint",
+  {
+    title: "Lint Manuscript",
+    description: "Deterministic lint over manuscript text using EpisodePack constraints (citations/length/motifs/banned phrases).",
+    inputSchema: {
+      episodePack: z.unknown(),
+      manuscript: z.string().min(1)
+    }
+  },
+  async ({ episodePack, manuscript }: { episodePack: unknown; manuscript: string }) => {
+    const result = await toolManuscriptLint({ episodePack, manuscript });
     return {
       content: [
         {
@@ -112,11 +177,7 @@ server.registerTool(
       title: z.string().optional(),
       projectId: z.string().optional(),
       chapters: z.number().int().min(1).max(24).optional(),
-      style: z.string().optional(),
-      apiKey: z.string().optional(),
-      plannerModel: z.string().optional(),
-      architectModel: z.string().optional(),
-      novelistModel: z.string().optional()
+      style: z.string().optional()
     }
   },
   async ({
@@ -124,32 +185,20 @@ server.registerTool(
     title,
     projectId,
     chapters,
-    style,
-    apiKey,
-    plannerModel,
-    architectModel,
-    novelistModel
+    style
   }: {
     concept: string;
     title?: string;
     projectId?: string;
     chapters?: number;
     style?: string;
-    apiKey?: string;
-    plannerModel?: string;
-    architectModel?: string;
-    novelistModel?: string;
   }) => {
     const result = await toolWriteNovel({
       concept,
       title,
       projectId,
       chapters,
-      style,
-      apiKey,
-      plannerModel,
-      architectModel,
-      novelistModel
+      style
     });
 
     return {

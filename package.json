@@ -10,14 +10,16 @@
     "test:watch": "vitest",
     "lint": "tsc -p tsconfig.json --noEmit",
     "compile:file": "tsx src/scripts/compile.ts",
+    "aql": "tsx src/scripts/aql.ts",
     "pipeline": "tsx src/scripts/run-pipeline.ts",
+    "episode:pack": "tsx src/scripts/episode-pack.ts",
+    "manuscript:lint": "tsx src/scripts/manuscript-lint.ts",
     "novel:write": "tsx src/scripts/write-novel.ts",
     "mcp": "tsx src/mcp/server.ts",
     "plot:validate": "tsx src/scripts/plot-validate.ts",
     "setup:auto": "bash scripts/bootstrap.sh"
   },
   "dependencies": {
-    "@google/genai": "^1.40.0",
     "@modelcontextprotocol/sdk": "^1.26.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",

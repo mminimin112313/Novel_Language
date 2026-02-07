@@ -1,6 +1,5 @@
 const el = {
   status: document.getElementById("status"),
-  apiKey: document.getElementById("apiKey"),
   style: document.getElementById("style"),
   direction: document.getElementById("direction"),
   code: document.getElementById("code"),
@@ -21,11 +20,6 @@ let lastRunId = "";
 
 function setStatus(text) {
   el.status.textContent = text;
-}
-
-function apiKeyValue() {
-  const key = el.apiKey.value.trim();
-  return key || undefined;
 }
 
 function summarizeDiagnostics(diagnostics) {
@@ -50,8 +44,7 @@ el.architectBtn.addEventListener("click", async () => {
   setStatus("Architecting...");
   try {
     const out = await postJson("/api/architect", {
-      direction: el.direction.value,
-      apiKey: apiKeyValue()
+      direction: el.direction.value
     });
     el.code.value = out.dsl || "";
     el.diagnostics.textContent = `Architect provider=${out.provider} model=${out.model}\nnotes=${(out.notes || []).join(" | ")}`;
@@ -84,8 +77,7 @@ el.novelistBtn.addEventListener("click", async () => {
     const out = await postJson("/api/novelist", {
       direction: el.direction.value,
       style: el.style.value,
-      logText: lastCompileLog,
-      apiKey: apiKeyValue()
+      logText: lastCompileLog
     });
     el.novel.value = out.text || "";
     setStatus("Render done");
@@ -100,8 +92,7 @@ el.pipelineBtn.addEventListener("click", async () => {
   try {
     const out = await postJson("/api/pipeline", {
       direction: el.direction.value,
-      style: el.style.value,
-      apiKey: apiKeyValue()
+      style: el.style.value
     });
 
     el.code.value = out.finalCode || "";

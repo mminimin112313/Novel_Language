@@ -8,12 +8,9 @@ async function main() {
     process.exit(1);
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
-
   const result = await runPipeline({
     direction,
-    style,
-    apiKey
+    style
   });
 
   process.stdout.write(JSON.stringify(result, null, 2));

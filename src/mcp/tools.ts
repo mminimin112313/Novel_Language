@@ -4,6 +4,9 @@ import { compileNVL } from "../compiler/index.js";
 import { runPipeline } from "../orchestrator/pipeline.js";
 import { runNovelWorkflow } from "../workflows/novelWriter.js";
 import { RUNS_DIR } from "../config.js";
+import { runAql } from "../query/index.js";
+import { EpisodeSpecSchema, buildEpisodePack } from "../episode/index.js";
+import { lintManuscript } from "../lint/index.js";
 
 export async function toolCompileNVL(source: string) {
   const result = compileNVL(source);
@@ -18,17 +21,11 @@ export async function toolCompileNVL(source: string) {
 export async function toolRunPipeline(params: {
   direction: string;
   style?: string;
-  apiKey?: string;
-  architectModel?: string;
-  novelistModel?: string;
   maxAttempts?: number;
 }) {
   const out = await runPipeline({
     direction: params.direction,
     style: params.style ?? "Cinematic",
-    apiKey: params.apiKey,
-    architectModel: params.architectModel,
-    novelistModel: params.novelistModel,
     maxAttempts: params.maxAttempts
   });
 
@@ -54,27 +51,41 @@ export async function toolReadRunFile(runId: string, fileName: string) {
   return { runId, fileName, content };
 }
 
+export async function toolAqlQuery(params: { source: string; query: string }) {
+  const compilation = compileNVL(params.source);
+  const output = runAql(compilation, params.query);
+
+  return {
+    compileSuccess: compilation.success,
+    diagnostics: compilation.diagnostics,
+    output
+  };
+}
+
+export async function toolEpisodePack(params: { source: string; spec: unknown }) {
+  const spec = EpisodeSpecSchema.parse(params.spec);
+  const pack = buildEpisodePack(params.source, spec);
+  return pack;
+}
+
+export async function toolManuscriptLint(params: { episodePack: unknown; manuscript: string }) {
+  const pack = params.episodePack as any;
+  return lintManuscript(pack, params.manuscript);
+}
+
 export async function toolWriteNovel(params: {
   concept: string;
   title?: string;
   projectId?: string;
   chapters?: number;
   style?: string;
-  apiKey?: string;
-  plannerModel?: string;
-  architectModel?: string;
-  novelistModel?: string;
 }) {
   const out = await runNovelWorkflow({
     concept: params.concept,
     titleHint: params.title,
     projectId: params.projectId,
     chapterCount: params.chapters,
-    style: params.style,
-    apiKey: params.apiKey,
-    plannerModel: params.plannerModel,
-    architectModel: params.architectModel,
-    novelistModel: params.novelistModel
+    style: params.style
   });
 
   return out;

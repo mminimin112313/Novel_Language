@@ -39,7 +39,7 @@ export function mockArchitect(direction: string): ArchitectOutput {
 
   return {
     dsl,
-    notes: ["mock architect used because API key is missing or call failed"],
+    notes: ["mock architect used (no external LLM configured)"],
     model: "mock-architect",
     provider: "mock"
   };

@@ -9,10 +9,6 @@ export type NovelWorkflowRequest = {
   projectId?: string;
   chapterCount?: number;
   style?: string;
-  apiKey?: string;
-  plannerModel?: string;
-  architectModel?: string;
-  novelistModel?: string;
 };
 
 export type NovelWorkflowChapterResult = {
@@ -45,9 +41,7 @@ export async function runNovelWorkflow(req: NovelWorkflowRequest): Promise<Novel
     concept: req.concept,
     titleHint: req.titleHint,
     chapterCount,
-    baseStyle: style,
-    apiKey: req.apiKey,
-    model: req.plannerModel
+    baseStyle: style
   });
 
   const projectId = await resolveProjectId(req.projectId || plan.title);
@@ -85,10 +79,7 @@ export async function runNovelWorkflow(req: NovelWorkflowRequest): Promise<Novel
 
     const pipeline = await runPipeline({
       direction: chapter.direction,
-      style: chapter.style || style,
-      apiKey: req.apiKey,
-      architectModel: req.architectModel,
-      novelistModel: req.novelistModel
+      style: chapter.style || style
     });
 
     const chapterOutputPath = path.join(novelRoot, `${chapterFileBase}.md`);

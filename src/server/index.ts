@@ -26,15 +26,13 @@ app.post("/api/compile", (req, res) => {
 app.post("/api/architect", async (req, res) => {
   try {
     const direction = String(req.body?.direction ?? "").trim();
-    const apiKey = typeof req.body?.apiKey === "string" ? req.body.apiKey.trim() : undefined;
-    const model = typeof req.body?.model === "string" ? req.body.model.trim() : undefined;
 
     if (!direction) {
       res.status(400).json({ error: "direction is required" });
       return;
     }
 
-    const draft = await generateArchitectDraft({ direction, apiKey, model });
+    const draft = await generateArchitectDraft({ direction });
     res.json(draft);
   } catch (error) {
     const message = error instanceof Error ? error.message : "architect error";
@@ -47,15 +45,13 @@ app.post("/api/novelist", async (req, res) => {
     const direction = String(req.body?.direction ?? "").trim();
     const style = String(req.body?.style ?? "Cinematic").trim();
     const logText = String(req.body?.logText ?? "");
-    const apiKey = typeof req.body?.apiKey === "string" ? req.body.apiKey.trim() : undefined;
-    const model = typeof req.body?.model === "string" ? req.body.model.trim() : undefined;
 
     if (!logText) {
       res.status(400).json({ error: "logText is required" });
       return;
     }
 
-    const output = await writeNovel({ direction, style, logText, apiKey, model });
+    const output = await writeNovel({ direction, style, logText });
     res.json(output);
   } catch (error) {
     const message = error instanceof Error ? error.message : "novelist error";
@@ -67,9 +63,6 @@ app.post("/api/pipeline", async (req, res) => {
   try {
     const direction = String(req.body?.direction ?? "").trim();
     const style = String(req.body?.style ?? "Cinematic").trim();
-    const apiKey = typeof req.body?.apiKey === "string" ? req.body.apiKey.trim() : undefined;
-    const architectModel = typeof req.body?.architectModel === "string" ? req.body.architectModel.trim() : undefined;
-    const novelistModel = typeof req.body?.novelistModel === "string" ? req.body.novelistModel.trim() : undefined;
 
     if (!direction) {
       res.status(400).json({ error: "direction is required" });
@@ -78,10 +71,7 @@ app.post("/api/pipeline", async (req, res) => {
 
     const output = await runPipeline({
       direction,
-      style,
-      apiKey,
-      architectModel,
-      novelistModel
+      style
     });
 
     res.json(output);

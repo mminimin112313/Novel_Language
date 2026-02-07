@@ -8,9 +8,6 @@ import { appendRunFile, initRun, saveRunFile } from "../storage/runStore.js";
 export type PipelineRequest = {
   direction: string;
   style: string;
-  apiKey?: string;
-  architectModel?: string;
-  novelistModel?: string;
   maxAttempts?: number;
 };
 
@@ -49,16 +46,12 @@ export async function runPipeline(req: PipelineRequest): Promise<PipelineRespons
     const architect =
       attempt === 1
         ? await generateArchitectDraft({
-            direction: req.direction,
-            apiKey: req.apiKey,
-            model: req.architectModel
+            direction: req.direction
           })
         : await repairArchitectCode({
             direction: req.direction,
             previousCode: code,
-            diagnostics: compile.diagnostics,
-            apiKey: req.apiKey,
-            model: req.architectModel
+            diagnostics: compile.diagnostics
           });
 
     code = architect.dsl;
@@ -109,9 +102,7 @@ export async function runPipeline(req: PipelineRequest): Promise<PipelineRespons
   const novelist = await writeNovel({
     direction: req.direction,
     style: req.style,
-    logText: compile.logText,
-    apiKey: req.apiKey,
-    model: req.novelistModel
+    logText: compile.logText
   });
 
   await saveRunFile(run.runDir, "novel.txt", novelist.text);
@@ -155,7 +146,9 @@ function safeCompilationForDisk(compile: CompilationResult) {
       relations: [...compile.state.relations.entries()],
       clues: [...compile.state.clues.entries()],
       scenes: compile.state.scenes,
-      currentScene: compile.state.currentScene
+      currentScene: compile.state.currentScene,
+      itemTransfers: compile.state.itemTransfers,
+      knowledgeEvents: compile.state.knowledgeEvents
     }
   };
 }

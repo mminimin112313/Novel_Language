@@ -2,37 +2,31 @@ import type { CompilerDiagnostic } from "../shared/types.js";
 
 export type ArchitectDraftRequest = {
   direction: string;
-  apiKey?: string;
-  model?: string;
 };
 
 export type ArchitectRepairRequest = {
   direction: string;
   previousCode: string;
   diagnostics: CompilerDiagnostic[];
-  apiKey?: string;
-  model?: string;
 };
 
 export type ArchitectOutput = {
   dsl: string;
   notes: string[];
   model: string;
-  provider: "gemini" | "mock";
+  provider: "mock";
 };
 
 export type NovelistRequest = {
   direction: string;
   style: string;
   logText: string;
-  apiKey?: string;
-  model?: string;
 };
 
 export type NovelistOutput = {
   text: string;
   model: string;
-  provider: "gemini" | "mock";
+  provider: "mock";
 };
 
 export type NovelPlanChapter = {
@@ -47,8 +41,6 @@ export type NovelPlanRequest = {
   titleHint?: string;
   chapterCount: number;
   baseStyle: string;
-  apiKey?: string;
-  model?: string;
 };
 
 export type NovelPlanOutput = {
@@ -56,5 +48,5 @@ export type NovelPlanOutput = {
   summary: string;
   chapters: NovelPlanChapter[];
   model: string;
-  provider: "gemini" | "mock";
+  provider: "mock";
 };
