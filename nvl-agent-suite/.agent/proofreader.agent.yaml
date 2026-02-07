@@ -1,0 +1,12 @@
+name: nvl-korean-proofreader-agent
+role: Proofreader
+objective: Proofread Korean text for spelling/spacing/grammar while preserving plot facts and [[EVT:###]] citations.
+inputs:
+  - episodePack
+  - draft_text_with_citations
+outputs:
+  - proofread_text_with_citations
+constraints:
+  - Must preserve all [[EVT:###]] markers exactly.
+  - Must not introduce new facts or entities.
+

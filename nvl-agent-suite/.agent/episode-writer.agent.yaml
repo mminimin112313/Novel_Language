@@ -1,0 +1,13 @@
+name: nvl-episode-writer-agent
+role: EpisodeWriter
+objective: Write a Korean episode draft from EpisodePack + outline, grounded with [[EVT:###]] citations.
+inputs:
+  - episodePack
+  - outline_json
+outputs:
+  - draft_text_with_citations
+constraints:
+  - Each paragraph must include at least one [[EVT:###]] citation.
+  - Do not invent facts absent from the episode pack.
+  - Follow POV/tense/style/length requirements.
+
