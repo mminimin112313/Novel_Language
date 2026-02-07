@@ -5,6 +5,7 @@ This directory provides MCP integration assets for NVL Agent Suite.
 ## Included tools
 
 - `nvl_compile`: compile NVL source and return diagnostics/log.
+- `nvl_aql`: run AQL query over compiled NVL state/events.
 - `nvl_pipeline`: run full two-agent pipeline.
 - `nvl_read_run_file`: read persisted run artifact file.
 

@@ -9,7 +9,8 @@ Implement a production-grade MVP of NVL Agent Suite with two-agent orchestration
 - Stack: TypeScript (Node.js server + browser web studio).
 - DSL: line-oriented NVL commands for deterministic parsing.
 - Retry policy: max 6 architect-repair attempts.
-- Key policy: server-side usage preferred, optional per-request override supported.
+- Antigravity policy: `.agent/` is the default integration surface (skills/workflows/rules).
+- Key policy: default workflow requires no API keys; optional API-key override supported for Gemini-backed pipeline.
 
 ## Iterative Review + Commit Policy
 
@@ -28,3 +29,4 @@ This project is developed in five review-and-commit rounds:
 - Infinite retry loops -> hard cap attempts and return full diagnostics.
 - API key leakage -> server-side key path preferred; UI key supported only as explicit override.
 - MCP stdio corruption due stdout logs -> use stderr for operational logs.
+- Plot debugging without introspection -> mitigate with event scene context + AQL query tooling.
