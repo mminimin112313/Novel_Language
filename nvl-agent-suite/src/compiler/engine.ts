@@ -47,7 +47,9 @@ function createWorld(): WorldState {
     actors: new Map(),
     relations: new Map(),
     clues: new Map(),
-    scenes: []
+    scenes: [],
+    itemTransfers: [],
+    knowledgeEvents: []
   };
 }
 
@@ -91,6 +93,10 @@ function parseNumber(value: string | undefined): number | undefined {
   return parsed;
 }
 
+function pushEvent(events: EventLog[], world: WorldState, entry: Omit<EventLog, "scene">): void {
+  events.push({ ...entry, scene: world.currentScene });
+}
+
 export function compileNVL(source: string): CompilationResult {
   const world = createWorld();
   const diagnostics: CompilerDiagnostic[] = [];
@@ -113,7 +119,7 @@ export function compileNVL(source: string): CompilationResult {
           } else {
             world.actors.set(name, defaultActor(name));
           }
-          events.push({
+          pushEvent(events, world, {
             line: stmt.line,
             statement: stmt.raw,
             summary: `Actor declared: ${name}`,
@@ -130,7 +136,7 @@ export function compileNVL(source: string): CompilationResult {
             break;
           }
           actor.components.add(component);
-          events.push({
+          pushEvent(events, world, {
             line: stmt.line,
             statement: stmt.raw,
             summary: `${name} +component ${component}`,
@@ -192,7 +198,7 @@ export function compileNVL(source: string): CompilationResult {
             );
           }
 
-          events.push({
+          pushEvent(events, world, {
             line: stmt.line,
             statement: stmt.raw,
             summary: `Set ${left} = ${right}`,
@@ -213,7 +219,16 @@ export function compileNVL(source: string): CompilationResult {
           }
           const before = stateDigest(actor);
           actor.inventory.add(item);
-          events.push({
+
+          world.itemTransfers.push({
+            item,
+            from: "__WORLD__",
+            to: actorName,
+            line: stmt.line,
+            scene: world.currentScene
+          });
+
+          pushEvent(events, world, {
             line: stmt.line,
             statement: stmt.raw,
             summary: `${actorName} receives item '${item}'`,
@@ -233,7 +248,16 @@ export function compileNVL(source: string): CompilationResult {
             break;
           }
           actor.knowledge.add(fact);
-          events.push({
+
+          world.knowledgeEvents.push({
+            actor: actorName,
+            fact,
+            kind: "KNOWS",
+            line: stmt.line,
+            scene: world.currentScene
+          });
+
+          pushEvent(events, world, {
             line: stmt.line,
             statement: stmt.raw,
             summary: `${actorName} learned '${fact}'`,
@@ -271,7 +295,7 @@ export function compileNVL(source: string): CompilationResult {
             );
           }
 
-          events.push({
+          pushEvent(events, world, {
             line: stmt.line,
             statement: stmt.raw,
             summary: `${actorName} records memory ${eventId}`,
@@ -302,7 +326,7 @@ export function compileNVL(source: string): CompilationResult {
           rel.trust = parseNumber(kv.trust) ?? rel.trust;
           rel.romance = kv.romance === "true" ? true : kv.romance === "false" ? false : rel.romance;
 
-          events.push({
+          pushEvent(events, world, {
             line: stmt.line,
             statement: stmt.raw,
             summary: `Relation ${from} -> ${to} updated`,
@@ -321,7 +345,7 @@ export function compileNVL(source: string): CompilationResult {
           const kv = parseKeyValueArgs(stmt.args.slice(1));
           actor.goals.main = kv.main ?? actor.goals.main;
           actor.goals.sub = kv.sub ?? actor.goals.sub;
-          events.push({
+          pushEvent(events, world, {
             line: stmt.line,
             statement: stmt.raw,
             summary: `${actorName} goals updated`,
@@ -370,7 +394,7 @@ export function compileNVL(source: string): CompilationResult {
 
           world.currentScene = newScene;
           world.scenes.push(newScene);
-          events.push({
+          pushEvent(events, world, {
             line: stmt.line,
             statement: stmt.raw,
             summary: `Scene ${id} @ ${worldTime} (${mode})`,
@@ -393,7 +417,7 @@ export function compileNVL(source: string): CompilationResult {
             break;
           }
           world.clues.set(clueId, { id: clueId, target, due, state: "Active" });
-          events.push({
+          pushEvent(events, world, {
             line: stmt.line,
             statement: stmt.raw,
             summary: `Clue seeded: ${clueId}`,
@@ -416,7 +440,7 @@ export function compileNVL(source: string): CompilationResult {
           const kv = parseKeyValueArgs(stmt.args.slice(1));
           clue.state = "Resolved";
           clue.reason = kv.reason ?? "resolved";
-          events.push({
+          pushEvent(events, world, {
             line: stmt.line,
             statement: stmt.raw,
             summary: `Clue resolved: ${clueId}`,
@@ -494,6 +518,14 @@ export function compileNVL(source: string): CompilationResult {
             } else if (target) {
               subject.inventory.delete(item);
               target.inventory.add(item);
+
+              world.itemTransfers.push({
+                item,
+                from: subjectName,
+                to: targetName ?? target.name,
+                line: stmt.line,
+                scene: world.currentScene
+              });
             }
           }
 
@@ -517,6 +549,17 @@ export function compileNVL(source: string): CompilationResult {
                 `${subjectName} says unknown fact '${fact}'.`
               );
             } else if (fact) {
+              if (target) {
+                target.knowledge.add(fact);
+                world.knowledgeEvents.push({
+                  actor: target.name,
+                  fact,
+                  kind: "HEAR",
+                  line: stmt.line,
+                  sourceActor: subjectName,
+                  scene: world.currentScene
+                });
+              }
               checks.push("epistemic-check:ok");
             }
           }
@@ -525,6 +568,13 @@ export function compileNVL(source: string): CompilationResult {
             const fact = kv.fact;
             if (fact) {
               subject.knowledge.add(fact);
+              world.knowledgeEvents.push({
+                actor: subjectName,
+                fact,
+                kind: "LEARN",
+                line: stmt.line,
+                scene: world.currentScene
+              });
             }
           }
 
@@ -543,7 +593,7 @@ export function compileNVL(source: string): CompilationResult {
             checks.push(`personality-similarity:${similarity.toFixed(2)}`);
           }
 
-          events.push({
+          pushEvent(events, world, {
             line: stmt.line,
             statement: stmt.raw,
             summary: `Action ${verb} by ${subjectName}${targetName ? ` -> ${targetName}` : ""}`,
@@ -598,6 +648,11 @@ export function compileNVL(source: string): CompilationResult {
       `  stmt: ${evt.statement}`,
       `  summary: ${evt.summary}`
     ];
+    if (evt.scene) {
+      lines.push(
+        `  scene: ${evt.scene.id} worldTime=${evt.scene.worldTime} narrative=${evt.scene.narrative} mode=${evt.scene.mode}`
+      );
+    }
     if (evt.checks.length > 0) {
       lines.push(`  checks: ${evt.checks.join(", ")}`);
     }

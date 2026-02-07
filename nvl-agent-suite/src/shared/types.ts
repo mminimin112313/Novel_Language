@@ -62,12 +62,31 @@ export type SceneState = {
   mode: "normal" | "flashback";
 };
 
+export type ItemTransfer = {
+  item: string;
+  from: string;
+  to: string;
+  line: number;
+  scene?: SceneState;
+};
+
+export type KnowledgeEvent = {
+  actor: string;
+  fact: string;
+  kind: "KNOWS" | "LEARN" | "HEAR";
+  line: number;
+  sourceActor?: string;
+  scene?: SceneState;
+};
+
 export type WorldState = {
   actors: Map<string, ActorState>;
   relations: Map<string, Relationship>;
   clues: Map<string, ClueState>;
   currentScene?: SceneState;
   scenes: SceneState[];
+  itemTransfers: ItemTransfer[];
+  knowledgeEvents: KnowledgeEvent[];
 };
 
 export type CompilerDiagnostic = {
@@ -82,6 +101,7 @@ export type EventLog = {
   statement: string;
   summary: string;
   checks: string[];
+  scene?: SceneState;
   before?: string;
   after?: string;
 };
