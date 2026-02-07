@@ -42,6 +42,8 @@ CLI helpers:
 
 - `npm run compile:file -- ./example.nvl`
 - `npm run aql -- ./example.nvl "SELECT name, location FROM Actors"`
+- `npm run episode:pack -- ./example.nvl ./templates/episode-spec.example.json ./episode-pack.json`
+- `npm run manuscript:lint -- ./episode-pack.json ./draft.txt`
 - `npm run pipeline -- \"인어공주가 왕자를 구하고 목소리를 잃는다\" Cinematic`
 - `npm run mcp`
 - `npm run plot:validate`
@@ -53,6 +55,7 @@ CLI helpers:
 - `tests/plot`: internet-plot compile fixtures with iterative corrections
 - `logs/plot-validation`: persisted compile diagnostics and correction history
 - `mcp`: stdio MCP server + sample client config
+- `templates`: EpisodeSpec templates
 
 ## Status
 

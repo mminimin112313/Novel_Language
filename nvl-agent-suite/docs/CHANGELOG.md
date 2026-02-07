@@ -13,3 +13,4 @@
 - Compiler observability: events now carry scene context; SPEAK propagates knowledge to targets; item/knowledge histories are recorded.
 - AQL: added `npm run aql` and MCP tool `nvl_aql` for plot search (ownership/knowledge/clues/scenes).
 - Plot validation: added a second cross-validated fixture set (*Speckled Band*) and made `plot:validate` multi-story.
+- Episode writing: added EpisodeSpec/EpisodePack (`npm run episode:pack`), manuscript grounding lint (`npm run manuscript:lint`), and new Antigravity agents/skills/workflows for episode planning/writing/review/proofread.

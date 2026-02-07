@@ -119,6 +119,46 @@ npm run aql -- tests/plot/speckled-band/attempt-03-compile-pass.nvl "SELECT id, 
 
 ---
 
+### 6.1) 플롯으로 "에피소드" 직접 쓰기 (추천)
+
+에피소드는 "요구사항(분량/시점/문체/금칙어/모티프)"이 강하게 걸리는 경우가 많습니다. 이를 위해 `EpisodeSpec -> EpisodePack -> 초안 -> lint -> 검수/교정` 흐름을 제공합니다.
+
+1. EpisodeSpec 작성
+   - 템플릿: `templates/episode-spec.example.json`
+   - 선택(sceneIds 또는 narrativeRange)과 요구사항(requirements)을 명시합니다.
+
+2. EpisodePack 생성 (플롯 컨텍스트팩)
+   - CLI:
+     ```bash
+     npm run episode:pack -- <path-to.nvl> <episode-spec.json> <episode-pack.json>
+     ```
+   - EpisodePack에는 선택된 씬/이벤트/인물상태/지식/소유권 히스토리가 포함됩니다.
+
+3. 에피소드 아웃라인(비트시트) 생성
+   - 스킬: `nvl-episode-planner`
+   - 모든 비트는 `[[EVT:###]]`(글로벌 이벤트 인덱스) 근거를 포함해야 합니다.
+
+4. 초안 작성 (근거 인용 필수)
+   - 스킬: `nvl-episode-writer`
+   - 기본 규칙: **모든 문단에 `[[EVT:###]]`를 최소 1개 포함** (정합성/근거 검증용)
+
+5. 정합성/요구사항 lint (결정론적)
+   - CLI:
+     ```bash
+     npm run manuscript:lint -- <episode-pack.json> <draft.txt>
+     ```
+   - 여기서 `error`가 0이 될 때까지 문단 근거/요구사항부터 수정합니다.
+
+6. 검토/검수 + 한국어 교정
+   - 리뷰 스킬: `nvl-episode-reviewer`
+   - 맞춤법/띄어쓰기/문장 다듬기 스킬: `nvl-korean-proofreader`
+
+7. 출판용 정리 (옵션)
+   - 워크플로우: `.agent/workflows/40-remove-citations.md`
+   - `[[EVT:###]]` 마커를 제거한 `final.txt`를 별도로 만듭니다.
+
+---
+
 ### 7) MCP로 툴 호출하기 (에이전트 자동화)
 
 MCP 서버 실행:
@@ -132,7 +172,8 @@ npm run mcp
 - `nvl_compile`: NVL 컴파일
 - `nvl_aql`: NVL+AQL 질의
 - `nvl_pipeline`: (옵션) Architect->Compiler->Novelist 파이프라인
+- `nvl_episode_pack`: EpisodeSpec 기반 EpisodePack 생성
+- `nvl_manuscript_lint`: EpisodePack 기반 원고 lint (근거/요구사항)
 - `nvl_read_run_file`: `.runs` 아티팩트 읽기
 
 Antigravity/에디터에서 `nvl_compile`과 `nvl_aql`을 붙이면 "플롯 정합성 + 검색" 루프가 자동화됩니다.
-
