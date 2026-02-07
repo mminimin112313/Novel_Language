@@ -1,0 +1,98 @@
+=== NVL COMPILATION LOG ===
+result=FAILURE
+events=15
+errors=9
+warnings=1
+
+[001] line=2
+  stmt: ACTOR Mermaid
+  summary: Actor declared: Mermaid
+
+[002] line=3
+  stmt: ACTOR Prince
+  summary: Actor declared: Prince
+
+[003] line=4
+  stmt: ACTOR SeaWitch
+  summary: Actor declared: SeaWitch
+
+[004] line=5
+  stmt: ACTOR TempleGirl
+  summary: Actor declared: TempleGirl
+
+[005] line=6
+  stmt: SCENE ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
+  summary: Scene ShipFestival @ 1837-04-01T20:00:00Z (normal)
+
+[006] line=7
+  stmt: SET Mermaid.location = Sea
+  summary: Set Mermaid.location = Sea
+  before: alive=true hp=100 loc=Unknown inv=[]
+  after: alive=true hp=100 loc=Sea inv=[]
+
+[007] line=8
+  stmt: SET Prince.location = Ship
+  summary: Set Prince.location = Ship
+  before: alive=true hp=100 loc=Unknown inv=[]
+  after: alive=true hp=100 loc=Ship inv=[]
+
+[008] line=9
+  stmt: SET SeaWitch.location = Abyss
+  summary: Set SeaWitch.location = Abyss
+  before: alive=true hp=100 loc=Unknown inv=[]
+  after: alive=true hp=100 loc=Abyss inv=[]
+
+[009] line=10
+  stmt: ACTION GIVE subject=Mermaid target=Prince item=RescueToken
+  summary: Action GIVE by Mermaid -> Prince
+  checks: personality-similarity:0.00
+  before: alive=true hp=100 loc=Sea inv=[]
+  after: alive=true hp=100 loc=Sea inv=[]
+
+[010] line=11
+  stmt: ACTION SPEAK subject=Mermaid fact=RescueTruth
+  summary: Action SPEAK by Mermaid
+  checks: personality-similarity:0.00
+  before: alive=true hp=100 loc=Sea inv=[]
+  after: alive=true hp=100 loc=Sea inv=[]
+
+[011] line=12
+  stmt: SCENE WitchDeal worldTime=1837-03-30T12:00:00Z narrative=2 mode=normal
+  summary: Scene WitchDeal @ 1837-03-30T12:00:00Z (normal)
+
+[012] line=13
+  stmt: ACTION GIVE subject=Mermaid target=SeaWitch item=Voice
+  summary: Action GIVE by Mermaid -> SeaWitch
+  checks: personality-similarity:0.00
+  before: alive=true hp=100 loc=Sea inv=[]
+  after: alive=true hp=100 loc=Sea inv=[]
+
+[013] line=14
+  stmt: SEED VoicePrice target=MermaidVoice due=Act3
+  summary: Clue seeded: VoicePrice
+
+[014] line=15
+  stmt: ACTION ATTACK subject=SeaWitch target=Mermaid damage=120
+  summary: Action ATTACK by SeaWitch -> Mermaid
+  checks: personality-similarity:0.00
+  before: alive=true hp=100 loc=Abyss inv=[]
+  after: alive=true hp=100 loc=Abyss inv=[]
+
+[015] line=16
+  stmt: ACTION SPEAK subject=Mermaid fact=FinalFarewell
+  summary: Action SPEAK by Mermaid
+  checks: personality-similarity:0.00
+  before: alive=false hp=0 loc=Sea inv=[]
+  after: alive=false hp=0 loc=Sea inv=[]
+
+=== DIAGNOSTICS ===
+[ERROR] line=10 code=E_SPATIAL_MISMATCH :: GIVE requires same location. Mermaid@Sea, Prince@Ship.
+[ERROR] line=10 code=E_GIVE_ITEM :: Mermaid does not own 'RescueToken'.
+[ERROR] line=11 code=E_EPISTEMIC :: Mermaid says unknown fact 'RescueTruth'.
+[ERROR] line=12 code=E_CAUSALITY_TIME :: World time moved backwards (1837-04-01T20:00:00Z -> 1837-03-30T12:00:00Z) without flashback mode.
+[ERROR] line=13 code=E_SPATIAL_MISMATCH :: GIVE requires same location. Mermaid@Sea, SeaWitch@Abyss.
+[ERROR] line=13 code=E_GIVE_ITEM :: Mermaid does not own 'Voice'.
+[ERROR] line=15 code=E_SPATIAL_MISMATCH :: ATTACK requires same location. SeaWitch@Abyss, Mermaid@Sea.
+[ERROR] line=16 code=E_ONTOLOGY_DEAD :: Mermaid is dead and cannot act.
+[ERROR] line=16 code=E_EPISTEMIC :: Mermaid says unknown fact 'FinalFarewell'.
+[WARNING] line=0 code=W_CLUE_UNRESOLVED :: Clue 'VoicePrice' remained Active (due=Act3).
