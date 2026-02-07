@@ -1,0 +1,28 @@
+rules:
+  - id: E_UNKNOWN_COMMAND
+    severity: error
+    desc: Statement command is not supported by NVL DSL.
+  - id: E_ONTOLOGY_DEAD
+    severity: error
+    desc: Dead actor cannot execute actions.
+  - id: E_SPATIAL_MISMATCH
+    severity: error
+    desc: Physical action participants must share the same location.
+  - id: E_ITEM_MISSING
+    severity: error
+    desc: USE requires item in subject inventory.
+  - id: E_GIVE_ITEM
+    severity: error
+    desc: GIVE requires subject ownership of item.
+  - id: E_EPISTEMIC
+    severity: error
+    desc: SPEAK with fact requires actor knowledge.
+  - id: E_CAUSALITY_TIME
+    severity: error
+    desc: Backward world time requires flashback mode.
+  - id: W_CHARACTER_BREAK
+    severity: warning
+    desc: Action conflicts with personality vector.
+  - id: W_CLUE_UNRESOLVED
+    severity: warning
+    desc: Seeded clue remained unresolved.

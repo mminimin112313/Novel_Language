@@ -13,9 +13,27 @@ Two-agent novel authoring system for NVL (Novel-Lang):
 - Detailed trace logs for every run.
 - MCP toolset for editor/agent integrations.
 
+## Quickstart
+
+```bash
+npm install
+npm run dev
+```
+
+Server endpoints:
+
+- `POST /api/compile`
+- `POST /api/pipeline`
+- `GET /api/runs/:runId/files/:fileName`
+
+CLI helpers:
+
+- `npm run compile:file -- ./example.nvl`
+- `npm run pipeline -- \"인어공주가 왕자를 구하고 목소리를 잃는다\" Cinematic`
+
 ## Status
 
-- Foundation and planning in progress.
+- Core compiler + two-agent orchestration implemented.
 
 ## Branch Tracking
 
