@@ -1,0 +1,20 @@
+{
+  "id": "little-mermaid-ep01",
+  "storyId": "little-mermaid",
+  "title": "폭풍 속의 구출",
+  "selection": {
+    "sceneIds": ["ShipFestival", "WitchDeal"]
+  },
+  "direction": "비극적이되 과장하지 않고, 선택의 대가가 독자의 감정선을 끊기지 않게 이어지도록. 대사는 절제.",
+  "requirements": {
+    "language": "ko",
+    "style": "Classic",
+    "pov": "third_person_limited",
+    "tense": "past",
+    "targetChars": 3500,
+    "bannedPhrases": ["갑자기", "말도 안 되게"],
+    "requiredMotifs": ["바다", "숨", "대가"],
+    "citeEvents": true
+  }
+}
+

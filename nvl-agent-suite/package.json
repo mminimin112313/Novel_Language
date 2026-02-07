@@ -12,6 +12,7 @@
     "lint": "tsc -p tsconfig.json --noEmit",
     "compile:file": "tsx src/scripts/compile.ts",
     "aql": "tsx src/scripts/aql.ts",
+    "episode:pack": "tsx src/scripts/episode-pack.ts",
     "pipeline": "tsx src/scripts/run-pipeline.ts",
     "mcp": "tsx src/mcp/server.ts",
     "plot:validate": "tsx src/scripts/plot-validate.ts"
