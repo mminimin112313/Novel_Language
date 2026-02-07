@@ -1,0 +1,23 @@
+# The Adventure of the Speckled Band conversion attempt 2 (partial fixes)
+ACTOR Holmes
+ACTOR Watson
+ACTOR Helen
+ACTOR Roylott
+ACTOR Snake
+SCENE ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+SET Helen.location = BakerStreet
+SET Holmes.location = BakerStreet
+SET Watson.location = BakerStreet
+KNOWS Helen WhistleHeard
+ACTION SPEAK subject=Helen target=Holmes fact=WhistleHeard
+SCENE ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+SET Holmes.location = Bedroom
+SET Watson.location = Bedroom
+SET Roylott.location = Bedroom
+SET Snake.location = Bedroom
+GIVE Roylott Whistle
+ACTION GIVE subject=Roylott target=Snake item=Whistle
+GIVE Holmes Cane
+ACTION ATTACK subject=Holmes target=Snake damage=20
+SET Holmes.location = Hall
+ACTION GIVE subject=Holmes target=Watson item=Revolver

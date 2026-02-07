@@ -1,0 +1,97 @@
+=== NVL COMPILATION LOG ===
+result=FAILURE
+events=14
+errors=7
+warnings=0
+
+[001] line=2
+  stmt: ACTOR Holmes
+  summary: Actor declared: Holmes
+
+[002] line=3
+  stmt: ACTOR Watson
+  summary: Actor declared: Watson
+
+[003] line=4
+  stmt: ACTOR Helen
+  summary: Actor declared: Helen
+
+[004] line=5
+  stmt: ACTOR Roylott
+  summary: Actor declared: Roylott
+
+[005] line=6
+  stmt: ACTOR Snake
+  summary: Actor declared: Snake
+
+[006] line=7
+  stmt: SCENE ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+  summary: Scene ClientVisit @ 1892-04-01T08:00:00Z (normal)
+  scene: ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+
+[007] line=8
+  stmt: SET Helen.location = BakerStreet
+  summary: Set Helen.location = BakerStreet
+  scene: ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+  before: alive=true hp=100 loc=Unknown inv=[]
+  after: alive=true hp=100 loc=BakerStreet inv=[]
+
+[008] line=9
+  stmt: SET Holmes.location = BakerStreet
+  summary: Set Holmes.location = BakerStreet
+  scene: ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+  before: alive=true hp=100 loc=Unknown inv=[]
+  after: alive=true hp=100 loc=BakerStreet inv=[]
+
+[009] line=10
+  stmt: SET Roylott.location = Manor
+  summary: Set Roylott.location = Manor
+  scene: ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+  before: alive=true hp=100 loc=Unknown inv=[]
+  after: alive=true hp=100 loc=Manor inv=[]
+
+[010] line=11
+  stmt: ACTION SPEAK subject=Helen target=Holmes fact=WhistleHeard
+  summary: Action SPEAK by Helen -> Holmes
+  scene: ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+  checks: personality-similarity:0.00
+  before: alive=true hp=100 loc=BakerStreet inv=[]
+  after: alive=true hp=100 loc=BakerStreet inv=[]
+
+[011] line=12
+  stmt: ACTION GIVE subject=Roylott target=Snake item=Whistle
+  summary: Action GIVE by Roylott -> Snake
+  scene: ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+  checks: personality-similarity:0.00
+  before: alive=true hp=100 loc=Manor inv=[]
+  after: alive=true hp=100 loc=Manor inv=[]
+
+[012] line=13
+  stmt: SCENE PastEvent worldTime=1892-03-01T08:00:00Z narrative=2 mode=normal
+  summary: Scene PastEvent @ 1892-03-01T08:00:00Z (normal)
+  scene: PastEvent worldTime=1892-03-01T08:00:00Z narrative=2 mode=normal
+
+[013] line=14
+  stmt: ACTION ATTACK subject=Snake target=Roylott damage=120
+  summary: Action ATTACK by Snake -> Roylott
+  scene: PastEvent worldTime=1892-03-01T08:00:00Z narrative=2 mode=normal
+  checks: personality-similarity:0.00
+  before: alive=true hp=100 loc=Unknown inv=[]
+  after: alive=true hp=100 loc=Unknown inv=[]
+
+[014] line=15
+  stmt: ACTION SPEAK subject=Roylott fact=Confession
+  summary: Action SPEAK by Roylott
+  scene: PastEvent worldTime=1892-03-01T08:00:00Z narrative=2 mode=normal
+  checks: personality-similarity:0.00
+  before: alive=false hp=0 loc=Manor inv=[]
+  after: alive=false hp=0 loc=Manor inv=[]
+
+=== DIAGNOSTICS ===
+[ERROR] line=11 code=E_EPISTEMIC :: Helen says unknown fact 'WhistleHeard'.
+[ERROR] line=12 code=E_SPATIAL_MISMATCH :: GIVE requires same location. Roylott@Manor, Snake@Unknown.
+[ERROR] line=12 code=E_GIVE_ITEM :: Roylott does not own 'Whistle'.
+[ERROR] line=13 code=E_CAUSALITY_TIME :: World time moved backwards (1892-04-01T08:00:00Z -> 1892-03-01T08:00:00Z) without flashback mode.
+[ERROR] line=14 code=E_SPATIAL_MISMATCH :: ATTACK requires same location. Snake@Unknown, Roylott@Manor.
+[ERROR] line=15 code=E_ONTOLOGY_DEAD :: Roylott is dead and cannot act.
+[ERROR] line=15 code=E_EPISTEMIC :: Roylott says unknown fact 'Confession'.

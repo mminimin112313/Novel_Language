@@ -23,48 +23,57 @@ warnings=0
 [005] line=6
   stmt: SCENE ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
   summary: Scene ShipFestival @ 1837-04-01T20:00:00Z (normal)
+  scene: ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
 
 [006] line=7
   stmt: SET Mermaid.location = Sea
   summary: Set Mermaid.location = Sea
+  scene: ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
   before: alive=true hp=100 loc=Unknown inv=[]
   after: alive=true hp=100 loc=Sea inv=[]
 
 [007] line=8
   stmt: SET Prince.location = Sea
   summary: Set Prince.location = Sea
+  scene: ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
   before: alive=true hp=100 loc=Unknown inv=[]
   after: alive=true hp=100 loc=Sea inv=[]
 
 [008] line=9
   stmt: SET SeaWitch.location = Sea
   summary: Set SeaWitch.location = Sea
+  scene: ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
   before: alive=true hp=100 loc=Unknown inv=[]
   after: alive=true hp=100 loc=Sea inv=[]
 
 [009] line=10
   stmt: KNOWS Mermaid RescueTruth
   summary: Mermaid learned 'RescueTruth'
+  scene: ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
 
 [010] line=11
   stmt: KNOWS Prince TempleGirlSavedMe
   summary: Prince learned 'TempleGirlSavedMe'
+  scene: ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
 
 [011] line=12
   stmt: GIVE Mermaid RescueToken
   summary: Mermaid receives item 'RescueToken'
+  scene: ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
   before: alive=true hp=100 loc=Sea inv=[]
   after: alive=true hp=100 loc=Sea inv=[RescueToken]
 
 [012] line=13
   stmt: GIVE Mermaid Voice
   summary: Mermaid receives item 'Voice'
+  scene: ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
   before: alive=true hp=100 loc=Sea inv=[RescueToken]
   after: alive=true hp=100 loc=Sea inv=[RescueToken,Voice]
 
 [013] line=14
   stmt: ACTION GIVE subject=Mermaid target=Prince item=RescueToken
   summary: Action GIVE by Mermaid -> Prince
+  scene: ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
   checks: spatial-check:ok, personality-similarity:0.00
   before: alive=true hp=100 loc=Sea inv=[RescueToken,Voice]
   after: alive=true hp=100 loc=Sea inv=[Voice]
@@ -72,6 +81,7 @@ warnings=0
 [014] line=15
   stmt: ACTION SPEAK subject=Mermaid fact=RescueTruth
   summary: Action SPEAK by Mermaid
+  scene: ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
   checks: epistemic-check:ok, personality-similarity:0.00
   before: alive=true hp=100 loc=Sea inv=[Voice]
   after: alive=true hp=100 loc=Sea inv=[Voice]
@@ -79,10 +89,12 @@ warnings=0
 [015] line=16
   stmt: SCENE WitchDeal worldTime=1837-04-01T21:00:00Z narrative=2 mode=normal
   summary: Scene WitchDeal @ 1837-04-01T21:00:00Z (normal)
+  scene: WitchDeal worldTime=1837-04-01T21:00:00Z narrative=2 mode=normal
 
 [016] line=17
   stmt: ACTION GIVE subject=Mermaid target=SeaWitch item=Voice
   summary: Action GIVE by Mermaid -> SeaWitch
+  scene: WitchDeal worldTime=1837-04-01T21:00:00Z narrative=2 mode=normal
   checks: spatial-check:ok, personality-similarity:0.00
   before: alive=true hp=100 loc=Sea inv=[Voice]
   after: alive=true hp=100 loc=Sea inv=[]
@@ -90,32 +102,38 @@ warnings=0
 [017] line=18
   stmt: SEED VoicePrice target=MermaidVoice due=Act3
   summary: Clue seeded: VoicePrice
+  scene: WitchDeal worldTime=1837-04-01T21:00:00Z narrative=2 mode=normal
 
 [018] line=19
   stmt: SCENE PalaceChoice worldTime=1837-04-02T06:00:00Z narrative=3 mode=normal
   summary: Scene PalaceChoice @ 1837-04-02T06:00:00Z (normal)
+  scene: PalaceChoice worldTime=1837-04-02T06:00:00Z narrative=3 mode=normal
 
 [019] line=20
   stmt: SET Mermaid.location = Palace
   summary: Set Mermaid.location = Palace
+  scene: PalaceChoice worldTime=1837-04-02T06:00:00Z narrative=3 mode=normal
   before: alive=true hp=100 loc=Sea inv=[]
   after: alive=true hp=100 loc=Palace inv=[]
 
 [020] line=21
   stmt: SET Prince.location = Palace
   summary: Set Prince.location = Palace
+  scene: PalaceChoice worldTime=1837-04-02T06:00:00Z narrative=3 mode=normal
   before: alive=true hp=100 loc=Sea inv=[RescueToken]
   after: alive=true hp=100 loc=Palace inv=[RescueToken]
 
 [021] line=22
   stmt: GIVE Mermaid Dagger
   summary: Mermaid receives item 'Dagger'
+  scene: PalaceChoice worldTime=1837-04-02T06:00:00Z narrative=3 mode=normal
   before: alive=true hp=100 loc=Palace inv=[]
   after: alive=true hp=100 loc=Palace inv=[Dagger]
 
 [022] line=23
   stmt: ACTION GIVE subject=Mermaid target=Prince item=Dagger
   summary: Action GIVE by Mermaid -> Prince
+  scene: PalaceChoice worldTime=1837-04-02T06:00:00Z narrative=3 mode=normal
   checks: spatial-check:ok, personality-similarity:0.00
   before: alive=true hp=100 loc=Palace inv=[Dagger]
   after: alive=true hp=100 loc=Palace inv=[]
@@ -123,6 +141,7 @@ warnings=0
 [023] line=24
   stmt: ACTION SPEAK subject=Prince fact=TempleGirlSavedMe
   summary: Action SPEAK by Prince
+  scene: PalaceChoice worldTime=1837-04-02T06:00:00Z narrative=3 mode=normal
   checks: epistemic-check:ok, personality-similarity:0.00
   before: alive=true hp=100 loc=Palace inv=[RescueToken,Dagger]
   after: alive=true hp=100 loc=Palace inv=[RescueToken,Dagger]
@@ -130,5 +149,6 @@ warnings=0
 [024] line=25
   stmt: RESOLVE VoicePrice reason=MermaidSacrifice
   summary: Clue resolved: VoicePrice
+  scene: PalaceChoice worldTime=1837-04-02T06:00:00Z narrative=3 mode=normal
 
 === DIAGNOSTICS ===

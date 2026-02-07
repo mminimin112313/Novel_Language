@@ -1,0 +1,146 @@
+=== NVL COMPILATION LOG ===
+result=FAILURE
+events=22
+errors=2
+warnings=0
+
+[001] line=2
+  stmt: ACTOR Holmes
+  summary: Actor declared: Holmes
+
+[002] line=3
+  stmt: ACTOR Watson
+  summary: Actor declared: Watson
+
+[003] line=4
+  stmt: ACTOR Helen
+  summary: Actor declared: Helen
+
+[004] line=5
+  stmt: ACTOR Roylott
+  summary: Actor declared: Roylott
+
+[005] line=6
+  stmt: ACTOR Snake
+  summary: Actor declared: Snake
+
+[006] line=7
+  stmt: SCENE ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+  summary: Scene ClientVisit @ 1892-04-01T08:00:00Z (normal)
+  scene: ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+
+[007] line=8
+  stmt: SET Helen.location = BakerStreet
+  summary: Set Helen.location = BakerStreet
+  scene: ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+  before: alive=true hp=100 loc=Unknown inv=[]
+  after: alive=true hp=100 loc=BakerStreet inv=[]
+
+[008] line=9
+  stmt: SET Holmes.location = BakerStreet
+  summary: Set Holmes.location = BakerStreet
+  scene: ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+  before: alive=true hp=100 loc=Unknown inv=[]
+  after: alive=true hp=100 loc=BakerStreet inv=[]
+
+[009] line=10
+  stmt: SET Watson.location = BakerStreet
+  summary: Set Watson.location = BakerStreet
+  scene: ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+  before: alive=true hp=100 loc=Unknown inv=[]
+  after: alive=true hp=100 loc=BakerStreet inv=[]
+
+[010] line=11
+  stmt: KNOWS Helen WhistleHeard
+  summary: Helen learned 'WhistleHeard'
+  scene: ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+
+[011] line=12
+  stmt: ACTION SPEAK subject=Helen target=Holmes fact=WhistleHeard
+  summary: Action SPEAK by Helen -> Holmes
+  scene: ClientVisit worldTime=1892-04-01T08:00:00Z narrative=1 mode=normal
+  checks: epistemic-check:ok, personality-similarity:0.00
+  before: alive=true hp=100 loc=BakerStreet inv=[]
+  after: alive=true hp=100 loc=BakerStreet inv=[]
+
+[012] line=13
+  stmt: SCENE ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+  summary: Scene ManorNight @ 1892-04-02T00:30:00Z (normal)
+  scene: ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+
+[013] line=14
+  stmt: SET Holmes.location = Bedroom
+  summary: Set Holmes.location = Bedroom
+  scene: ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+  before: alive=true hp=100 loc=BakerStreet inv=[]
+  after: alive=true hp=100 loc=Bedroom inv=[]
+
+[014] line=15
+  stmt: SET Watson.location = Bedroom
+  summary: Set Watson.location = Bedroom
+  scene: ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+  before: alive=true hp=100 loc=BakerStreet inv=[]
+  after: alive=true hp=100 loc=Bedroom inv=[]
+
+[015] line=16
+  stmt: SET Roylott.location = Bedroom
+  summary: Set Roylott.location = Bedroom
+  scene: ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+  before: alive=true hp=100 loc=Unknown inv=[]
+  after: alive=true hp=100 loc=Bedroom inv=[]
+
+[016] line=17
+  stmt: SET Snake.location = Bedroom
+  summary: Set Snake.location = Bedroom
+  scene: ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+  before: alive=true hp=100 loc=Unknown inv=[]
+  after: alive=true hp=100 loc=Bedroom inv=[]
+
+[017] line=18
+  stmt: GIVE Roylott Whistle
+  summary: Roylott receives item 'Whistle'
+  scene: ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+  before: alive=true hp=100 loc=Bedroom inv=[]
+  after: alive=true hp=100 loc=Bedroom inv=[Whistle]
+
+[018] line=19
+  stmt: ACTION GIVE subject=Roylott target=Snake item=Whistle
+  summary: Action GIVE by Roylott -> Snake
+  scene: ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+  checks: spatial-check:ok, personality-similarity:0.00
+  before: alive=true hp=100 loc=Bedroom inv=[Whistle]
+  after: alive=true hp=100 loc=Bedroom inv=[]
+
+[019] line=20
+  stmt: GIVE Holmes Cane
+  summary: Holmes receives item 'Cane'
+  scene: ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+  before: alive=true hp=100 loc=Bedroom inv=[]
+  after: alive=true hp=100 loc=Bedroom inv=[Cane]
+
+[020] line=21
+  stmt: ACTION ATTACK subject=Holmes target=Snake damage=20
+  summary: Action ATTACK by Holmes -> Snake
+  scene: ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+  checks: spatial-check:ok, personality-similarity:0.00
+  before: alive=true hp=100 loc=Bedroom inv=[Cane]
+  after: alive=true hp=100 loc=Bedroom inv=[Cane]
+
+[021] line=22
+  stmt: SET Holmes.location = Hall
+  summary: Set Holmes.location = Hall
+  scene: ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+  before: alive=true hp=100 loc=Bedroom inv=[Cane]
+  after: alive=true hp=100 loc=Hall inv=[Cane]
+
+[022] line=23
+  stmt: ACTION GIVE subject=Holmes target=Watson item=Revolver
+  summary: Action GIVE by Holmes -> Watson
+  scene: ManorNight worldTime=1892-04-02T00:30:00Z narrative=2 mode=normal
+  checks: personality-similarity:0.00
+  before: alive=true hp=100 loc=Hall inv=[Cane]
+  after: alive=true hp=100 loc=Hall inv=[Cane]
+
+=== DIAGNOSTICS ===
+[ERROR] line=23 code=E_SPATIAL_MISMATCH :: GIVE requires same location. Holmes@Hall, Watson@Bedroom.
+[ERROR] line=23 code=E_GIVE_ITEM :: Holmes does not own 'Revolver'.

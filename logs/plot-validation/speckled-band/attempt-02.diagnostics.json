@@ -1,0 +1,14 @@
+[
+  {
+    "level": "error",
+    "line": 23,
+    "code": "E_SPATIAL_MISMATCH",
+    "message": "GIVE requires same location. Holmes@Hall, Watson@Bedroom."
+  },
+  {
+    "level": "error",
+    "line": 23,
+    "code": "E_GIVE_ITEM",
+    "message": "Holmes does not own 'Revolver'."
+  }
+]
