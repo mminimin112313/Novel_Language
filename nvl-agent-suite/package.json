@@ -11,7 +11,8 @@
     "lint": "tsc -p tsconfig.json --noEmit",
     "compile:file": "tsx src/scripts/compile.ts",
     "pipeline": "tsx src/scripts/run-pipeline.ts",
-    "mcp": "tsx src/mcp/server.ts"
+    "mcp": "tsx src/mcp/server.ts",
+    "plot:validate": "tsx src/scripts/plot-validate.ts"
   },
   "dependencies": {
     "@google/genai": "^1.40.0",

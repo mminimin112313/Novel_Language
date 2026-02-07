@@ -33,6 +33,7 @@ CLI helpers:
 - `npm run compile:file -- ./example.nvl`
 - `npm run pipeline -- \"인어공주가 왕자를 구하고 목소리를 잃는다\" Cinematic`
 - `npm run mcp`
+- `npm run plot:validate`
 
 ## Included Sets
 
@@ -41,6 +42,8 @@ CLI helpers:
 - `workflows`: two-agent loop specification
 - `rules`: compiler lint/validation rule registry
 - `scripts`: CLI compile and pipeline helpers
+- `tests/plot`: internet-plot compile fixtures with iterative corrections
+- `logs/plot-validation`: persisted compile diagnostics and correction history
 - `mcp`: stdio MCP server + sample client config
 
 ## Status
