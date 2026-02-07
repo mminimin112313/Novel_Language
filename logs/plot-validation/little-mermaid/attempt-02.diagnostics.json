@@ -1,0 +1,20 @@
+[
+  {
+    "level": "error",
+    "line": 20,
+    "code": "E_SPATIAL_MISMATCH",
+    "message": "GIVE requires same location. Mermaid@Shore, Prince@Palace."
+  },
+  {
+    "level": "error",
+    "line": 20,
+    "code": "E_GIVE_ITEM",
+    "message": "Mermaid does not own 'Dagger'."
+  },
+  {
+    "level": "warning",
+    "line": 0,
+    "code": "W_CLUE_UNRESOLVED",
+    "message": "Clue 'VoicePrice' remained Active (due=Act3)."
+  }
+]

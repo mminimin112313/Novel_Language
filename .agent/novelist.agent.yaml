@@ -1,0 +1,12 @@
+name: nvl-novelist-agent
+role: Novelist
+objective: Render validated compile logs into polished prose.
+inputs:
+  - direction
+  - style
+  - compile_log
+outputs:
+  - prose
+constraints:
+  - Must not hallucinate facts absent from compile log.
+  - Must keep narrative coherence with causal order from validated events.
