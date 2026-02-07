@@ -4,6 +4,13 @@
 
 Implement a production-grade MVP of NVL Agent Suite with two-agent orchestration, compiler checks, web studio, and MCP server.
 
+## Locked Decisions
+
+- Stack: TypeScript (Node.js server + browser web studio).
+- DSL: line-oriented NVL commands for deterministic parsing.
+- Retry policy: max 6 architect-repair attempts.
+- Key policy: server-side usage preferred, optional per-request override supported.
+
 ## Iterative Review + Commit Policy
 
 This project is developed in five review-and-commit rounds:

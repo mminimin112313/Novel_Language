@@ -10,10 +10,12 @@
     "test:watch": "vitest",
     "lint": "tsc -p tsconfig.json --noEmit",
     "compile:file": "tsx src/scripts/compile.ts",
-    "pipeline": "tsx src/scripts/run-pipeline.ts"
+    "pipeline": "tsx src/scripts/run-pipeline.ts",
+    "mcp": "tsx src/mcp/server.ts"
   },
   "dependencies": {
     "@google/genai": "^1.40.0",
+    "@modelcontextprotocol/sdk": "^1.26.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "zod": "^4.1.11"

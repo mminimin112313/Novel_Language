@@ -25,15 +25,27 @@ Server endpoints:
 - `POST /api/compile`
 - `POST /api/pipeline`
 - `GET /api/runs/:runId/files/:fileName`
+- `POST /api/architect`
+- `POST /api/novelist`
 
 CLI helpers:
 
 - `npm run compile:file -- ./example.nvl`
 - `npm run pipeline -- \"인어공주가 왕자를 구하고 목소리를 잃는다\" Cinematic`
+- `npm run mcp`
+
+## Included Sets
+
+- `.agent`: role configs for architect, novelist, orchestrator
+- `skills`: nvl-architect, nvl-compiler-guard, nvl-novelist
+- `workflows`: two-agent loop specification
+- `rules`: compiler lint/validation rule registry
+- `scripts`: CLI compile and pipeline helpers
+- `mcp`: stdio MCP server + sample client config
 
 ## Status
 
-- Core compiler + two-agent orchestration implemented.
+- MVP implemented with full web studio and MCP tools.
 
 ## Branch Tracking
 
