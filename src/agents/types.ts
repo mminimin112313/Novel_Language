@@ -34,3 +34,27 @@ export type NovelistOutput = {
   model: string;
   provider: "gemini" | "mock";
 };
+
+export type NovelPlanChapter = {
+  index: number;
+  title: string;
+  direction: string;
+  style: string;
+};
+
+export type NovelPlanRequest = {
+  concept: string;
+  titleHint?: string;
+  chapterCount: number;
+  baseStyle: string;
+  apiKey?: string;
+  model?: string;
+};
+
+export type NovelPlanOutput = {
+  title: string;
+  summary: string;
+  chapters: NovelPlanChapter[];
+  model: string;
+  provider: "gemini" | "mock";
+};

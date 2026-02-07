@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { compileNVL } from "../compiler/index.js";
 import { runPipeline } from "../orchestrator/pipeline.js";
+import { runNovelWorkflow } from "../workflows/novelWriter.js";
 import { RUNS_DIR } from "../config.js";
 
 export async function toolCompileNVL(source: string) {
@@ -51,4 +52,30 @@ export async function toolReadRunFile(runId: string, fileName: string) {
   const target = path.join(RUNS_DIR, runId, fileName);
   const content = await fs.readFile(target, "utf8");
   return { runId, fileName, content };
+}
+
+export async function toolWriteNovel(params: {
+  concept: string;
+  title?: string;
+  projectId?: string;
+  chapters?: number;
+  style?: string;
+  apiKey?: string;
+  plannerModel?: string;
+  architectModel?: string;
+  novelistModel?: string;
+}) {
+  const out = await runNovelWorkflow({
+    concept: params.concept,
+    titleHint: params.title,
+    projectId: params.projectId,
+    chapterCount: params.chapters,
+    style: params.style,
+    apiKey: params.apiKey,
+    plannerModel: params.plannerModel,
+    architectModel: params.architectModel,
+    novelistModel: params.novelistModel
+  });
+
+  return out;
 }

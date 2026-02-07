@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { toolCompileNVL, toolReadRunFile, toolRunPipeline } from "./tools.js";
+import { toolCompileNVL, toolReadRunFile, toolRunPipeline, toolWriteNovel } from "./tools.js";
 
 const server = new McpServer({
   name: "nvl-agent-suite-mcp",
@@ -96,6 +96,67 @@ server.registerTool(
         {
           type: "text",
           text: result.content
+        }
+      ]
+    };
+  }
+);
+
+server.registerTool(
+  "nvl_write_novel",
+  {
+    title: "Write Novel",
+    description: "Run planner + chapter pipeline workflow and write manuscript artifacts.",
+    inputSchema: {
+      concept: z.string().min(1),
+      title: z.string().optional(),
+      projectId: z.string().optional(),
+      chapters: z.number().int().min(1).max(24).optional(),
+      style: z.string().optional(),
+      apiKey: z.string().optional(),
+      plannerModel: z.string().optional(),
+      architectModel: z.string().optional(),
+      novelistModel: z.string().optional()
+    }
+  },
+  async ({
+    concept,
+    title,
+    projectId,
+    chapters,
+    style,
+    apiKey,
+    plannerModel,
+    architectModel,
+    novelistModel
+  }: {
+    concept: string;
+    title?: string;
+    projectId?: string;
+    chapters?: number;
+    style?: string;
+    apiKey?: string;
+    plannerModel?: string;
+    architectModel?: string;
+    novelistModel?: string;
+  }) => {
+    const result = await toolWriteNovel({
+      concept,
+      title,
+      projectId,
+      chapters,
+      style,
+      apiKey,
+      plannerModel,
+      architectModel,
+      novelistModel
+    });
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
         }
       ]
     };

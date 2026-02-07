@@ -9,3 +9,5 @@
 - Round 4: Added full web studio and stepwise/full pipeline APIs with log download support.
 - Round 5: Added MCP stdio server set and MCP tool wrappers/tests.
 - Plot validation extension: added internet-source Little Mermaid conversion fixtures, iterative compile tests, and persistent plot-validation logs.
+- Added clone-first bootstrap workflow (`scripts/bootstrap.sh`, `AGENTS.md`, `npm run setup:auto`).
+- Added AI long-form novel workflow (planner + chapter pipelines + manuscript assembly).

@@ -1,4 +1,4 @@
-import type { ArchitectOutput, NovelistOutput } from "./types.js";
+import type { ArchitectOutput, NovelPlanOutput, NovelistOutput } from "./types.js";
 
 export function mockArchitect(direction: string): ArchitectOutput {
   const lower = direction.toLowerCase();
@@ -58,6 +58,36 @@ export function mockNovelist(logText: string): NovelistOutput {
       "모든 선택은 기록으로 남았고, 기록은 이야기의 뼈대가 되었다."
     ].join("\n\n"),
     model: "mock-novelist",
+    provider: "mock"
+  };
+}
+
+export function mockNovelPlan(
+  concept: string,
+  chapterCount: number,
+  baseStyle: string,
+  titleHint?: string
+): NovelPlanOutput {
+  const title = titleHint?.trim() || "무제 장편 프로젝트";
+  const chapters = Array.from({ length: chapterCount }).map((_, index) => {
+    const chapterNo = index + 1;
+    return {
+      index: chapterNo,
+      title: `Chapter ${chapterNo}`,
+      style: baseStyle,
+      direction: [
+        `주제: ${concept}`,
+        `이 장의 목표: 인물 갈등을 진행시키고 다음 장으로 연결`,
+        `핵심 사건: 주인공이 선택을 내리고 그 결과가 즉시 드러난다 (${chapterNo}장).`
+      ].join(" / ")
+    };
+  });
+
+  return {
+    title,
+    summary: `총 ${chapterCount}개 장으로 구성된 기본 플롯 아웃라인`,
+    chapters,
+    model: "mock-planner",
     provider: "mock"
   };
 }

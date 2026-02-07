@@ -68,3 +68,36 @@ export function novelistPrompt(direction: string, style: string, logText: string
     "Output only the final prose."
   ].join("\n\n");
 }
+
+export function novelPlanPrompt(
+  concept: string,
+  titleHint: string | undefined,
+  chapterCount: number,
+  baseStyle: string
+): string {
+  return [
+    "You are a novel planner agent.",
+    "Create a chapter plan that can be compiled chapter-by-chapter in NVL.",
+    "Each chapter direction must be concrete, stateful, and suitable for event-level coding.",
+    "Keep causality explicit and avoid vague direction text.",
+    titleHint ? `Preferred title hint: ${titleHint}` : "No fixed title hint.",
+    `Chapter count: ${chapterCount}`,
+    `Base style: ${baseStyle}`,
+    `Concept: ${concept}`,
+    [
+      "Output JSON only with this shape:",
+      "{",
+      '  "title": string,',
+      '  "summary": string,',
+      '  "chapters": [',
+      "    {",
+      '      "index": number,',
+      '      "title": string,',
+      '      "direction": string,',
+      '      "style": string',
+      "    }",
+      "  ]",
+      "}"
+    ].join("\n")
+  ].join("\n\n");
+}

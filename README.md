@@ -20,6 +20,12 @@ npm install
 npm run dev
 ```
 
+For clone-first full setup:
+
+```bash
+npm run setup:auto
+```
+
 Server endpoints:
 
 - `POST /api/compile`
@@ -32,8 +38,10 @@ CLI helpers:
 
 - `npm run compile:file -- ./example.nvl`
 - `npm run pipeline -- \"인어공주가 왕자를 구하고 목소리를 잃는다\" Cinematic`
+- `npm run novel:write -- --concept \"...\" --title \"...\" --chapters 5 --style Noir`
 - `npm run mcp`
 - `npm run plot:validate`
+- `npm run setup:auto`
 
 ## Included Sets
 
@@ -42,6 +50,8 @@ CLI helpers:
 - `workflows`: two-agent loop specification
 - `rules`: compiler lint/validation rule registry
 - `scripts`: CLI compile and pipeline helpers
+- `workflows/actual-novel-writing.md`: practical manuscript production flow
+- `scripts/bootstrap.sh`: clone-first auto bootstrap script
 - `tests/plot`: internet-plot compile fixtures with iterative corrections
 - `logs/plot-validation`: persisted compile diagnostics and correction history
 - `mcp`: stdio MCP server + sample client config

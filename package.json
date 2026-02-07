@@ -11,8 +11,10 @@
     "lint": "tsc -p tsconfig.json --noEmit",
     "compile:file": "tsx src/scripts/compile.ts",
     "pipeline": "tsx src/scripts/run-pipeline.ts",
+    "novel:write": "tsx src/scripts/write-novel.ts",
     "mcp": "tsx src/mcp/server.ts",
-    "plot:validate": "tsx src/scripts/plot-validate.ts"
+    "plot:validate": "tsx src/scripts/plot-validate.ts",
+    "setup:auto": "bash scripts/bootstrap.sh"
   },
   "dependencies": {
     "@google/genai": "^1.40.0",
