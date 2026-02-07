@@ -1,0 +1,25 @@
+# Little Mermaid conversion attempt 3 (compile-pass)
+ACTOR Mermaid
+ACTOR Prince
+ACTOR SeaWitch
+ACTOR TempleGirl
+SCENE ShipFestival worldTime=1837-04-01T20:00:00Z narrative=1 mode=normal
+SET Mermaid.location = Sea
+SET Prince.location = Sea
+SET SeaWitch.location = Sea
+KNOWS Mermaid RescueTruth
+KNOWS Prince TempleGirlSavedMe
+GIVE Mermaid RescueToken
+GIVE Mermaid Voice
+ACTION GIVE subject=Mermaid target=Prince item=RescueToken
+ACTION SPEAK subject=Mermaid fact=RescueTruth
+SCENE WitchDeal worldTime=1837-04-01T21:00:00Z narrative=2 mode=normal
+ACTION GIVE subject=Mermaid target=SeaWitch item=Voice
+SEED VoicePrice target=MermaidVoice due=Act3
+SCENE PalaceChoice worldTime=1837-04-02T06:00:00Z narrative=3 mode=normal
+SET Mermaid.location = Palace
+SET Prince.location = Palace
+GIVE Mermaid Dagger
+ACTION GIVE subject=Mermaid target=Prince item=Dagger
+ACTION SPEAK subject=Prince fact=TempleGirlSavedMe
+RESOLVE VoicePrice reason=MermaidSacrifice
