@@ -11,6 +11,7 @@ export function mockArchitect(direction: string): ArchitectOutput {
         "ACTOR Ursula",
         "SET Ariel.location = Sea",
         "SET Prince.location = Sea",
+        "SET Ursula.location = Sea",
         "SET Ariel.personality.o = 0.7",
         "SET Ariel.personality.a = 0.8",
         "GIVE Ariel Dagger",
