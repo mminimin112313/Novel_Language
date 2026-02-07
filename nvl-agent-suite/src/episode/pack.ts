@@ -4,6 +4,7 @@ import type { EpisodeSpec } from "./spec.js";
 
 export type EpisodeEvent = {
   index: number;
+  globalIndex: number;
   line: number;
   statement: string;
   summary: string;
@@ -60,13 +61,14 @@ export function buildEpisodePack(nvlSource: string, spec: EpisodeSpec): EpisodeP
       eventCount
     },
     scenes: scenesSelected,
-    events: eventsSelected.map((evt, idx) => ({
+    events: eventsSelected.map((entry, idx) => ({
       index: idx + 1,
-      line: evt.line,
-      statement: evt.statement,
-      summary: evt.summary,
-      checks: evt.checks,
-      scene: evt.scene
+      globalIndex: entry.globalIndex,
+      line: entry.event.line,
+      statement: entry.event.statement,
+      summary: entry.event.summary,
+      checks: entry.event.checks,
+      scene: entry.event.scene
     })),
     actors: [...compilation.state.actors.values()]
       .sort((a, b) => a.name.localeCompare(b.name))
@@ -108,14 +110,13 @@ function selectScenes(compilation: CompilationResult, selection: EpisodeSpec["se
   return scenes;
 }
 
-function selectEvents(events: EventLog[], sceneIdSet: Set<string>): EventLog[] {
+function selectEvents(events: EventLog[], sceneIdSet: Set<string>): Array<{ event: EventLog; globalIndex: number }> {
   if (sceneIdSet.size === 0) return [];
-  const selected: EventLog[] = [];
-  for (const evt of events) {
+  const selected: Array<{ event: EventLog; globalIndex: number }> = [];
+  for (const [idx, evt] of events.entries()) {
     if (!evt.scene) continue;
     if (!sceneIdSet.has(evt.scene.id)) continue;
-    selected.push(evt);
+    selected.push({ event: evt, globalIndex: idx + 1 });
   }
   return selected;
 }
-

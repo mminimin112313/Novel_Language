@@ -1,7 +1,14 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { toolAqlQuery, toolCompileNVL, toolReadRunFile, toolRunPipeline } from "./tools.js";
+import {
+  toolAqlQuery,
+  toolCompileNVL,
+  toolEpisodePack,
+  toolManuscriptLint,
+  toolReadRunFile,
+  toolRunPipeline
+} from "./tools.js";
 
 const server = new McpServer({
   name: "nvl-agent-suite-mcp",
@@ -77,6 +84,52 @@ server.registerTool(
       maxAttempts
     });
 
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
+    };
+  }
+);
+
+server.registerTool(
+  "nvl_episode_pack",
+  {
+    title: "Build Episode Pack",
+    description: "Compile NVL and build an episode context pack from an EpisodeSpec (selection + writing requirements).",
+    inputSchema: {
+      source: z.string().min(1),
+      spec: z.unknown()
+    }
+  },
+  async ({ source, spec }) => {
+    const result = await toolEpisodePack({ source, spec });
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
+    };
+  }
+);
+
+server.registerTool(
+  "nvl_manuscript_lint",
+  {
+    title: "Lint Manuscript",
+    description: "Deterministic lint over manuscript text using EpisodePack constraints (citations/length/motifs/banned phrases).",
+    inputSchema: {
+      episodePack: z.unknown(),
+      manuscript: z.string().min(1)
+    }
+  },
+  async ({ episodePack, manuscript }) => {
+    const result = await toolManuscriptLint({ episodePack, manuscript });
     return {
       content: [
         {

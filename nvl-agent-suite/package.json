@@ -13,6 +13,7 @@
     "compile:file": "tsx src/scripts/compile.ts",
     "aql": "tsx src/scripts/aql.ts",
     "episode:pack": "tsx src/scripts/episode-pack.ts",
+    "manuscript:lint": "tsx src/scripts/manuscript-lint.ts",
     "pipeline": "tsx src/scripts/run-pipeline.ts",
     "mcp": "tsx src/mcp/server.ts",
     "plot:validate": "tsx src/scripts/plot-validate.ts"

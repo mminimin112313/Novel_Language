@@ -4,6 +4,8 @@ import { compileNVL } from "../compiler/index.js";
 import { runPipeline } from "../orchestrator/pipeline.js";
 import { RUNS_DIR } from "../config.js";
 import { runAql } from "../query/index.js";
+import { EpisodeSpecSchema, buildEpisodePack } from "../episode/index.js";
+import { lintManuscript } from "../lint/index.js";
 
 export async function toolCompileNVL(source: string) {
   const result = compileNVL(source);
@@ -63,4 +65,15 @@ export async function toolAqlQuery(params: { source: string; query: string }) {
     diagnostics: compilation.diagnostics,
     output
   };
+}
+
+export async function toolEpisodePack(params: { source: string; spec: unknown }) {
+  const spec = EpisodeSpecSchema.parse(params.spec);
+  const pack = buildEpisodePack(params.source, spec);
+  return pack;
+}
+
+export async function toolManuscriptLint(params: { episodePack: unknown; manuscript: string }) {
+  const pack = params.episodePack as any;
+  return lintManuscript(pack, params.manuscript);
 }

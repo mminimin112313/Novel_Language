@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { toolAqlQuery, toolCompileNVL, toolRunPipeline } from "../src/mcp/tools.js";
+import { toolAqlQuery, toolCompileNVL, toolEpisodePack, toolManuscriptLint, toolRunPipeline } from "../src/mcp/tools.js";
 
 describe("mcp tools", () => {
   it("compiles via tool wrapper", async () => {
@@ -23,5 +23,25 @@ describe("mcp tools", () => {
     expect(out.compileSuccess).toBe(true);
     expect(out.output).toContain("Hero");
     expect(out.output).toContain("Town");
+  });
+
+  it("builds episode pack and lints manuscript", async () => {
+    const pack = await toolEpisodePack({
+      source: "ACTOR Hero\nSCENE S1 worldTime=2024-01-01T00:00:00Z narrative=1 mode=normal\nSET Hero.location = Town\n",
+      spec: {
+        id: "demo-ep",
+        storyId: "demo",
+        title: "Demo",
+        direction: "간단한 데모",
+        selection: { sceneIds: ["S1"] },
+        requirements: { citeEvents: true, style: "Classic", pov: "third_person_limited", tense: "past", language: "ko" }
+      }
+    });
+
+    const lint = await toolManuscriptLint({
+      episodePack: pack,
+      manuscript: "짧은 문장. [[EVT:002]]"
+    });
+    expect(lint.ok).toBe(true);
   });
 });
