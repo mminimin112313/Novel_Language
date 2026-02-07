@@ -1,0 +1,21 @@
+{
+  "createdAt": "2026-02-07",
+  "source": "conversation",
+  "requirements": {
+    "stack": "TypeScript",
+    "delivery": "Full Web",
+    "pipeline": [
+      "writer_direction",
+      "architect_generate_nvl",
+      "compiler_validate_and_repair_loop",
+      "novelist_render"
+    ],
+    "mustHave": [
+      "detailed_run_logs",
+      "log_download_txt",
+      "separate_project_folder",
+      "git_versioning",
+      "agent_skill_workflow_rules_scripts_mcp"
+    ]
+  }
+}
