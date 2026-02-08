@@ -10,6 +10,12 @@ bash scripts/bootstrap.sh
 
 This command installs dependencies, prepares local env placeholders, runs lint/tests, and generates baseline plot-validation logs.
 
+For environment diagnosis only:
+
+```bash
+npm run setup:doctor
+```
+
 ## Novel Writing Commands
 
 - Full novel workflow:

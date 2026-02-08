@@ -23,3 +23,5 @@ npm run mcp
 See `mcp/server.sample.json` and adjust absolute path.
 
 Antigravity-first default is also provided at `.agent/mcp.json`.
+
+Run `npm run setup:doctor` to verify MCP config portability after clone.

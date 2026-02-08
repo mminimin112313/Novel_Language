@@ -37,6 +37,18 @@ Generated local artifacts should stay untracked:
 
 `logs/plot-validation/` is intentionally versioned for reproducibility.
 
+## 3.1) Setup Doctor (Required Before Writing)
+
+Run:
+
+- `npm run setup:doctor`
+
+This command validates:
+
+- clone-portable MCP configuration
+- `.agent` structure completeness
+- required npm scripts and plot fixtures
+
 ## 4) Source Reliability
 
 - Official (high confidence): Google Cloud Antigravity docs + Google Developers Blog.

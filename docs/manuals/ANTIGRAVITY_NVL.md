@@ -30,6 +30,7 @@ Antigravity 기본 설치/연결 절차는 `docs/setup/ANTIGRAVITY_BASELINE_SETU
 
 ```bash
 npm run setup:auto
+npm run setup:doctor
 ```
 
 수동으로 확인:
@@ -130,6 +131,16 @@ npm run aql -- tests/plot/speckled-band/attempt-03-compile-pass.nvl "SELECT id, 
 3. 컴파일러로 에러 제거 (필요 시 `nvl-aql`로 추적)
 4. 컴파일 PASS 로그를 `nvl-novelist` 스킬에 주고 자연어 소설 생성
 5. 결과물을 `manuscripts/<story-id>/` 아래에 저장하고, NVL/로그와 함께 버전 관리
+
+커맨드형 워크플로우 별칭(oh-my-ag 스타일):
+
+- `.agent/workflows/setup.md`
+- `.agent/workflows/plan.md`
+- `.agent/workflows/orchestrate.md`
+- `.agent/workflows/coordinate.md`
+- `.agent/workflows/review.md`
+- `.agent/workflows/debug.md`
+- `.agent/workflows/tools.md`
 
 ---
 

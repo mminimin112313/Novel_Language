@@ -9,6 +9,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "tsc -p tsconfig.json --noEmit",
+    "setup:doctor": "tsx src/scripts/setup-doctor.ts",
     "compile:file": "tsx src/scripts/compile.ts",
     "aql": "tsx src/scripts/aql.ts",
     "pipeline": "tsx src/scripts/run-pipeline.ts",

@@ -10,3 +10,5 @@ This directory stores Antigravity runtime assets for this project.
 - `.agent/mcp.json`: local MCP server registration template.
 
 Shared cross-skill resources live under `.agent/skills/_shared/`.
+
+Recommended first command after clone: `npm run setup:doctor`.

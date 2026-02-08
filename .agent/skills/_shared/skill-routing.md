@@ -5,3 +5,4 @@
 - Episode writing: `nvl-episode-planner` -> `nvl-episode-writer` -> `nvl-episode-reviewer`
 - Korean proofreading: `nvl-korean-proofreader`
 - Multi-chapter assembly: `nvl-novel-writer`
+- Workflow routing and dispatch: `workflow-guide`

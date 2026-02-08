@@ -28,6 +28,12 @@ For clone-first full setup:
 npm run setup:auto
 ```
 
+Optional environment doctor:
+
+```bash
+npm run setup:doctor
+```
+
 Antigravity baseline setup reference:
 
 - `docs/setup/ANTIGRAVITY_BASELINE_SETUP.md`
@@ -51,11 +57,12 @@ CLI helpers:
 - `npm run mcp`
 - `npm run plot:validate`
 - `npm run setup:auto`
+- `npm run setup:doctor`
 
 ## Included Sets
 
 - `.agent`: role configs for architect/novelist/orchestrator + episode writing roles
-- `.agent/skills`: architect/compiler-guard/novelist + AQL + episode planning/writing/review/proofread + consistency audit
+- `.agent/skills`: architect/compiler-guard/novelist + AQL + episode planning/writing/review/proofread + consistency audit + workflow-guide
 - `.agent/workflows`: setup + plot compile + two-agent loop + episode writing flow
 - `.agent/rules`: compiler lint/validation registry + editorial/project rules
 - `scripts`: CLI compile and pipeline helpers
@@ -65,11 +72,22 @@ CLI helpers:
 - `logs/plot-validation`: persisted compile diagnostics and correction history
 - `mcp`: stdio MCP server + sample client config
 - `docs/manuals/ANTIGRAVITY_NVL.md`: Antigravity-first manual (plot compile, AQL, EpisodePack, lint)
+- `docs/research/oh-my-ag-gap-analysis-2026-02-08.md`: adopted patterns from `oh-my-ag`
 
 Top-level structure conventions:
 
 - generated local outputs are untracked (`.runs/`, `novels/`, `logs/novel-writing/`)
 - reproducibility logs remain tracked (`logs/plot-validation/`)
+
+Antigravity command-style workflow aliases:
+
+- `.agent/workflows/setup.md`
+- `.agent/workflows/plan.md`
+- `.agent/workflows/orchestrate.md`
+- `.agent/workflows/coordinate.md`
+- `.agent/workflows/review.md`
+- `.agent/workflows/debug.md`
+- `.agent/workflows/tools.md`
 
 ## Status
 

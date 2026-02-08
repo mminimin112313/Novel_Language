@@ -31,6 +31,7 @@ fi
 mkdir -p .runs logs novels
 
 echo "[bootstrap] running checks..."
+npm run setup:doctor
 npm run lint
 npm run test
 npm run plot:validate
