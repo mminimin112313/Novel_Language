@@ -3,7 +3,7 @@
     "nvl-agent-suite": {
       "command": "npm",
       "args": ["run", "mcp"],
-      "cwd": "/Users/gimminseog/Documents/Novel_Language"
+      "cwd": "/Users/gimminseog/Documents/NLM"
     }
   }
 }
