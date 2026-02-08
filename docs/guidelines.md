@@ -37,11 +37,22 @@ Dialogue is the soul of Noir. It should be sharp, cynical, and laden with subtex
 ## 5. Context Loading (Critical for Antigravity)
 
 Before writing ANY new episode, the agent MUST load:
-1. **`world.nvl`** → Global actors, factions, locations, initial relations
-2. **Prior episode NVL files** → Cumulative state (who knows what, who has what)
-3. **`character_voices.md`** → Voice profiles for dialogue consistency
-4. **`cyberfunk-noir-style.md`** → Project aesthetic, forbidden/required expressions
+1. **Series Outline** (`series-outline.md`) → Global arc awareness
+2. **`world.nvl`** → Global actors, factions, locations, initial relations
+3. **Prior episode NVL files** → Cumulative state
+4. **`character_voices.md`** → Voice profiles for dialogue consistency
+5. **Project Style Sheet** (e.g., `style.md`) → Aesthetic constraints
 
 **Priority Order**: Project style > Editorial theory > Skill defaults
+
+## 6. Writing Workflow (Split-Write-Merge)
+
+Due to 5KB context limits, episodes are written in parts:
+1. **Planning**: `nvl-episode-planner` creates a **Beat Sheet** with 기승전결(Intro, Development, Turn, Conclusion).
+2. **Scripting**: `nvl-architect` writes NVL and compiles with 0 errors.
+3. **Writing**: `nvl-episode-writer` drafts `part_01` to `part_04` separately.
+4. **Merging**: Parts are merged into `_merged.txt` for review.
+5. **Review**: `nvl-episode-reviewer` checks against the Beat Sheet and Style.
+6. **Proofreading**: `nvl-korean-proofreader` polishes the merged draft.
 
 See `.agent/rules/system-architecture.md` for the full ERD.

@@ -135,65 +135,45 @@ npm run aql -- tests/plot/speckled-band/attempt-03-compile-pass.nvl "SELECT id, 
 
 ---
 
-### 6) Antigravity에서 "실제 소설 집필" 흐름
+### 6) Antigravity에서 "실제 소설 집필" 흐름 (Pipeline Overhaul)
 
-이 레포의 기본 철학은 **LLM을 코드 안에서 직접 호출하지 않고**, Antigravity가 제공하는 런타임(스킬/워크플로우)로 집필을 수행하는 것입니다.
+이 레포는 **Publishing Industry Flow**를 따릅니다: `Series Outline -> Beat Sheet -> NVL -> Draft -> Review -> Final`.
 
-권장 루프:
+**권장 워크플로우**:
 
-1. 방향(디렉션) 작성
-2. `nvl-architect` 스킬로 NVL attempt 생성/수정
-3. 컴파일러로 에러 제거 (필요 시 `nvl-aql`로 추적)
-4. 컴파일 PASS 로그를 `nvl-novelist` 스킬에 주고 자연어 소설 생성
-5. 결과물을 `manuscripts/<story-id>/` 아래에 저장하고, NVL/로그와 함께 버전 관리
+1. **시리즈 기획**: `.agent/templates/series-outline-template.md`로 전체 윤곽을 잡습니다.
+2. **에피소드 기획**: `nvl-episode-planner`로 **기승전결 4막** 비트시트를 만듭니다.
+3. **NVL 코딩**: `nvl-architect`로 플롯을 코딩하고 `npm run compile:cascade`로 검증합니다.
+4. **분할 집필 (Split-Write-Merge)**:
+   - `nvl-episode-writer`가 기, 승, 전, 결 파트를 따로 작성합니다 (5KB 제한 대응).
+   - `cat part_*.txt > _merged.txt`로 병합합니다.
+5. **리뷰 루프**:
+   - `nvl-episode-reviewer`가 `PASS/REVISE/REJECT` 판정을 내립니다.
+   - 통과할 때까지 수정-재리뷰를 반복합니다.
+6. **교정 및 완성**:
+   - `nvl-korean-proofreader`가 최종 교정을 수행합니다.
+   - `[[EVT:###]]` 인용을 제거하여 출판용 원고를 만듭니다.
 
-커맨드형 워크플로우 별칭(oh-my-ag 스타일):
+커맨드형 워크플로우 별칭:
 
-- `.agent/workflows/setup.md`
+- `.agent/workflows/00-setup.md`
+- `.agent/workflows/20-write-novel.md` (전체 흐름)
+- `.agent/workflows/30-write-episode.md` (에피소드 단위)
 - `.agent/workflows/plan.md`
-- `.agent/workflows/orchestrate.md`
-- `.agent/workflows/coordinate.md`
 - `.agent/workflows/review.md`
-- `.agent/workflows/debug.md`
-- `.agent/workflows/tools.md`
 
 ---
 
-### 6.1) 플롯으로 "에피소드" 직접 쓰기 (추천)
+### 6.1) 에피소드 구조 요구사항 (기승전결)
 
-에피소드는 "요구사항(분량/시점/문체/금칙어/모티프)"이 강하게 걸리는 경우가 많습니다. 이를 위해 `EpisodeSpec -> EpisodePack -> 초안 -> lint -> 검수/교정` 흐름을 제공합니다.
+모든 에피소드는 4막 구조를 가져야 합니다:
 
-1. EpisodeSpec 작성
-   - 템플릿: `templates/episode-spec.example.json`
-   - 선택(sceneIds 또는 narrativeRange)과 요구사항(requirements)을 명시합니다.
+1. **기(起)**: 도입, 설정, 훅 (25%)
+2. **승(承)**: 갈등 심화, 시도 (25%)
+3. **전(轉)**: 전환점, 위기, 결심 (25%)
+4. **결(結)**: 해소, 다음 에피소드 연결 (25%)
 
-2. EpisodePack 생성 (플롯 컨텍스트팩)
-   - CLI:
-     ```bash
-     npm run episode:pack -- <path-to.nvl> <episode-spec.json> <episode-pack.json>
-     ```
-
-3. 에피소드 아웃라인(비트시트) 생성
-   - 스킬: `nvl-episode-planner`
-   - 모든 비트는 `[[EVT:###]]`(글로벌 이벤트 인덱스) 근거를 포함해야 합니다.
-
-4. 초안 작성 (근거 인용 필수)
-   - 스킬: `nvl-episode-writer`
-   - 기본 규칙: **모든 문단에 `[[EVT:###]]`를 최소 1개 포함**
-
-5. 정합성/요구사항 lint (결정론적)
-   - CLI:
-     ```bash
-     npm run manuscript:lint -- <episode-pack.json> <draft.txt>
-     ```
-
-6. 검토/검수 + 한국어 교정
-   - 리뷰 스킬: `nvl-episode-reviewer`
-   - 맞춤법/띄어쓰기/문장 다듬기 스킬: `nvl-korean-proofreader`
-
-7. 출판용 정리 (옵션)
-   - 워크플로우: `.agent/workflows/40-remove-citations.md`
-   - `[[EVT:###]]` 마커를 제거한 `final.txt`를 별도로 만듭니다.
+`nvl-episode-planner`는 이 구조가 없으면 비트시트를 승인하지 않습니다.
 
 ---
 
