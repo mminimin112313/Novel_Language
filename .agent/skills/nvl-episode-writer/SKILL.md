@@ -15,6 +15,15 @@ Plain text draft **with citations**:
 - Each paragraph MUST include at least one `[[EVT:###]]` citation.
 - Citations must refer to `episodePack.events[*].globalIndex`.
 
+# Style Loading (Mandatory)
+
+Before writing, load these files in order:
+1. `.agent/rules/cyberfunk-noir-style.md` → Project aesthetic, forbidden expressions
+2. `cyberfunk noir/nvl/character_voices.md` → Character voice profiles
+3. `.agent/rules/editorial-rules.md` → General writing theory
+
+**Priority**: Project style overrides editorial theory.
+
 # Writing Rules (Hard Constraints)
 
 1. **Source of Truth**: NVL is the single source of truth.

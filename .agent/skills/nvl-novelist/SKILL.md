@@ -10,6 +10,12 @@ description: Render compile-validated NVL logs into polished fiction while prese
 3. Keep causal order and scene chronology consistent with validated events.
 4. Adapt sentence rhythm and lexical density to requested style.
 
+# Style Loading (Mandatory)
+
+Before rendering, load project-specific rules:
+1. `.agent/rules/cyberfunk-noir-style.md` → Aesthetic guide
+2. `cyberfunk noir/nvl/character_voices.md` → Voice profiles
+
 # Dialogue Functions (Must-Have)
 1. **Advance Conflict**: Arguments, threats, negotiations.
 2. **Reveal Character**: Habits, flaws, values.

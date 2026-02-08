@@ -43,3 +43,14 @@ Always return:
 - chosen workflow path
 - chosen skill chain
 - stop condition (what must pass before next stage)
+
+---
+
+# Style Integration (Mandatory)
+
+Before prose generation, ALL writing skills MUST load:
+1. `rules/cyberfunk-noir-style.md` → Aesthetic, forbidden/required expressions
+2. `cyberfunk noir/nvl/character_voices.md` → Voice profiles
+
+**Priority Order**:
+1. Project Style (`cyberfunk-noir-style.md`) > Editorial Theory (`editorial-rules.md`) > Skill defaults
