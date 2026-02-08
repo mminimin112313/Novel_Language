@@ -68,9 +68,42 @@ Delivering an **Experience** (Sensation, Emotion, Tension) over Information.
 6.  **Change**: How do they change at the end?
 
 #### C. Plot Structures
+
+##### 기승전결 (4막 구조) - 필수
+
+| 막 | 한자 | 기능 | 비율 |
+|:---|:-----|:-----|:-----|
+| **기(起)** | 起 | 도입, 설정, 촉발사건 | ~25% |
+| **승(承)** | 承 | 전개, 갈등 심화, 시도 | ~25% |
+| **전(轉)** | 轉 | 전환점, 위기, 결심 | ~25% |
+| **결(結)** | 結 | 해소, 결말, 다음 훅 | ~25% |
+
+> [!IMPORTANT]
+> 모든 에피소드는 기승전결 4막이 명확해야 함. '전(轉)'이 없으면 스토리가 평평해짐.
+
+##### 기승전결 비트 상세
+
+| 막 | 비트 | 목적 |
+|:---|:-----|:-----|
+| 기 | Hook | 독자 관심 끌기 |
+| 기 | Setup | 상황/인물 설정 |
+| 기 | Inciting | 균형 깨는 사건 |
+| 승 | Reaction | 주인공 반응 |
+| 승 | Attempt | 문제 해결 시도 |
+| 승 | Obstacle | 예상 못한 장애 |
+| 전 | Crisis | 최악의 상황 |
+| 전 | Turn | 새 정보/깨달음 |
+| 전 | Decision | 돌이킬 수 없는 선택 |
+| 결 | Climax | 최종 대결/결정 |
+| 결 | Resolution | 결과와 여파 |
+| 결 | Hook-forward | 다음 암시 |
+
+##### 보조 구조
+
 -   **3-Act**: Setup -> Confrontation (Midpoint Transition) -> Resolution.
 -   **7-Point**: Hook -> Plot Turn 1 -> Pinch 1 -> Midpoint -> Pinch 2 -> Plot Turn 2 -> Resolution.
 -   **Mystery**: Question -> Clue/Red Herring -> Twist -> Answer.
+
 
 #### D. Character Building
 -   **Reaction over Personality**: Character is defined by how they react to pressure.
