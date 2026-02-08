@@ -1,0 +1,69 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "EpisodePack",
+    "type": "object",
+    "required": [
+        "metadata",
+        "worldState",
+        "events"
+    ],
+    "properties": {
+        "metadata": {
+            "type": "object",
+            "required": [
+                "episodeId",
+                "timestamp"
+            ],
+            "properties": {
+                "episodeId": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "project": {
+                    "type": "string"
+                }
+            }
+        },
+        "worldState": {
+            "type": "object",
+            "properties": {
+                "actors": {
+                    "type": "object"
+                },
+                "locations": {
+                    "type": "object"
+                },
+                "clues": {
+                    "type": "object"
+                }
+            }
+        },
+        "events": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "line",
+                    "summary"
+                ],
+                "properties": {
+                    "line": {
+                        "type": "integer"
+                    },
+                    "summary": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "globalIndex": {
+                        "type": "integer"
+                    }
+                }
+            }
+        }
+    }
+}
