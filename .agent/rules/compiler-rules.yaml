@@ -20,6 +20,12 @@ rules:
   - id: E_CAUSALITY_TIME
     severity: error
     desc: Backward world time requires flashback mode.
+  - id: E_ACTION_TARGET
+    severity: error
+    desc: ACTION MOVE target must be a declared actor.
+  - id: E_RELATE_ACTOR
+    severity: error
+    desc: RELATE references unknown actor(s).
   - id: W_CHARACTER_BREAK
     severity: warning
     desc: Action conflicts with personality vector.
