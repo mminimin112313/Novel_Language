@@ -1,0 +1,70 @@
+# Office Romance: 사내연애물 World Definition
+
+# === ACTORS (Characters) ===
+
+# 주인공: 김지우 (26세, 마케팅팀 신입)
+ACTOR Kim_Jiwoo
+SET Kim_Jiwoo.personality.openness = 0.7
+SET Kim_Jiwoo.personality.conscientiousness = 0.8
+SET Kim_Jiwoo.personality.extraversion = 0.4
+SET Kim_Jiwoo.personality.agreeableness = 0.7
+SET Kim_Jiwoo.personality.neuroticism = 0.5
+
+# 남주: 박서준 (32세, 마케팅팀 팀장)
+ACTOR Park_Seojun
+SET Park_Seojun.personality.openness = 0.5
+SET Park_Seojun.personality.conscientiousness = 0.9
+SET Park_Seojun.personality.extraversion = 0.3
+SET Park_Seojun.personality.agreeableness = 0.4
+SET Park_Seojun.personality.neuroticism = 0.2
+
+# 동료: 이하늘 (27세, 마케팅팀 선임)
+ACTOR Lee_Haneul
+SET Lee_Haneul.personality.openness = 0.8
+SET Lee_Haneul.personality.conscientiousness = 0.5
+SET Lee_Haneul.personality.extraversion = 0.9
+SET Lee_Haneul.personality.agreeableness = 0.8
+SET Lee_Haneul.personality.neuroticism = 0.6
+
+# 라이벌: 최민지 (29세, 기획팀 선임, 서준 전 여친)
+ACTOR Choi_Minji
+SET Choi_Minji.personality.openness = 0.6
+SET Choi_Minji.personality.conscientiousness = 0.8
+SET Choi_Minji.personality.extraversion = 0.7
+SET Choi_Minji.personality.agreeableness = 0.3
+SET Choi_Minji.personality.neuroticism = 0.7
+
+# 멘토: 부장님 (50세, 마케팅팀 부장)
+ACTOR Director_Kang
+SET Director_Kang.personality.openness = 0.4
+SET Director_Kang.personality.conscientiousness = 0.7
+SET Director_Kang.personality.extraversion = 0.5
+SET Director_Kang.personality.agreeableness = 0.6
+SET Director_Kang.personality.neuroticism = 0.3
+
+# === LOCATIONS ===
+# SET Actor.location = Location 으로 설정
+
+# === ITEMS ===
+GIVE Kim_Jiwoo Laptop
+GIVE Kim_Jiwoo Coffee_Mug
+GIVE Park_Seojun Company_Phone
+GIVE Park_Seojun Expensive_Watch
+GIVE Lee_Haneul Gossip_Magazine
+GIVE Choi_Minji Designer_Bag
+
+# === INITIAL RELATIONS ===
+RELATE Kim_Jiwoo -> Park_Seojun affinity=0 trust=0
+RELATE Park_Seojun -> Kim_Jiwoo affinity=0 trust=0
+RELATE Kim_Jiwoo -> Lee_Haneul affinity=50 trust=30
+RELATE Lee_Haneul -> Kim_Jiwoo affinity=50 trust=30
+RELATE Park_Seojun -> Choi_Minji affinity=-20 trust=-10
+RELATE Choi_Minji -> Park_Seojun affinity=60 trust=0
+RELATE Choi_Minji -> Kim_Jiwoo affinity=-10 trust=0
+
+# === INITIAL KNOWLEDGE ===
+KNOWS Kim_Jiwoo First_Day_At_Company
+KNOWS Kim_Jiwoo Seojun_Is_Team_Leader
+KNOWS Lee_Haneul Seojun_Minji_History
+KNOWS Choi_Minji Seojun_Personal_Life
+KNOWS Park_Seojun Company_Politics
