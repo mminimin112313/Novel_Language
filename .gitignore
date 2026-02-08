@@ -18,3 +18,4 @@ nvl-agent-suite/
 # Serena runtime memories
 .serena/memories/*
 !.serena/memories/.gitkeep
+office romance/
