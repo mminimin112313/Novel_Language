@@ -13,21 +13,26 @@ Select the minimal safe workflow for the current request and hand off to special
    - use `.agent/workflows/setup.md`
    - then run `npm run setup:doctor`
 
-2. Plot to compile loop:
+2. World Building (New Project or New Elements):
+   - skill: `nvl-world-builder`
+   - output: `nvl/world.nvl`
+   - **Crucial**: Run FIRST before any episode writing.
+
+3. Plot to compile loop:
    - use `.agent/workflows/10-plot-compile.md`
    - skills: `nvl-architect` -> `nvl-compiler-guard`
 
-3. Episode writing (Phase/Chapter Structure):
+4. Episode writing (Phase/Chapter Structure):
    - use `.agent/workflows/30-write-episode.md`
    - skills: `nvl-episode-planner` -> `nvl-episode-writer` -> `nvl-episode-reviewer` -> `nvl-korean-proofreader`
-   - **Crucial**: Ensure World NVL files (`factions.nvl`, `characters.nvl` etc) are updated FIRST if new elements are introduced.
+   - **Crucial**: Ensure `world.nvl` is updated FIRST if new elements are introduced.
 
-4. Full novel writing:
+5. Full novel writing:
    - use `.agent/workflows/20-write-novel.md`
    - skill: `nvl-novel-writer`
    - **Crucial**: Iterate Phase by Phase. Do not generate 100 chapters at once.
 
-5. Failure or inconsistency:
+6. Failure or inconsistency:
    - use `.agent/workflows/debug.md` and `.agent/workflows/review.md`
    - skills: `nvl-compiler-guard`, `nvl-aql`, `nvl-consistency-auditor`
 

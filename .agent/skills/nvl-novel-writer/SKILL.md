@@ -5,7 +5,7 @@ description: End-to-end long-form novel generation workflow that plans chapters,
 
 # Workflow
 
-1. **World Building**: Run `nvl-world-builder` to generate/update `nvl/world/*.nvl` files.
+1. **World Building**: Run `nvl-world-builder` to generate/update `nvl/world.nvl`.
 2. **Structure**: Organize work into `phase_XX/chapter_XX/epXX` structure.
 3. **Planning**: Create `epXX_plan.md` (Beat Sheet) before writing NVL.
 4. **NVL Writing**: Write `epXX.nvl` utilizing the split world files.
