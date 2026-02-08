@@ -60,6 +60,7 @@ export type SceneState = {
   worldTime: string;
   narrative: number;
   mode: "normal" | "flashback";
+  appearances?: string[];  // Actors appearing in this scene
 };
 
 export type ItemTransfer = {

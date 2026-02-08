@@ -32,3 +32,9 @@ rules:
   - id: W_CLUE_UNRESOLVED
     severity: warning
     desc: Seeded clue remained unresolved.
+  - id: W_APPEAR_NO_SCENE
+    severity: warning
+    desc: APPEAR used before any SCENE declaration.
+  - id: E_APPEAR_UNKNOWN
+    severity: error
+    desc: APPEAR references unknown actor.

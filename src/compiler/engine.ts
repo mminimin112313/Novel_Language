@@ -114,9 +114,9 @@ export function compileNVL(source: string): CompilationResult {
             pushDiagnostic(diagnostics, "error", stmt.line, "E_ACTOR_NAME", "ACTOR requires a name.");
             break;
           }
-          if (world.actors.has(name)) {
-            pushDiagnostic(diagnostics, "warning", stmt.line, "W_ACTOR_DUP", `Actor '${name}' already exists.`);
-          } else {
+          // Allow re-declaration in cascade mode (no warning)
+          // Only create new actor if not exists
+          if (!world.actors.has(name)) {
             world.actors.set(name, defaultActor(name));
           }
           pushEvent(events, world, {
@@ -374,7 +374,8 @@ export function compileNVL(source: string): CompilationResult {
             id,
             worldTime,
             narrative,
-            mode
+            mode,
+            appearances: []  // Initialize empty appearances list
           };
 
           const previous = world.currentScene;
@@ -400,6 +401,36 @@ export function compileNVL(source: string): CompilationResult {
             summary: `Scene ${id} @ ${worldTime} (${mode})`,
             checks
           });
+          break;
+        }
+
+        case "APPEAR": {
+          // Track which actors appear in the current scene
+          if (!world.currentScene) {
+            pushDiagnostic(diagnostics, "warning", stmt.line, "W_APPEAR_NO_SCENE", "APPEAR used before any SCENE declaration.");
+          }
+
+          const appearingActors: string[] = [];
+          for (const name of stmt.args) {
+            const actor = world.actors.get(name);
+            if (!actor) {
+              pushDiagnostic(diagnostics, "error", stmt.line, "E_APPEAR_UNKNOWN", `Unknown actor '${name}' in APPEAR.`);
+            } else {
+              appearingActors.push(name);
+              if (world.currentScene?.appearances) {
+                world.currentScene.appearances.push(name);
+              }
+            }
+          }
+
+          if (appearingActors.length > 0) {
+            pushEvent(events, world, {
+              line: stmt.line,
+              statement: stmt.raw,
+              summary: `Actors appear: ${appearingActors.join(", ")}`,
+              checks
+            });
+          }
           break;
         }
 

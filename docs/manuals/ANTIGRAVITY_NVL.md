@@ -57,7 +57,7 @@ npm run plot:validate
 NVL은 **라인 기반 DSL**입니다. 가능한 명령은 다음 범위로 제한합니다:
 
 - `ACTOR`, `COMPONENT`, `SET`, `GIVE`, `KNOWS`, `MEMORY`, `RELATE`, `GOAL`
-- `SCENE`, `SEED`, `RESOLVE`
+- `SCENE`, `APPEAR` (씬별 등장인물 추적), `SEED`, `RESOLVE`
 - `ACTION` (예: `GIVE`, `ATTACK`, `SPEAK`, `LEARN`, ...)
 
 컴파일러가 강제하는 핵심 정합성 체크:

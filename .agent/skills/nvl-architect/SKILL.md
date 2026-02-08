@@ -31,6 +31,7 @@ Use only:
 - `RELATE`
 - `GOAL`
 - `SCENE`
+- `APPEAR` (new: track actors appearing in scene)
 - `SEED`
 - `RESOLVE`
 - `ACTION`
