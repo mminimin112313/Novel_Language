@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "nvl-agent-suite": {
+      "command": "npm",
+      "args": ["run", "mcp"],
+      "cwd": "."
+    }
+  },
+  "toolGroups": {
+    "compile": ["nvl_compile"],
+    "query": ["nvl_aql"],
+    "writing": ["nvl_pipeline", "nvl_write_novel"],
+    "episode": ["nvl_episode_pack", "nvl_manuscript_lint"],
+    "artifacts": ["nvl_read_run_file"],
+    "all": null
+  }
+}
