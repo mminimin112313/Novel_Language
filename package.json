@@ -11,6 +11,7 @@
     "lint": "tsc -p tsconfig.json --noEmit",
     "setup:doctor": "tsx src/scripts/setup-doctor.ts",
     "compile:file": "tsx src/scripts/compile.ts",
+    "compile:cascade": "tsx src/scripts/cascade-compile.ts",
     "aql": "tsx src/scripts/aql.ts",
     "pipeline": "tsx src/scripts/run-pipeline.ts",
     "episode:pack": "tsx src/scripts/episode-pack.ts",
