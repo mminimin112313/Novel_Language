@@ -21,3 +21,5 @@ npm run mcp
 ## Example MCP client config
 
 See `mcp/server.sample.json` and adjust absolute path.
+
+Antigravity-first default is also provided at `.agent/mcp.json`.

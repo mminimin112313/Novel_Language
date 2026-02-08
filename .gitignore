@@ -8,3 +8,7 @@ coverage/
 novels/
 logs/novel-writing/
 nvl-agent-suite/
+
+# Serena runtime memories
+.serena/memories/*
+!.serena/memories/.gitkeep

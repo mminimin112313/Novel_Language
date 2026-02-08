@@ -3,6 +3,7 @@
 ## 2026-02-08
 
 - Branch: `codex/bootstrap-nvl-agent-suite`
+- Reorganized Antigravity assets to `.agent/*` layout (migrated skills/workflows/rules, added `.agent/config/user-preferences.yaml`, `.agent/mcp.json`, and `.agent/skills/_shared/*`).
 - Added AQL (`src/query/*`, `npm run aql`, MCP: `nvl_aql`) for plot search (knowledge/ownership/clues/scenes).
 - Added EpisodeSpec/EpisodePack (`src/episode/*`, `npm run episode:pack`, MCP: `nvl_episode_pack`) for episode-level context packs.
 - Added deterministic manuscript lint (`src/lint/*`, `npm run manuscript:lint`, MCP: `nvl_manuscript_lint`) with `[[EVT:###]]` grounding checks.

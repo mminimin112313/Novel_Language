@@ -55,11 +55,11 @@ CLI helpers:
 ## Included Sets
 
 - `.agent`: role configs for architect/novelist/orchestrator + episode writing roles
-- `skills`: architect/compiler-guard/novelist + AQL + episode planning/writing/review/proofread + consistency audit
-- `workflows`: setup + plot compile + two-agent loop + episode writing flow
-- `rules`: compiler lint/validation registry + editorial/project rules
+- `.agent/skills`: architect/compiler-guard/novelist + AQL + episode planning/writing/review/proofread + consistency audit
+- `.agent/workflows`: setup + plot compile + two-agent loop + episode writing flow
+- `.agent/rules`: compiler lint/validation registry + editorial/project rules
 - `scripts`: CLI compile and pipeline helpers
-- `workflows/actual-novel-writing.md`: practical manuscript production flow
+- `.agent/workflows/actual-novel-writing.md`: practical manuscript production flow
 - `scripts/bootstrap.sh`: clone-first auto bootstrap script
 - `tests/plot`: internet-plot compile fixtures with iterative corrections
 - `logs/plot-validation`: persisted compile diagnostics and correction history

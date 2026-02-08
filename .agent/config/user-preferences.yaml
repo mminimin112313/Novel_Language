@@ -1,0 +1,9 @@
+language: ko
+locale: ko-KR
+timezone: Asia/Seoul
+default_cli: codex
+agent_cli_mapping:
+  architect: codex
+  novelist: codex
+  writer: codex
+  orchestrator: codex

@@ -11,9 +11,9 @@ Antigravity 기본 설치/연결 절차는 `docs/setup/ANTIGRAVITY_BASELINE_SETU
 ### 1) 레포 구조 (중요)
 
 - `.agent/*`: Antigravity가 로드하는 에이전트 역할 정의(YAML)
-- `skills/*`: Antigravity 스킬들 (건축가/검증/쿼리/에피소드 집필/교정)
-- `workflows/*`: Antigravity 워크플로우들 (셋업/플롯-컴파일/집필/에피소드)
-- `rules/*`: 팀 규칙 및 컴파일 규칙 레지스트리
+- `.agent/skills/*`: Antigravity 스킬들 (건축가/검증/쿼리/에피소드 집필/교정)
+- `.agent/workflows/*`: Antigravity 워크플로우들 (셋업/플롯-컴파일/집필/에피소드)
+- `.agent/rules/*`: 팀 규칙 및 컴파일 규칙 레지스트리
 - `src/compiler/*`: NVL 파서/엔진/룰 (결정론적)
 - `src/query/*`: AQL(Author Query Language) 구현
 - `src/episode/*`: EpisodeSpec/EpisodePack (에피소드 컨텍스트팩)
@@ -166,7 +166,7 @@ npm run aql -- tests/plot/speckled-band/attempt-03-compile-pass.nvl "SELECT id, 
    - 맞춤법/띄어쓰기/문장 다듬기 스킬: `nvl-korean-proofreader`
 
 7. 출판용 정리 (옵션)
-   - 워크플로우: `workflows/40-remove-citations.md`
+   - 워크플로우: `.agent/workflows/40-remove-citations.md`
    - `[[EVT:###]]` 마커를 제거한 `final.txt`를 별도로 만듭니다.
 
 ---

@@ -20,9 +20,9 @@ Keep this repository layout fixed:
 
 - `AGENTS.md`: bootstrap + quality gate rules.
 - `.agent/`: role definitions (`*.agent.yaml`) for orchestrated agent behavior.
-- `skills/`: reusable task skills (authoring, consistency, proofreading, AQL).
-- `workflows/`: end-to-end runbooks (setup, plot compile, episode writing).
-- `rules/`: deterministic policy/rule docs.
+- `.agent/skills/`: reusable task skills (authoring, consistency, proofreading, AQL).
+- `.agent/workflows/`: end-to-end runbooks (setup, plot compile, episode writing).
+- `.agent/rules/`: deterministic policy/rule docs.
 - `src/`: compiler, query, episode pack, lint, MCP server, web server.
 - `tests/plot/`: real plot fixtures and iterative correction attempts.
 - `logs/plot-validation/`: persisted compile diagnostics by attempt.
@@ -40,11 +40,10 @@ Generated local artifacts should stay untracked:
 ## 4) Source Reliability
 
 - Official (high confidence): Google Cloud Antigravity docs + Google Developers Blog.
-- Community (supporting): antigravity.im documentation for repo-level customization patterns (rules/workflows/skills).
+- Community (supporting): antigravity.im documentation for repo-level customization patterns (`.agent/rules`, `.agent/workflows`, `.agent/skills`).
 
 ## 5) External References
 
 - Google Cloud, "Connect with Antigravity" (MCP setup and UI flow): https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/use/antigravity
 - Google Developers Blog, "Simplifying secure MCP server integration with Antigravity": https://developers.googleblog.com/simplifying-secure-mcp-server-integration-with-antigravity/
 - Antigravity community docs (supporting structure patterns): https://antigravity.im/documentation
-
