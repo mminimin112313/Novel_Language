@@ -67,6 +67,21 @@ NVL은 **라인 기반 DSL**입니다. 가능한 명령은 다음 범위로 제�
 - `E_GIVE_ITEM`, `E_ITEM_MISSING`: 인벤토리/소유권 오류
 - `E_EPISTEMIC`: 모르는 사실을 말함 (`SPEAK fact=...`)
 - `E_ONTOLOGY_DEAD`: 죽은 자가 행동함
+- `E_ACTION_TARGET`: `MOVE` 타겟은 선언된 액터여야 함
+- `E_RELATE_ACTOR`: `RELATE`에서 알 수 없는 액터 참조
+
+### 3-1) 컨텍스트 로딩 (필수)
+
+에피소드 집필 전, 에이전트는 반드시 다음 파일들을 로드해야 합니다:
+
+1. **`world.nvl`** → 글로벌 액터, 팩션, 초기 관계
+2. **이전 에피소드 NVL 파일들** → 누적 상태 (누가 뭘 아는지, 누가 뭘 가졌는지)
+3. **`character_voices.md`** → 대화 일관성을 위한 캐릭터 음성 프로필
+4. **`cyberfunk-noir-style.md`** → 프로젝트 미학, 금지/필수 표현
+
+**우선순위**: 프로젝트 스타일 > 에디토리얼 이론 > 스킬 기본값
+
+전체 시스템 ERD는 `.agent/rules/system-architecture.md` 참조.
 
 ---
 

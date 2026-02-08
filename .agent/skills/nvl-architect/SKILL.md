@@ -11,6 +11,13 @@ description: Generate or repair NVL line-DSL code from natural-language story di
 4. Ensure timeline monotonicity unless flashback mode is explicit.
 5. If diagnostics exist, prioritize fixing all `error` diagnostics first.
 
+# Context Loading (Mandatory)
+
+Before generating NVL, load these files:
+1. `world.nvl` → Check existing actors, items, relations
+2. Prior episode NVL files → Avoid redeclaring actors, check cumulative state
+3. `nvl-compiler-guide.md` → Known error patterns and fixes
+
 # Required Command Set
 
 Use only:

@@ -33,3 +33,15 @@ Dialogue is the soul of Noir. It should be sharp, cynical, and laden with subtex
 - Avoid "Translationese" (번역투).
 - Use natural Korean sentence endings and rhythms suitable for a gritty novel.
 - "젠장(Damn it)" is okay, but "빌어먹을 시궁창(Fucking gutter)" is better.
+
+## 5. Context Loading (Critical for Antigravity)
+
+Before writing ANY new episode, the agent MUST load:
+1. **`world.nvl`** → Global actors, factions, locations, initial relations
+2. **Prior episode NVL files** → Cumulative state (who knows what, who has what)
+3. **`character_voices.md`** → Voice profiles for dialogue consistency
+4. **`cyberfunk-noir-style.md`** → Project aesthetic, forbidden/required expressions
+
+**Priority Order**: Project style > Editorial theory > Skill defaults
+
+See `.agent/rules/system-architecture.md` for the full ERD.

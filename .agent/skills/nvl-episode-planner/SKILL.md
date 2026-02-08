@@ -7,6 +7,14 @@ description: Plan an episode (beat sheet + scene/paragraph plan) from an Episode
 
 - `episodePack` (JSON): produced by `nvl_episode_pack` MCP tool or `npm run episode:pack`
 
+# Context Loading (Mandatory)
+
+Before planning, load these in order:
+1. `world.nvl` → Global actors, factions, locations, initial relations
+2. Prior episode NVL files → Cumulative state changes
+3. `character_voices.md` → Voice profiles for dialogue planning
+4. `cyberfunk-noir-style.md` → Project aesthetic constraints
+
 # Output Format
 
 Return **JSON only**:
