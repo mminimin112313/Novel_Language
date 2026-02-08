@@ -14,7 +14,8 @@ async function main() {
     titleHint: args.title,
     projectId: args.project,
     chapterCount: args.chapters ? Number(args.chapters) : undefined,
-    style: args.style
+    style: args.style,
+    worldBuild: args["world-build"] === "true"
   });
 
   process.stdout.write(JSON.stringify(result, null, 2));
@@ -56,7 +57,8 @@ function printUsage() {
       "  --concept \"현대 서울에서 기억을 잃은 탐정의 추리극\" \\",
       "  --title \"잃어버린 진술\" \\",
       "  --chapters 5 \\",
-      "  --style Noir",
+      "  --style Noir \\",
+      "  --world-build",
       "",
       "optional:",
       "  --project <project-id>"

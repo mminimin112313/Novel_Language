@@ -13,6 +13,18 @@ Return **JSON only**:
 
 ```json
 {
+  "story_engine": {
+    "six_questions": {
+      "desire": "string (External Goal)",
+      "need": "string (Internal Lack)",
+      "obstacle": "string (Antagonist/Force)",
+      "stakes": "string (Consequence of Failure)",
+      "lie": "string (False Belief)",
+      "change": "string (Character Arc)"
+    },
+    "plot_structure": "3_act|7_point|mystery",
+    "scene_goal_conflict_change": "string (Summary of GCC)"
+  },
   "beats": [
     {
       "title": "string",
@@ -38,5 +50,9 @@ Return **JSON only**:
    - `requiredMotifs` should appear across beats (not all in one paragraph).
    - Avoid `bannedPhrases`.
    - Stay near `targetChars` (or within min/max).
-4. Prefer clear cause->effect sequencing; do not rearrange events unless the spec explicitly requests flashback.
+4. **Micro-Event Breakdown (Critical)**:
+    - Each macro-beat must be decomposed into 5-10 micro-actions.
+    - Example: `Jack Checks Gun` -> `Check Chamber`, `Wipe Oil`, `Test Action`, `Curse Rust`.
+    - `targetChars` should reflect this density (aim for 2000+ chars per beat).
+5. Prefer clear cause->effect sequencing.
 

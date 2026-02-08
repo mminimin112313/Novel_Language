@@ -2,28 +2,28 @@
 name: nvl-write-novel
 ---
 
-# Workflow: Compile-Pass Log -> Prose (Novelist Agent)
+# Workflow: Phase/Chapter NVL Loop
 
-Goal: generate publishable prose using only compile-validated events.
+Goal: Generate a consistent novel by iterating Phase -> Chapter -> Episode.
 
-## Inputs
+## 1. World Building (Prerequisite)
+- Run `nvl-world-builder` to generate split world files (`nvl/world/*.nvl`).
+- Ensure they compile cleanly.
 
-- `direction`: writer intent (tone, theme, constraints)
-- `style`: Cinematic | Noir | Classic | LightNovel
-- `compile-log.txt`: from a compile-pass NVL attempt
+## 2. Phase Planning
+- Define the arc for the current Phase (e.g., Phase 1: The Setup).
+- Break down into Chapters.
 
-## Steps
+## 3. Chapter Execution (Iterative)
+- **Plan**: Create episode beat sheet (`epXX_plan.md`).
+- **Write NVL**: Create `epXX.nvl` referencing world files.
+- **Compile**: Verify logic (`npm run compile:file`).
+- **Draft Prose**: Write `epXX.txt` based *strictly* on NVL events.
+- **Sync Check**: If prose needs to diverge, UPDATE NVL first.
 
-1. Verify the log is from a compile-pass run:
-   - confirm `result=SUCCESS` in the header
-
-2. Generate prose:
-   - Use the `nvl-novelist` skill.
-   - Prose must not introduce any items/entities/facts absent from the log.
-
-3. Save outputs:
-   - Store manuscript at `manuscripts/<story-id>/draft.md` (create folder if needed)
-   - Keep the compile log alongside for traceability.
+## Output
+- `phase_XX/chapter_XX/epXX.nvl` (Canonical Truth)
+- `phase_XX/chapter_XX/epXX.txt` (Prose Draft)
 
 ## Acceptance Criteria
 

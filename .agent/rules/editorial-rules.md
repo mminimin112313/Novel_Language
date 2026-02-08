@@ -1,6 +1,5 @@
 ---
-name: nvl-editorial-rules
-scope: manuscripts
+trigger: always_on
 ---
 
 # Editorial Rules (Episode Writing)
@@ -18,14 +17,87 @@ These rules define how drafts are produced, reviewed, and finalized.
 2. Fix manuscript lint errors (citations/requirements) before stylistic edits.
 3. Then do editorial review, then Korean proofreading.
 
-## Korean Style (Default)
+## Korean Style: Sentence Theory (Munjang-ron)
 
-- Avoid filler adverbs and redundancy.
-- Keep quotation marks consistent.
-- Prefer concrete imagery over abstract exposition.
+### 1. Definition of a Good Sentence
+A good sentence allows the reader to understand the intended meaning with **minimal cost** (time, cognitive load, emotion) and leads to **accurate understanding** or action.
 
-## Traceability
+**Core Elements:**
+-   **Accuracy (Truth/Accuracy)**: Facts, logic, and definitions are unshakable.
+-   **Clarity**: Interpretation converges to a single meaning (no ambiguity).
+-   **Fit**: Appropriate for the reader, purpose, medium, and context.
+
+### 2. The 8 Axes of Quality
+
+1.  **Clarity of Meaning**: The "what" is grasped as a single chunk. Core arguments stand out. No vague demonstratives or forced inferences.
+2.  **Information Structure**: Old info first (Topic), New info last (Comment). Important words at the end (End-focus).
+3.  **Logical Connection**: Causality, contrast, and examples are felt structurally without excessive conjunctions.
+4.  **Economy**: No redundancy ("pre-prepared beforehand"). Reduce nominalization ("execution of" -> "execute").
+5.  **Precision**: Distinguish similar words (efficiency vs effectiveness). Ground abstract terms in metrics.
+6.  **Rhythm & Readability**: Vary sentence length. Natural word order. Avoid excessive pattern repetition.
+7.  **Tone & Ethos**: Humble accuracy. Distinguish between certainty and estimation. Avoid exaggerated warnings without cause.
+8.  **Reader Orientation**: Manage premises (what they know vs don't know). Explain jargon immediately.
+
+### 3. The 12 Core Principles
+
+1.  **One Sentence = One Action**: The verb drives the sentence. If the verb is weak, the meaning is weak.
+2.  **Subject = Agent**: Avoid "It was done" (passive). State WHO did it.
+3.  **Modifiers Close to Modified**: Distance causes misinterpretation (especially "only", "until", "more").
+4.  **Abstract -> Concrete Ladder**: Follow abstract concepts immediately with examples/evidence.
+5.  **Compare with Axis**: "Better/Faster" needs "Than X" and "By Y criteria".
+6.  **Negative Later, Positive First**: "Not un-X" is hard. Use positive framing whenever possible.
+7.  **Structure First (Skeleton)**: Show Subject-Predicate early. Put insertions at the back.
+8.  **Pre-empt Questions**: Answer "So what?", "Why?", or "How?" within the sentence.
+9.  **Uncertainty is Uncertain**: Use "estimated/possible" for unverified facts.
+10. **Topic Sentence Promise**: The first sentence declares what the paragraph delivers.
+11. **Term Consistency**: Same thing = Same word. Synonyms confuse logic.
+12. **Deletion is Best**: If it doesn't add value, cut it.
+
+### 4. Novel Writing Theory (Core Principles)
+
+#### A. Function of a Novel
+Delivering an **Experience** (Sensation, Emotion, Tension) over Information.
+**Basic Formula**: Character (Desire) + Obstacle (Conflict) + Choice (Action) -> Result (Consequence).
+
+#### B. The 6 Questions (Idea to Story)
+1.  **Desire**: What does the protagonist want externally?
+2.  **Need**: Why do they want it (Internal Lack/Wound)?
+3.  **Obstacle**: What stops them (Person/Society/Self)?
+4.  **Stakes**: What is lost if they fail?
+5.  **Lie**: What false belief do they start with?
+6.  **Change**: How do they change at the end?
+
+#### C. Plot Structures
+-   **3-Act**: Setup -> Confrontation (Midpoint Transition) -> Resolution.
+-   **7-Point**: Hook -> Plot Turn 1 -> Pinch 1 -> Midpoint -> Pinch 2 -> Plot Turn 2 -> Resolution.
+-   **Mystery**: Question -> Clue/Red Herring -> Twist -> Answer.
+
+#### D. Character Building
+-   **Reaction over Personality**: Character is defined by how they react to pressure.
+-   **Formula**: Strong Desire + Wrong Method + Rational Reason.
+-   **Checklist**: Desire, Fear, Value, Habit, Flaw.
+
+#### E. Scene Design (Goal-Conflict-Change)
+-   **Goal**: What does the character want NOW?
+-   **Obstacle**: Who/What stops them?
+-   **Tactic**: Persuasion, Force, Deceit, Evasion?
+-   **Turn**: The moment the value charge shifts (+ to - or - to +).
+-   **Hook**: Question leading to the next scene.
+
+#### F. Prose (Show via Inference)
+-   **Inference**: Don't label emotions ("He was sad"). Describe behavior ("He stared at the rain").
+-   **Pacing**:
+    -   **Scene**: Important choice/conflict -> Slow down (Show details).
+    -   **Summary**: Repetition/Travel -> Speed up (Tell/Skip).
+
+#### G. Dialogue Functions
+-   Must do at least one: 1) Advance Conflict, 2) Reveal Character, 3) Twist Information.
+-   **Subtext**: People rarely say what they mean.
+
+#### H. Pacing & Tension
+-   **Tension**: Comes from Uncertainty, not just Danger.
+-   **Rhythm**: High (Attempt/Fail) -> Low (Consequence/Recover) -> High.
+
 
 - Keep `episode-pack.json` + `outline.json` + cited drafts under `manuscripts/<storyId>/<episodeId>/`.
 - Keep citation-free final output as a separate artifact.
-

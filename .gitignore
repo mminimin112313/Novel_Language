@@ -1,12 +1,18 @@
+# Novel content
+cyberfunk noir/
+novels/
+
+# Logs
+logs/
+
 node_modules/
 dist/
 coverage/
 .runs/
+.serena/
 .env
 .DS_Store
 *.log
-novels/
-logs/novel-writing/
 nvl-agent-suite/
 
 # Serena runtime memories

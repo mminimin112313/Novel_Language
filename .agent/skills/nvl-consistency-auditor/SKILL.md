@@ -32,3 +32,11 @@ SELECT actor, fact, kind, sourceActor, sceneId, worldTime FROM Knowledge;
 2. Manuscript lint errors are blockers; fix citations/requirements before polishing.
 3. Prefer minimal changes that restore consistency.
 
+# Narrative Logic Checks (New)
+1. **Character Arc Consistency**:
+    - Does the character's action align with their **Desire** or **Fear**?
+    - If they act against their nature, is there a specific **Reason** or **Change** event?
+2. **Scene Purpose**:
+    - Does every scene function as a Goal-Conflict-Change unit?
+    - Flag scenes that are purely expository without conflict.
+

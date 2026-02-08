@@ -1,6 +1,5 @@
 ---
-name: nvl-project-rules
-scope: repository
+trigger: always_on
 ---
 
 # NVL Project Rules (Antigravity Default)
@@ -34,4 +33,3 @@ These rules are for running the NVL novel-writing workflow *inside Antigravity* 
 5. **Git discipline (5-pass development).**
    - Implement changes in five small review rounds (foundation -> core -> integration -> docs -> hardening).
    - Commit each round with concrete scope.
-

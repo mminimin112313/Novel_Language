@@ -17,14 +17,29 @@ Plain text draft **with citations**:
 
 # Writing Rules (Hard Constraints)
 
-1. Do not invent new actors/items/facts that are absent from the pack.
-2. Keep POV/tense/style exactly as specified.
-3. Do not remove or mutate citations.
-4. Do not use banned phrases; include required motifs naturally.
+1. **Source of Truth**: NVL is the single source of truth.
+2. **Expansion Ratio (Critical)**:
+    - Prose MUST be at least **5x the length of NVL code**.
+    - If NVL is 3KB, Prose must be 15KB+.
+    - **How to Expand**:
+        - Every NVL `ACTION` must be broken down into 5-10 micro-actions or thoughts.
+        - Example: `ACTION USE Gun` -> Clean barrel, check rust, feel the weight, remember where he bought it, fail to load a round, curse the humidity.
+3. **Style**:
+    - **Genre**: Noir / Cyberpunk / Gritty.
+    - **Pacing**: Slow burn. Focus on atmosphere and sensory details (smell, sound, texture) over fast action.
+    - **Language**: Natural Korean prose. Avoid translationese (e.g., avoid "He had a sad face", use "He stared blankly at the rain").
+3. **Scene Design (Goal-Conflict-Change)**:
+    - Every scene must have a **Goal** (What Jack wants), a **Conflict** (Who stops him), and a **Change** (Value shift: detailed -> messy, safe -> dangerous).
+    - If a scene feels flat, check if the **Conflict** is missing.
 
-# Quality Bars (Soft)
+4. **Show, Don't Tell (Verified)**:
+    - **Forbidden**: "Jack was sad", "The room was scary", "He felt angry".
+    - **Required**: "Jack stared at the rain until his eyes burned", "The shadows stretched like clawed hands", "He holstered the gun with a sharp click".
+    - **Internal Monologue**: Use first-person thought for Noir atmosphere.
 
-- Prefer concrete imagery and active verbs over abstract summaries.
-- Keep dialogue consistent with character roles implied by the plot.
-- Avoid repetitive sentence endings and filler adverbs.
+5. **Visual Consistency**:
+    - Describe characters EXACTLY as defined in `world/characters.nvl`.
+
+6. **Citation**:
+    - Every paragraph MUST include `[[EVT:###]]` citations.
 

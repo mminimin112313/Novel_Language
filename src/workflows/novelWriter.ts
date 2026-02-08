@@ -1,14 +1,17 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { planNovel } from "../agents/planner.js";
+import { mockWorldBuilder } from "../agents/mock.js";
 import { runPipeline } from "../orchestrator/pipeline.js";
 
 export type NovelWorkflowRequest = {
   concept: string;
   titleHint?: string;
   projectId?: string;
+  phase?: number; // Added phase support
   chapterCount?: number;
   style?: string;
+  worldBuild?: boolean;
 };
 
 export type NovelWorkflowChapterResult = {
@@ -34,23 +37,58 @@ export type NovelWorkflowResult = {
 };
 
 export async function runNovelWorkflow(req: NovelWorkflowRequest): Promise<NovelWorkflowResult> {
-  const chapterCount = Math.max(1, Math.min(req.chapterCount ?? 5, 24));
+  const chapterCount = Math.max(1, Math.min(req.chapterCount ?? 5, 100));
   const style = req.style?.trim() || "Cinematic";
 
-  const plan = await planNovel({
-    concept: req.concept,
-    titleHint: req.titleHint,
-    chapterCount,
-    baseStyle: style
-  });
-
-  const projectId = await resolveProjectId(req.projectId || plan.title);
+  // Initial resolve to get project ID early for world bible saving
+  const projectId = await resolveProjectId(req.projectId || req.titleHint || "novel-project");
   const novelRoot = path.join(process.cwd(), "novels", projectId);
   const logRoot = path.join(process.cwd(), "logs", "novel-writing", projectId);
 
   await fs.mkdir(novelRoot, { recursive: true });
   await fs.mkdir(logRoot, { recursive: true });
 
+  let enrichedConcept = req.concept;
+  if (req.worldBuild) {
+    const bibleResult = mockWorldBuilder(
+      "sci-fi", // TODO: infer from concept
+      req.concept,
+      style
+    );
+
+    await fs.writeFile(
+      path.join(novelRoot, "world-bible.json"),
+      JSON.stringify(bibleResult, null, 2),
+      "utf8"
+    );
+
+    await fs.writeFile(
+      path.join(novelRoot, "world-bible.md"),
+      [
+        `# ${bibleResult.bible.title}`,
+        "",
+        `**Premise**: ${bibleResult.bible.premise}`,
+        "",
+        "## Factions",
+        ...Object.entries(bibleResult.bible.factions).map(([k, v]) => `- **${k}**: ${v}`),
+        "",
+        "## Locations",
+        ...Object.entries(bibleResult.bible.locations).map(([k, v]) => `- **${k}**: ${v}`),
+      ].join("\n"),
+      "utf8"
+    );
+
+    enrichedConcept = `${req.concept}\n\n[World Context]\nTitle: ${bibleResult.bible.title}\nPremise: ${bibleResult.bible.premise}\nMajor Factions: ${Object.keys(bibleResult.bible.factions).join(", ")}`;
+  }
+
+  const plan = await planNovel({
+    concept: enrichedConcept,
+    titleHint: req.titleHint,
+    chapterCount,
+    baseStyle: style
+  });
+
+  // Re-save plan with world info if needed
   await fs.writeFile(
     path.join(novelRoot, "plan.json"),
     JSON.stringify(

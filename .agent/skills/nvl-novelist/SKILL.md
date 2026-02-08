@@ -10,6 +10,16 @@ description: Render compile-validated NVL logs into polished fiction while prese
 3. Keep causal order and scene chronology consistent with validated events.
 4. Adapt sentence rhythm and lexical density to requested style.
 
+# Dialogue Functions (Must-Have)
+1. **Advance Conflict**: Arguments, threats, negotiations.
+2. **Reveal Character**: Habits, flaws, values.
+3. **Twist Information**: Red herrings, lies, subtext.
+
+# Pacing & Tension
+1. **Tension from Uncertainty**: Use incomplete information, time limits, and secrets.
+2. **Rhythm**: High (Attempt) -> Low (Consequence) -> High (New Attempt). Don't just stack explosions.
+3. **Scene Ending**: End with a "Hook" (unanswered question).
+
 # Style Controls
 
 - `Cinematic`: vivid sensory details and dynamic pacing.

@@ -50,3 +50,25 @@ export type NovelPlanOutput = {
   model: string;
   provider: "mock";
 };
+
+export interface WorldBible {
+  title: string;
+  premise: string;
+  locations: Record<string, string>;
+  factions: Record<string, string>;
+  technology: Record<string, string>;
+  history: string[];
+  keyNPCs: Record<string, string>;
+}
+
+export type WorldBuildRequest = {
+  genre: string;
+  concept: string;
+  tone: string;
+};
+
+export type WorldBuildOutput = {
+  bible: WorldBible;
+  model: string;
+  provider: "mock";
+};
