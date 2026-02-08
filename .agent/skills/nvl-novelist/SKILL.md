@@ -3,32 +3,114 @@ name: nvl-novelist
 description: Render compile-validated NVL logs into polished fiction while preserving factual consistency. Use when prose must be generated only from verified events.
 ---
 
+# Prerequisites
+
+| 선행 조건 | 상태 |
+|:----------|:-----|
+| NVL 컴파일 통과 | ☐ |
+| 비트시트 존재 | ☐ (선택이지만 권장) |
+| 프로젝트 스타일 로드 | ☐ |
+
+# Context Loading (필수)
+
+1. **컴파일 로그** → Source of truth
+2. **프로젝트 스타일** → `{project}/nvl/style.md`
+3. **캐릭터 음성** → `{project}/nvl/character_voices.md`
+4. **비트시트** → arc_structure 참조 (있다면)
+
 # Rendering Rules
 
-1. Treat compile log as source-of-truth.
-2. Do not introduce entities, items, or facts absent from log.
-3. Keep causal order and scene chronology consistent with validated events.
-4. Adapt sentence rhythm and lexical density to requested style.
+## Core Principles
 
-# Style Loading (Mandatory)
+1. **컴파일 로그가 유일한 진실** - 로그에 없는 것은 존재하지 않음
+2. **인과 순서 유지** - 검증된 이벤트의 시간순 준수
+3. **스타일 적응** - 요청된 스타일에 맞게 문장 리듬 조절
+4. **5x Expansion** - NVL 대비 5배 이상 산문 분량
 
-Before rendering, load project-specific rules:
-1. `.agent/rules/cyberfunk-noir-style.md` → Aesthetic guide
-2. `cyberfunk noir/nvl/character_voices.md` → Voice profiles
+## Arc-Aware Rendering
 
-# Dialogue Functions (Must-Have)
-1. **Advance Conflict**: Arguments, threats, negotiations.
-2. **Reveal Character**: Habits, flaws, values.
-3. **Twist Information**: Red herrings, lies, subtext.
+비트시트가 있다면, 각 파트 톤 차이 반영:
+
+| 파트 | 렌더링 특징 |
+|:-----|:------------|
+| 기(起) | 천천히, 분위기 조성, 감각 묘사 풍부 |
+| 승(承) | 점진적 가속, 긴장감 쌓기 |
+| 전(轉) | 짧은 문장, 충격, 공백 활용 |
+| 결(結) | 여운 있게, 다음 훅 남기기 |
+
+## Transition Rendering
+
+씬 전환 시:
+```korean
+# 부드러운 전환
+...했다.
+[시간 경과나 공간 이동 힌트]
+[새로운 씬 첫 문장]
+
+# 날카로운 전환
+...—
+[드라마틱 단절]
+```
+
+# Dialogue Functions (필수)
+
+모든 대화는 최소 하나 이상 수행:
+
+1. **갈등 진전** - 논쟁, 위협, 협상
+2. **캐릭터 드러내기** - 습관, 결점, 가치관
+3. **정보 비틀기** - 복선, 거짓말, 서브텍스트
+
+```
+# Bad
+"오늘 날씨 좋네."
+"그러게."
+
+# Good
+"비 온다던데." [거짓 정보]
+"..." [침묵으로 의심 표현]
+"...그래?" [서브텍스트: 알고 있다]
+```
 
 # Pacing & Tension
-1. **Tension from Uncertainty**: Use incomplete information, time limits, and secrets.
-2. **Rhythm**: High (Attempt) -> Low (Consequence) -> High (New Attempt). Don't just stack explosions.
-3. **Scene Ending**: End with a "Hook" (unanswered question).
+
+| 원칙 | 설명 |
+|:-----|:-----|
+| **불확실성에서 긴장** | 불완전한 정보, 시간 제한, 비밀 |
+| **리듬 패턴** | High(시도) → Low(결과) → High(새 시도) |
+| **씬 끝** | 항상 훅(미답 질문)으로 마무리 |
 
 # Style Controls
 
-- `Cinematic`: vivid sensory details and dynamic pacing.
-- `Noir`: terse narration, shadow-heavy atmosphere.
-- `Classic`: balanced narration and dialogue.
-- `LightNovel`: dialogue-forward and emotionally explicit.
+| 스타일 | 특징 |
+|:-------|:-----|
+| **Cinematic** | 생생한 감각 묘사, 동적 페이싱 |
+| **Noir** | 간결한 서술, 그림자 분위기 |
+| **Classic** | 서술과 대화 균형 |
+| **LightNovel** | 대화 중심, 감정 명시적 |
+| **Romance** | 내면 묘사 풍부, 설렘 표현 |
+
+# Show, Don't Tell (필수)
+
+| 금지 | 대안 |
+|:-----|:-----|
+| "슬펐다" | 행동/감각으로 표현 |
+| "무서웠다" | 신체 반응으로 표현 |
+| 감정 직접 명시 | 추론 유도 |
+
+# Quality Checklist
+
+| ☐ | 항목 |
+|:--|:-----|
+| ☐ | 컴파일 로그의 모든 사실 반영 |
+| ☐ | 추가된 사실 없음 |
+| ☐ | 5x expansion ratio 충족 |
+| ☐ | 캐릭터 음성 일관됨 |
+| ☐ | Show, don't tell 준수 |
+| ☐ | 전환이 자연스러움 |
+| ☐ | 씬마다 훅 있음 |
+
+# Post-Rendering
+
+1. `nvl-episode-reviewer`로 리뷰 요청
+2. 리뷰 피드백 반영
+3. `nvl-korean-proofreader`로 교정
