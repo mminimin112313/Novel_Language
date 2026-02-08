@@ -16,7 +16,11 @@ __pycache__/
 
 
 
-# Agent Contexts
+# Runtime outputs
+.runs/
+logs/
+novels/
+
 # Agent Contexts
 .agent/contexts/
 .agent/scripts/
