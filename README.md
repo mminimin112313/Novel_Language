@@ -28,6 +28,10 @@ For clone-first full setup:
 npm run setup:auto
 ```
 
+Antigravity baseline setup reference:
+
+- `docs/setup/ANTIGRAVITY_BASELINE_SETUP.md`
+
 Server endpoints:
 
 - `POST /api/compile`
@@ -61,6 +65,11 @@ CLI helpers:
 - `logs/plot-validation`: persisted compile diagnostics and correction history
 - `mcp`: stdio MCP server + sample client config
 - `docs/manuals/ANTIGRAVITY_NVL.md`: Antigravity-first manual (plot compile, AQL, EpisodePack, lint)
+
+Top-level structure conventions:
+
+- generated local outputs are untracked (`.runs/`, `novels/`, `logs/novel-writing/`)
+- reproducibility logs remain tracked (`logs/plot-validation/`)
 
 ## Status
 

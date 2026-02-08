@@ -4,6 +4,8 @@
 
 핵심: **자연어(의도) -> NVL(플롯 코드) -> 컴파일(정합성) -> AQL(검색/감사) -> 자연어(소설 문장)**.
 
+Antigravity 기본 설치/연결 절차는 `docs/setup/ANTIGRAVITY_BASELINE_SETUP.md`를 먼저 확인하세요.
+
 ---
 
 ### 1) 레포 구조 (중요)
@@ -188,4 +190,3 @@ npm run mcp
 - `nvl_write_novel`: (옵션) 장편 파이프라인(현재는 mock fallback 기준)
 
 Antigravity/에디터에서 `nvl_compile`과 `nvl_aql`을 붙이면 "플롯 정합성 + 검색" 루프가 자동화됩니다.
-
