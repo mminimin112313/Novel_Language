@@ -1,0 +1,30 @@
+---
+trigger: always_on
+---
+
+# Performance & Token Optimization
+
+Context window is precious. Optimize token usage to maintain productive sessions.
+
+## Model Selection Strategy
+| Task Type | Recommended Model | Rationale |
+|-----------|-------------------|-----------|
+| Exploration/Search | Haiku | Fast, cheap for finding files. |
+| Simple Edits | Haiku | Single-file changes, low complexity. |
+| Multi-file Fixes | Sonnet | Best balance for coding tasks. |
+| Complex Architecture | Opus | Deep reasoning for system design. |
+| Security Analysis | Opus | High precision required. |
+| Code Reviews | Sonnet | Good at catching nuance. |
+
+## Context Management
+- **Compact Strategically**: Manually trigger `/compact` at logical intervals.
+- **Disable Unused MCPs**: Keep under 10 enabled MCPs per project.
+- **Lazy Loading**: Use the context management features to keep the active window focused.
+- **Modular Code**: Smaller files (hundreds vs thousands of lines) reduce token pressure.
+
+## Search Optimization
+- **Prefer `mgrep`**: Significant token reduction (~50%) compared to traditional `grep` or `ripgrep`.
+- **Scope File Searches**: Target specific directories to avoid burning context on irrelevant files.
+
+## Session Persistence
+- **Summarize Progress**: Save session summaries to `.agent/memory` or `.tmp` files to resume work without re-reading the whole conversation history.

@@ -1,0 +1,21 @@
+# Novel content
+cyberfunk noir/
+novels/
+
+# Logs
+logs/
+
+node_modules/
+dist/
+coverage/
+.runs/
+.serena/
+.env
+.DS_Store
+*.log
+nvl-agent-suite/
+
+# Serena runtime memories
+.serena/memories/*
+!.serena/memories/.gitkeep
+office romance/

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NVL Agent Suite Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="background-glow"></div>
+    <header class="topbar">
+      <div>
+        <h1>NVL Agent Suite</h1>
+        <p>Architect -> Compiler -> Novelist with verifiable logs</p>
+      </div>
+      <div class="status" id="status">Idle</div>
+    </header>
+
+    <main class="grid">
+      <section class="panel">
+        <h2>Direction</h2>
+        <label>Style</label>
+        <select id="style">
+          <option>Cinematic</option>
+          <option>Noir</option>
+          <option>Classic</option>
+          <option>LightNovel</option>
+        </select>
+
+        <label>Story Direction</label>
+        <textarea id="direction" rows="10">인어공주가 폭풍우 속에서 왕자를 구하고, 목소리를 대가로 인간의 다리를 얻지만 마지막에 자신을 희생한다.</textarea>
+
+        <div class="buttons">
+          <button id="architectBtn">Ask Architect</button>
+          <button id="pipelineBtn" class="primary">Run Full Pipeline</button>
+        </div>
+
+        <label>Run Artifacts</label>
+        <div class="downloads">
+          <button id="downloadCompile" disabled>Download compile-log.txt</button>
+          <button id="downloadAttempts" disabled>Download architect-attempts.log</button>
+        </div>
+        <p id="runInfo" class="meta">No run yet.</p>
+      </section>
+
+      <section class="panel">
+        <h2>NVL Code + Compiler</h2>
+        <textarea id="code" rows="18" placeholder="Architect output NVL code..."></textarea>
+        <div class="buttons">
+          <button id="compileBtn">Compile Only</button>
+          <button id="novelistBtn">Render from Current Log</button>
+        </div>
+        <h3>Diagnostics</h3>
+        <pre id="diagnostics" class="console">No diagnostics.</pre>
+      </section>
+
+      <section class="panel">
+        <h2>Rendered Novel</h2>
+        <textarea id="novel" rows="18" placeholder="Novelist output appears here..."></textarea>
+        <h3>Compile Log</h3>
+        <pre id="compileLog" class="console">No compile log.</pre>
+      </section>
+    </main>
+
+    <script type="module" src="/studio.js"></script>
+  </body>
+</html>

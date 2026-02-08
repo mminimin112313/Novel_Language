@@ -1,21 +1,23 @@
-# Novel content
-cyberfunk noir/
-novels/
+# Temporary and local files
+browsing_dump/
+.agent/skills/browsing/.session/
+.agent/skills/browsing/dist/
+.agent/skills/browsing/*.png
+.agent/skills/browsing/last_result.json
 
-# Logs
-logs/
-
+# Environment and dependencies
 node_modules/
-dist/
-coverage/
-.runs/
-.serena/
+.venv/
+__pycache__/
+*.pyc
 .env
-.DS_Store
-*.log
-nvl-agent-suite/
+.env.*
+!.env.example
 
-# Serena runtime memories
-.serena/memories/*
-!.serena/memories/.gitkeep
-office romance/
+
+
+# Agent Contexts
+# Agent Contexts
+.agent/contexts/
+.agent/scripts/
+.DS_Store

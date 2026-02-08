@@ -1,15 +1,22 @@
----
-trigger: always_on
----
+# Agent Rules Index
 
-# Rules
+This directory contains the authoritative rules and standards for the `everything-antigravity` agent.
 
-Repository-level policy and validation references. See `system-architecture.md` for the full ERD.
+## Core Architecture
+- [**architecture.md**](./architecture.md): The "Layered Domain Architecture" manifesto. Defines directory structure and core principles.
+- [**skills.md**](./skills.md): Technical requirements for creating and maintaining specific Skills.
 
-- `system-architecture.md`: Full system ERD with skill/workflow/rule connections.
-- `compiler-rules.yaml`: Diagnostic rule index used by NVL checks.
-- `editorial-rules.md`: Writing/review/proofreading policy (Sentence Theory, Novel Writing Theory).
-- `nvl-project-rules.md`: Antigravity operating rules for this project.
-- `nvl-compiler-guide.md`: Common NVL compilation errors and fixes.
-- `nvl-pipeline-spec.md`: Narrative ERD and consistency rules.
-- `cyberfunk-noir-style.md`: **[PROJECT-SPECIFIC]** Cyberfunk Noir aesthetic and style rules.
+## Workflows & Processes
+- [**agents.md**](./agents.md): Subagent delegation rules and persona catalog.
+- [**project-scaffolding.md**](./project-scaffolding.md): **NEW PROJECT SETUP**. How to copy the kernel and customize context/rules.
+- [**research.md**](./research.md): Standards for analyzing reference repositories and generating structured reports.
+- [**git-workflow.md**](./git-workflow.md): Commit messages, PR standards, and branching model.
+- [**hooks.md**](./hooks.md): Automated quality checks (Pre/Post tool use).
+- [**testing.md**](./testing.md): TDD enforcement and coverage requirements.
+- [**security.md**](./security.md): Mandatory security checks and secret management.
+
+## Technical Standards
+- [**coding-style.md**](./coding-style.md): Immutability, file organization, and complexity limits.
+- [**memory.md**](./memory.md): Technical implementation of the semantic memory graph.
+- [**patterns.md**](./patterns.md): Common code patterns (API responses, Repositories).
+- [**performance.md**](./performance.md): Token optimization and model selection strategy.

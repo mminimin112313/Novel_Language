@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.session/
+last_result.json
+*.png

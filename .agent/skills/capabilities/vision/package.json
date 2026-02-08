@@ -1,0 +1,21 @@
+{
+    "name": "@agent/vision",
+    "version": "1.0.0",
+    "description": "Standalone Vision Capability for AI Agents",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "test": "tsx test/demo.ts"
+    },
+    "dependencies": {
+        "sharp": "^0.33.2",
+        "tesseract.js": "^5.0.5"
+    },
+    "devDependencies": {
+        "typescript": "^5.3.3",
+        "@types/node": "^20.11.19",
+        "tsx": "^4.7.1"
+    }
+}

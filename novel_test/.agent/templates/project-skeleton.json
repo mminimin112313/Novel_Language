@@ -1,0 +1,20 @@
+{
+    "project_name": "string",
+    "structure": {
+        "nvl": {
+            "world.nvl": "# Global World State\n",
+            "style.md": "# Style Guide\n",
+            "character_voices.md": "# Character Voices\n"
+        },
+        "docs": {
+            "research": {},
+            "manuscripts": {}
+        },
+        "novels": {
+            "{{PROJECT_ID}}": {
+                "world.nvl": "# Project-specific World State\n",
+                "README.md": "# {{TITLE}}\n"
+            }
+        }
+    }
+}

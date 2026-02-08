@@ -1,98 +1,99 @@
-# NVL Agent Suite
+# Antigravity Agent Template
 
-Two-agent novel authoring system for NVL (Novel-Lang):
+This is a starter template for **Antigravity** projects. It provides a structured set of Rules, Workflows, and Skills to help you build software efficiently.
 
-1. Architect agent generates NVL code from writer direction.
-2. Compiler validates causality/epistemic/spatial consistency.
-3. Novelist agent renders validated logs into natural-language fiction.
+## Directory Structure
+- `.agent/rules/`: **Always-on** or **Context-aware** rules (Security, Style).
+- `.agent/workflows/`: Executable workflows triggered by `/command`.
+- `.agent/skills/`: Specialized capabilities (Security Audit, Coding Standards).
+- `.agent/agents/`: Specialized agent personas (Architect, Planner, etc.).
+- `.context/`: Project context files (Architecture, Stack, PRD).
+- `mcp/`: MCP Server configurations.
 
-This repo is optimized for Antigravity usage: **no API keys are required**. Deterministic checks (compiler/AQL/lint) gate quality; prose generation is driven by skills/workflows.
+---
 
-## Project Goals
+## The Guides
 
-- Production-ready TypeScript implementation.
-- Full web UI for directing story, compiling, fixing, rendering, and downloading logs.
-- Detailed trace logs for every run.
-- MCP toolset for editor/agent integrations.
+These guides explain the foundations and advanced techniques of the Antigravity workflow.
 
-## Quickstart
+| Guide | Description |
+|-------|-------------|
+| [Shorthand Guide](file:///.agent/skills/knowledge/template-guides/shortform-guide.md) | Setup, foundations, philosophy. **Read this first.** |
+| [Longform Guide](file:///.agent/skills/knowledge/template-guides/longform-guide.md) | Token optimization, memory persistence, evals, parallelization. |
 
-```bash
-npm install
-npm run dev
+---
+
+## What's Inside
+
+This template provides a comprehensive collection of production-ready configurations:
+
+```
+.agent/
+├── agents/           # Specialized subagents (Planner, Architect, Architect, etc.)
+├── skills/           # Workflow definitions and layered capabilities
+│   ├── core/         # Essential lifecycle and behaviors
+│   ├── capabilities/ # Web browsing, semantic memory
+│   ├── workflows/    # TDD, Security Review processes
+│   └── knowledge/    # Reference patterns and guides
+├── rules/            # Always-follow guidelines (Security, Style, Performance)
+└── workflows/        # Slash commands (/plan, /tdd, /e2e)
 ```
 
-For clone-first full setup:
+## How to Use
 
+### 1. Installation & Setup
+Copy the contents of this folder to your project root and run the setup script:
+
+**Linux/macOS:**
 ```bash
-npm run setup:auto
+cp -r agent-template/. .
+./setup.sh
 ```
 
-Optional environment doctor:
-
-```bash
-npm run setup:doctor
+**Windows (CMD or PowerShell):**
+```cmd
+setup.bat
 ```
 
-Antigravity baseline setup reference:
+The setup scripts automatically:
+- Detect required runtimes (Node.js, Python).
+- Initialize virtual environments for specialized skills.
+- Install necessary dependencies.
+- Fix missing configuration files (e.g., `tsconfig.json` for dispatcher).
+- Set up the core directory structure.
 
-- `docs/setup/ANTIGRAVITY_BASELINE_SETUP.md`
 
-Server endpoints:
+### 2. Customization
+- **Rules**: Edit `.agent/rules/00-core.md` to set your project's "Constitution".
+- **Context**: Fill out files in `.context/` to give the AI context about your project.
 
-- `POST /api/compile`
-- `POST /api/pipeline`
-- `GET /api/runs/:runId/files/:fileName`
-- `POST /api/architect`
-- `POST /api/novelist`
+### 3. Available Workflows (Commands)
+These are mapped to files in `.agent/workflows/`.
 
-CLI helpers:
+| Command | Description |
+|---|---|
+| `/plan-feature` | Plan a new feature (Requirements -> Implementation Plan) |
+| `/implement-slice` | Implement a vertical slice of a feature |
+| `/tdd` | Test-Driven Development Loop (Red-Green-Refactor) |
+| `/review` | Code Quality & Security Review |
+| `/sec-review` | Deep Security Audit |
+| `/debug` | Systematic Debugging Loop |
+| `/setup` | Initialize project tooling |
+| `/release` | Prepare for release |
 
-- `npm run compile:file -- ./example.nvl`
-- `npm run aql -- ./example.nvl "SELECT name, status, location FROM Actors WHERE status = 'Alive'"`
-- `npm run pipeline -- \"인어공주가 왕자를 구하고 목소리를 잃는다\" Cinematic`
-- `npm run episode:pack -- ./example.nvl templates/episode-spec.example.json ./episode-pack.json`
-- `npm run manuscript:lint -- ./episode-pack.json ./draft.txt`
-- `npm run novel:write -- --concept \"...\" --title \"...\" --chapters 5 --style Noir`
-- `npm run mcp`
-- `npm run plot:validate`
-- `npm run setup:auto`
-- `npm run setup:doctor`
+## Skills
+Skills are automatically loaded based on context or user request.
+- **Coding Standards**: "Refactor this", "Fix style"
+- **Security Audit**: "Check for vulnerabilities"
+- **Continuous Learning**: "Remember this pattern"
+- **Iterative Retrieval**: "Find how X works"
 
-## Included Sets
+## Agents
+You can invoke specific personas using tags or context:
+- `architect`: High-level system design
+- `code-reviewer`: Detailed code review
+- `security-reviewer`: Security specialist
+- `tdd-guide`: TDD process guide
 
-- `.agent`: role configs for architect/novelist/orchestrator + episode writing roles
-- `.agent/skills`: architect/compiler-guard/novelist + AQL + episode planning/writing/review/proofread + consistency audit + workflow-guide
-- `.agent/workflows`: setup + plot compile + two-agent loop + episode writing flow
-- `.agent/rules`: compiler lint/validation registry + editorial/project rules
-- `scripts`: CLI compile and pipeline helpers
-- `.agent/workflows/actual-novel-writing.md`: practical manuscript production flow
-- `scripts/bootstrap.sh`: clone-first auto bootstrap script
-- `tests/plot`: internet-plot compile fixtures with iterative corrections
-- `logs/plot-validation`: persisted compile diagnostics and correction history
-- `mcp`: stdio MCP server + sample client config
-- `docs/manuals/ANTIGRAVITY_NVL.md`: Antigravity-first manual (plot compile, AQL, EpisodePack, lint)
-- `docs/research/oh-my-ag-gap-analysis-2026-02-08.md`: adopted patterns from `oh-my-ag`
-
-Top-level structure conventions:
-
-- generated local outputs are untracked (`.runs/`, `novels/`, `logs/novel-writing/`)
-- reproducibility logs remain tracked (`logs/plot-validation/`)
-
-Antigravity command-style workflow aliases:
-
-- `.agent/workflows/setup.md`
-- `.agent/workflows/plan.md`
-- `.agent/workflows/orchestrate.md`
-- `.agent/workflows/coordinate.md`
-- `.agent/workflows/review.md`
-- `.agent/workflows/debug.md`
-- `.agent/workflows/tools.md`
-
-## Status
-
-- MVP implemented with full web studio and MCP tools.
-
-## Branch Tracking
-
-- Active implementation branch: `codex/bootstrap-nvl-agent-suite`
+## MCP
+See `mcp/README.md` for setting up Model Context Protocol servers.

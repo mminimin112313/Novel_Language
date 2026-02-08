@@ -1,24 +1,13 @@
----
-name: nvl-debug
-description: Triage and repair compile/lint failures quickly and deterministically.
----
+# Debug Workflow
+Trigger: `/debug [error/issue]`
 
-# Workflow: Debug
+## Goal
+Systematically identify and fix a bug.
 
-Goal: move broken NVL/manuscript outputs back to pass state.
-
-## Triage Order
-
-1. Compile blockers (`error`):
-   - `E_CAUSALITY_TIME`, `E_SPATIAL_MISMATCH`, `E_EPISTEMIC`, `E_ONTOLOGY_DEAD`, inventory errors
-2. Consistency drifts (`warning`):
-   - unresolved clues, emotional vector anomalies, relation graph mismatch
-3. Manuscript lint failures:
-   - missing citations, banned phrase usage, unmet motif/length constraints
-
-## Repair Loop
-
-1. Capture failing diagnostics with scene/time/actor references.
-2. Patch NVL minimally (do not change unaffected scenes).
-3. Re-compile and log delta in `logs/plot-validation/<story-id>/`.
-4. Repeat until `error=0`.
+## Steps
+1. **Reproduce**: Create a reproduction script or test case.
+2. **Hypothesize**: What is causing the issue? List 3 possibilities.
+3. **Instrument**: Add logging or use debugger to verify hypothesis.
+4. **Fix**: Implement the fix.
+5. **Verify**: Run the reproduction test to confirm fix.
+6. **Regression**: Run related tests to ensure no side effects.

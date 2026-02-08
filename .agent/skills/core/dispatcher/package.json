@@ -1,0 +1,22 @@
+{
+    "name": "@agent/dispatcher",
+    "version": "1.0.0",
+    "description": "Skill Routing System",
+    "main": "src/index.ts",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "index": "tsx src/indexer.ts",
+        "match": "tsx src/matcher.ts"
+    },
+    "dependencies": {
+        "glob": "^10.3.10",
+        "gray-matter": "^4.0.3",
+        "fuse.js": "^7.0.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.3.3",
+        "@types/node": "^20.11.19",
+        "tsx": "^4.7.1"
+    }
+}

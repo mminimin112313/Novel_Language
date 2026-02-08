@@ -1,0 +1,15 @@
+language: ko
+locale: ko-KR
+timezone: Asia/Seoul
+default_cli: codex
+writing_language: ko
+proofread_level: strict
+novel_defaults:
+  style: Cinematic
+  chapter_count: 12
+  min_compile_attempts: 3
+agent_cli_mapping:
+  architect: codex
+  novelist: codex
+  writer: codex
+  orchestrator: codex

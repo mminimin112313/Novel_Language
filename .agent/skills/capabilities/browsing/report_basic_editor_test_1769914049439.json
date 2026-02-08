@@ -1,0 +1,16 @@
+{
+  "workflow": "basic_editor_test",
+  "timestmap": "2026-02-01T02:47:16.772Z",
+  "blocks": [
+    {
+      "name": "open_editor",
+      "status": "success",
+      "logs": []
+    },
+    {
+      "name": "handle_popup",
+      "status": "success",
+      "logs": []
+    }
+  ]
+}

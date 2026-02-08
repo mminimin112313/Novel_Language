@@ -1,0 +1,14 @@
+{
+    "name": "set_title",
+    "description": "Sets the title of the blog post",
+    "steps": [
+        {
+            "command": "type-iframe",
+            "args": [
+                "PostWriteForm",
+                ".se-title-text",
+                "Refactored Workflow Test"
+            ]
+        }
+    ]
+}

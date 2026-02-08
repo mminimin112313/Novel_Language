@@ -1,27 +1,11 @@
-# NVL MCP Set
+# MCP Configuration
 
-This directory provides MCP integration assets for NVL Agent Suite.
+This directory contains Model Context Protocol (MCP) configurations.
 
-## Included tools
+## Setup
+1. Copy `mcp_servers.sample.json` to your MCP configuration location (e.g., Claude Desktop config or Antigravity config).
+2. Update paths and secrets.
 
-- `nvl_compile`: compile NVL source and return diagnostics/log.
-- `nvl_aql`: query compiled NVL state/events (plot search).
-- `nvl_pipeline`: run full two-agent pipeline.
-- `nvl_episode_pack`: build EpisodePack from EpisodeSpec (scene selection + requirements).
-- `nvl_manuscript_lint`: deterministic lint for grounded drafts (citations/requirements).
-- `nvl_read_run_file`: read persisted run artifact file.
-- `nvl_write_novel`: run planner + chapter pipeline and produce manuscript artifacts.
-
-## Local run
-
-```bash
-npm run mcp
-```
-
-## Example MCP client config
-
-See `mcp/server.sample.json` and adjust absolute path.
-
-Antigravity-first default is also provided at `.agent/mcp.json`.
-
-Run `npm run setup:doctor` to verify MCP config portability after clone.
+## Safety
+- **Least Privilege**: Only expose necessary directories.
+- **Secrets**: Never commit secrets to this file.

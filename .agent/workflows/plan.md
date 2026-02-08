@@ -1,59 +1,113 @@
 ---
-name: nvl-plan
-description: Turn story direction into decision-complete NVL plan with 기승전결 arc before drafting prose.
+description: Restate requirements, assess risks, and create step-by-step implementation plan. WAIT for user CONFIRM before touching any code.
 ---
 
-# Workflow: Plan
+# Plan Command
 
-Goal: Lock a decision-complete plan for plot, constraints, and quality gates with 기승전결 arc structure.
+This command invokes the **planner** agent to create a comprehensive implementation plan before writing any code.
 
-## Prerequisites
+## What This Command Does
 
-| 선행 조건 | 확인 |
-|:----------|:-----|
-| 시리즈 아웃라인 | ☐ (전체 시리즈 방향 먼저 정의) |
+1. **Restate Requirements** - Clarify what needs to be built
+2. **Identify Risks** - Surface potential issues and blockers
+3. **Create Step Plan** - Break down implementation into phases
+4. **Wait for Confirmation** - MUST receive user approval before proceeding
 
-## Steps
+## When to Use
 
-### 1. Clarify Scope
-- Genre, POV, tense
-- Chapter/episode count
-- Ending type
-- Banned phrases and required motifs
+Use `/plan` when:
+- Starting a new feature
+- Making significant architectural changes
+- Working on complex refactoring
+- Multiple files/components will be affected
+- Requirements are unclear or ambiguous
 
-### 2. Define 기승전결 Arc
+## How It Works
 
-| 막 | 목표 | 예상 비율 |
-|:---|:-----|:----------|
-| 기(起) | 도입, 설정, 촉발사건 | ~25% |
-| 승(承) | 전개, 갈등 심화, 시도 | ~25% |
-| 전(轉) | 전환점, 위기, 결심 | ~25% |
-| 결(結) | 해소, 결말, 다음 훅 | ~25% |
+The planner agent will:
 
-> [!IMPORTANT]
-> 모든 에피소드에서 '전(轉)' 전환점이 명확해야 함
+1. **Analyze the request** and restate requirements in clear terms
+2. **Break down into phases** with specific, actionable steps
+3. **Identify dependencies** between components
+4. **Assess risks** and potential blockers
+5. **Estimate complexity** (High/Medium/Low)
+6. **Present the plan** and WAIT for your explicit confirmation
 
-### 3. Build Plot Skeleton
-- Scene list: `worldTime`, `narrativeTime`, `location`
-- Actor knowledge mapping
-- Clue lifecycle: `SEED` → `RESOLVE`
-- Per-scene `APPEAR` (등장인물)
+## Example Usage
 
-### 4. Define Risk Controls
-- Epistemic checks: secrets and reveal timing
-- Spatial checks: physical interactions
-- Causality checks: flashback/branch scenes
+```
+User: /plan I need to add real-time notifications when markets resolve
 
-### 5. Register Acceptance Criteria
+Agent (planner):
+# Implementation Plan: Real-Time Market Resolution Notifications
 
-| 기준 | 조건 |
-|:-----|:-----|
-| NVL Compile | `error=0` |
-| Manuscript Lint | passes required constraints |
-| Arc | 기승전결 4막 존재 |
-| Review | PASS 판정 |
+## Requirements Restatement
+- Send notifications to users when markets they're watching resolve
+- Support multiple notification channels (in-app, email, webhook)
+- Ensure notifications are delivered reliably
+- Include market outcome and user's position result
 
-## Output
+## Implementation Phases
 
-- `ep{N}/beatsheet.md` (비트시트)
-- `ep{N}.nvl` (NVL 스크립트)
+### Phase 1: Database Schema
+- Add notifications table with columns: id, user_id, market_id, type, status, created_at
+- Add user_notification_preferences table for channel preferences
+- Create indexes on user_id and market_id for performance
+
+### Phase 2: Notification Service
+- Create notification service in lib/notifications.ts
+- Implement notification queue using BullMQ/Redis
+- Add retry logic for failed deliveries
+- Create notification templates
+
+### Phase 3: Integration Points
+- Hook into market resolution logic (when status changes to "resolved")
+- Query all users with positions in market
+- Enqueue notifications for each user
+
+### Phase 4: Frontend Components
+- Create NotificationBell component in header
+- Add NotificationList modal
+- Implement real-time updates via Supabase subscriptions
+- Add notification preferences page
+
+## Dependencies
+- Redis (for queue)
+- Email service (SendGrid/Resend)
+- Supabase real-time subscriptions
+
+## Risks
+- HIGH: Email deliverability (SPF/DKIM required)
+- MEDIUM: Performance with 1000+ users per market
+- MEDIUM: Notification spam if markets resolve frequently
+- LOW: Real-time subscription overhead
+
+## Estimated Complexity: MEDIUM
+- Backend: 4-6 hours
+- Frontend: 3-4 hours
+- Testing: 2-3 hours
+- Total: 9-13 hours
+
+**WAITING FOR CONFIRMATION**: Proceed with this plan? (yes/no/modify)
+```
+
+## Important Notes
+
+**CRITICAL**: The planner agent will **NOT** write any code until you explicitly confirm the plan with "yes" or "proceed" or similar affirmative response.
+
+If you want changes, respond with:
+- "modify: [your changes]"
+- "different approach: [alternative]"
+- "skip phase 2 and do phase 3 first"
+
+## Integration with Other Commands
+
+After planning:
+- Use `/tdd` to implement with test-driven development
+- Use `/build-and-fix` if build errors occur
+- Use `/code-review` to review completed implementation
+
+## Related Agents
+
+This command invokes the `planner` agent located at:
+`~/.claude/agents/planner.md`
